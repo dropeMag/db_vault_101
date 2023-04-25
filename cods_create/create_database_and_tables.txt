@@ -5,73 +5,84 @@ CHARSET utf8mb4;
 USE db_vault_101;
 
 CREATE TABLE IF NOT EXISTS tb_estoque(
-	id_estoque INTEGER AUTO_INCREMENT PRIMARY KEY,
-    quantidade INTEGER NOT NULL
+	id_estoque INTEGER AUTO_INCREMENT,
+    quantidade INTEGER UNSIGNED NOT NULL,
+PRIMARY KEY(id_estoque)
 );
 
 CREATE TABLE IF NOT EXISTS tb_special(
-	id_special INTEGER AUTO_INCREMENT PRIMARY KEY,
-    strength TINYINT,
-    perception TINYINT,
-    endurance TINYINT,
-    charisma TINYINT,
-    intelligence TINYINT,
-    agility TINYINT,
-    luck TINYINT
+	id_special INTEGER AUTO_INCREMENT,
+    strength TINYINT UNSIGNED,
+    perception TINYINT UNSIGNED,
+    endurance TINYINT UNSIGNED,
+    charisma TINYINT UNSIGNED,
+    intelligence TINYINT UNSIGNED,
+    agility TINYINT UNSIGNED,
+    luck TINYINT UNSIGNED,
+PRIMARY KEY(id_special)
 );
 
 CREATE TABLE IF NOT EXISTS tb_quartos(
-	id_quarto INTEGER AUTO_INCREMENT PRIMARY KEY,
+	id_quarto INTEGER AUTO_INCREMENT,
     descricao VARCHAR(50) NOT NULL,
-    tamanho TINYINT NOT NULL
+    tamanho TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY(id_quarto)
 );
 
 CREATE TABLE IF NOT EXISTS tb_tipos_incidentes(
-	id_incidente INTEGER AUTO_INCREMENT PRIMARY KEY,
-    descricao VARCHAR(15) NOT NULL
+	id_incidente INTEGER AUTO_INCREMENT,
+    descricao VARCHAR(15) NOT NULL,
+PRIMARY KEY(id_incidente)
 );
 
 CREATE TABLE IF NOT EXISTS tb_incidentes(
-	id_incidente INTEGER AUTO_INCREMENT PRIMARY KEY,
+	id_incidente INTEGER AUTO_INCREMENT,
     data DATETIME NOT NULL,
     id_tipo_incidente INTEGER NOT NULL,
+PRIMARY KEY(id_incidente),
 CONSTRAINT fk_tipo_incidente_tb_incidentes
     FOREIGN KEY (id_tipo_incidente)
     REFERENCES tb_tipos_incidentes (id_incidente)
 );
 
 CREATE TABLE IF NOT EXISTS tb_quests(
-	id_quest INTEGER AUTO_INCREMENT PRIMARY KEY,
+	id_quest INTEGER AUTO_INCREMENT,
     descricao VARCHAR(50) NOT NULL,
-    data DATETIME NOT NULL
+    data DATETIME NOT NULL,
+PRIMARY KEY(id_quest)
 );
 
 CREATE TABLE IF NOT EXISTS tb_filiacao(
-	id_filiacao INTEGER AUTO_INCREMENT PRIMARY KEY,
+	id_filiacao INTEGER AUTO_INCREMENT,
     id_pai INTEGER NOT NULL,
-    id_mae INTEGER NOT NULL
+    id_mae INTEGER NOT NULL,
+PRIMARY KEY(id_filiacao, id_pai, id_mae)
 );
 
 CREATE TABLE IF NOT EXISTS tb_profissao(
-	id_profissao INTEGER AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(25) NOT NULL
+	id_profissao INTEGER AUTO_INCREMENT,
+    nome VARCHAR(25) NOT NULL,
+PRIMARY KEY(id_profissao)
 );
 
 CREATE TABLE IF NOT EXISTS tb_baixa(
-	id_baixa INTEGER AUTO_INCREMENT PRIMARY KEY,
+	id_baixa INTEGER AUTO_INCREMENT,
     quests BOOLEAN NOT NULL,
     data DATETIME NOT NULL,
     incidente INTEGER NOT NULL,
+PRIMARY KEY(id_baixa),
 CONSTRAINT fk_incidente_tb_baixa
     FOREIGN KEY (incidente)
     REFERENCES tb_tipos_incidentes (id_incidente)
 );
 
 CREATE TABLE IF NOT EXISTS tb_roupa(
-	id_roupa INTEGER AUTO_INCREMENT PRIMARY KEY,
+	id_roupa INTEGER AUTO_INCREMENT,
     nome VARCHAR(25) NOT NULL,
-    id_special INTEGER NOT NULL UNIQUE,
+    id_special INTEGER NOT NULL,
     id_estoque INTEGER NOT NULL,
+PRIMARY KEY(id_roupa),
+UNIQUE(id_special, id_estoque),
 CONSTRAINT fk_special_tb_roupa
     FOREIGN KEY (id_special)
     REFERENCES tb_special (id_special),
@@ -81,49 +92,55 @@ CONSTRAINT fk_estoque_tb_roupa
 );
 
 CREATE TABLE IF NOT EXISTS tb_pet(
-	id_pet INTEGER AUTO_INCREMENT PRIMARY KEY,
+	id_pet INTEGER AUTO_INCREMENT,
     nome VARCHAR(25) NOT NULL,
-    caracteristica VARCHAR(25) NOT NULL UNIQUE,
+    caracteristica VARCHAR(25) NOT NULL,
     id_estoque INTEGER NOT NULL,
+PRIMARY KEY(id_pet),
+UNIQUE(id_estoque),
 CONSTRAINT fk_id_estoque_tb_pet
     FOREIGN KEY (id_estoque)
     REFERENCES tb_estoque (id_estoque)
 );
 
 CREATE TABLE IF NOT EXISTS tb_arma(
-	id_arma INTEGER AUTO_INCREMENT PRIMARY KEY,
+	id_arma INTEGER AUTO_INCREMENT,
     nome VARCHAR(25) NOT NULL,
-    mira VARCHAR(5) NOT NULL UNIQUE,
+    mira VARCHAR(5) NOT NULL,
     id_estoque INTEGER NOT NULL,
+PRIMARY KEY(id_arma),
+UNIQUE(id_estoque),
 CONSTRAINT fk_id_estoque_tb_arma
     FOREIGN KEY (id_estoque)
     REFERENCES tb_estoque (id_estoque)
 );
 
 CREATE TABLE IF NOT EXISTS tb_vendas(
-	id_venda INTEGER AUTO_INCREMENT PRIMARY KEY,
-    produto INTEGER NOT NULL,
-    lucro INTEGER NOT NULL,
+	id_venda INTEGER AUTO_INCREMENT,
+    id_produto INTEGER NOT NULL,
+    lucro INTEGER UNSIGNED NOT NULL,
     data DATETIME NOT NULL,
-    quantidade TINYINT NOT NULL,
+    quantidade TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY(id_venda),
 CONSTRAINT fk_produto_tb_vendas
-    FOREIGN KEY (produto)
+    FOREIGN KEY (id_produto)
     REFERENCES tb_estoque (id_estoque)
 );
 
 CREATE TABLE IF NOT EXISTS tb_reciclagem(
-	id_reciclagem INTEGER AUTO_INCREMENT PRIMARY KEY,
-    produto INTEGER NOT NULL,
-    lucro INTEGER NOT NULL,
+	id_reciclagem INTEGER AUTO_INCREMENT,
+    id_produto INTEGER NOT NULL,
+    lucro INTEGER UNSIGNED NOT NULL,
     data DATETIME NOT NULL,
-    quantidade TINYINT NOT NULL,
+    quantidade TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY(id_reciclagem),
 CONSTRAINT fk_produto_tb_reciclagem
-    FOREIGN KEY (produto)
+    FOREIGN KEY (id_produto)
     REFERENCES tb_estoque (id_estoque)
 );
 
 CREATE TABLE IF NOT EXISTS tb_habitante(
-	id_habitante INTEGER AUTO_INCREMENT PRIMARY KEY,
+	id_habitante INTEGER AUTO_INCREMENT,
     nome VARCHAR(25) NOT NULL,
     sexo CHAR(1) NOT NULL,
     level TINYINT UNSIGNED NOT NULL,
@@ -136,7 +153,8 @@ CREATE TABLE IF NOT EXISTS tb_habitante(
     id_filiacao INTEGER NOT NULL,
     id_baixa INTEGER NOT NULL,
     id_quarto INTEGER NOT NULL,
-    UNIQUE (id_pet, id_baixa, id_special),
+PRIMARY KEY(id_habitante),
+UNIQUE (id_special, id_baixa, id_pet),
 CONSTRAINT fk_special_tb_habitante
 	FOREIGN KEY (id_special)
     REFERENCES tb_special (id_special),
@@ -165,11 +183,11 @@ CONSTRAINT fk_quarto_tb_habitante
 
 CREATE TABLE IF NOT EXISTS tb_diario(
 	data DATETIME NOT NULL,
-    moradores INTEGER NOT NULL,
-    dinheiro INTEGER NOT NULL,
-    quests INTEGER NOT NULL,
-    quartos INTEGER NOT NULL,
-    incidentes INTEGER NOT NULL,
+    moradores INTEGER UNSIGNED NOT NULL,
+    dinheiro INTEGER UNSIGNED NOT NULL,
+    quests INTEGER UNSIGNED NOT NULL,
+    quartos INTEGER UNSIGNED NOT NULL,
+    incidentes INTEGER UNSIGNED NOT NULL,
     luz VARCHAR(9) NOT NULL,
     comida VARCHAR(9) NOT NULL,
     agua VARCHAR(9) NOT NULL
@@ -178,7 +196,7 @@ CREATE TABLE IF NOT EXISTS tb_diario(
 CREATE TABLE IF NOT EXISTS tb_ganhos_quests(
     id_estoque INTEGER NOT NULL,
     id_quest INTEGER NOT NULL,
-    PRIMARY KEY (id_estoque, id_quest),
+PRIMARY KEY (id_estoque, id_quest),
 CONSTRAINT fk_id_estoque_tb_ganhos_quests
     FOREIGN KEY (id_estoque)
     REFERENCES tb_estoque (id_estoque),
@@ -190,7 +208,7 @@ CONSTRAINT fk_id_quests_tb_ganhos_quests
 CREATE TABLE IF NOT EXISTS tb_habitante_quests(
     id_habitante INTEGER NOT NULL,
     id_quest INTEGER NOT NULL,
-    PRIMARY KEY (id_habitante, id_quest),
+PRIMARY KEY (id_habitante, id_quest),
 CONSTRAINT fk_id_habitante_tb_habitante_quests
     FOREIGN KEY (id_habitante)
     REFERENCES tb_habitante (id_habitante),
@@ -198,3 +216,13 @@ CONSTRAINT fk_id_quest_tb_habitante_quests
     FOREIGN KEY (id_quest)
     REFERENCES tb_quests (id_quest)
 );
+
+ALTER TABLE tb_filiacao
+ADD CONSTRAINT fk_id_pai_tb_filiacao
+	FOREIGN KEY (id_pai)
+    REFERENCES tb_habitante (id_habitante);
+    
+ALTER TABLE tb_filiacao
+ADD CONSTRAINT fk_id_mae_tb_filiacao
+	FOREIGN KEY (id_mae)
+    REFERENCES tb_habitante (id_habitante);
