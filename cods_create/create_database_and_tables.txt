@@ -6,7 +6,6 @@ USE db_vault_101;
 
 CREATE TABLE IF NOT EXISTS tb_estoque(
 	id_estoque INTEGER AUTO_INCREMENT,
-    quantidade INTEGER UNSIGNED NOT NULL,
 PRIMARY KEY(id_estoque)
 );
 
@@ -79,6 +78,7 @@ CONSTRAINT fk_incidente_tb_baixa
 CREATE TABLE IF NOT EXISTS tb_roupa(
 	id_roupa INTEGER AUTO_INCREMENT,
     nome VARCHAR(25) NOT NULL,
+    quantidade INTEGER UNSIGNED NOT NULL,
     id_special INTEGER NOT NULL,
     id_estoque INTEGER NOT NULL,
 PRIMARY KEY(id_roupa),
@@ -95,6 +95,7 @@ CREATE TABLE IF NOT EXISTS tb_pet(
 	id_pet INTEGER AUTO_INCREMENT,
     nome VARCHAR(25) NOT NULL,
     caracteristica VARCHAR(25) NOT NULL,
+    quantidade INTEGER UNSIGNED NOT NULL,
     id_estoque INTEGER NOT NULL,
 PRIMARY KEY(id_pet),
 UNIQUE(id_estoque),
@@ -107,6 +108,7 @@ CREATE TABLE IF NOT EXISTS tb_arma(
 	id_arma INTEGER AUTO_INCREMENT,
     nome VARCHAR(25) NOT NULL,
     mira VARCHAR(5) NOT NULL,
+    quantidade INTEGER UNSIGNED NOT NULL,
     id_estoque INTEGER NOT NULL,
 PRIMARY KEY(id_arma),
 UNIQUE(id_estoque),
@@ -190,7 +192,10 @@ CREATE TABLE IF NOT EXISTS tb_diario(
     incidentes INTEGER UNSIGNED NOT NULL,
     luz VARCHAR(9) NOT NULL,
     comida VARCHAR(9) NOT NULL,
-    agua VARCHAR(9) NOT NULL
+    agua VARCHAR(9) NOT NULL,
+	roupa INTEGER UNSIGNED NOT NULL,
+    arma INTEGER UNSIGNED NOT NULL,
+    pet INTEGER UNSIGNED NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS tb_ganhos_quests(
