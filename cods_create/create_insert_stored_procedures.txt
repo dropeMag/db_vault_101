@@ -1,3 +1,6 @@
+/*----------------------------------------------------
+TB_QUARTO
+----------------------------------------------------*/
 DELIMITER //
 CREATE PROCEDURE sp_insert_quarto(in_descricao VARCHAR(50), in_tamanho INTEGER)
 BEGIN
@@ -13,6 +16,8 @@ BEGIN
 	END IF;
 END //
 DELIMITER ;
+
+
 
 DELIMITER //
 CREATE PROCEDURE sp_update_quarto(up_id INTEGER, up_descricao VARCHAR(50), up_tamanho INTEGER)
@@ -44,5 +49,97 @@ BEGIN
 			tamanho = var_tamanho
 		WHERE id_quarto = up_id;
     END IF;
+END //
+DELIMITER ;
+
+
+
+/*----------------------------------------------------
+TB_ROUPA
+----------------------------------------------------*/
+DELIMITER //
+CREATE PROCEDURE sp_insert_roupa(in_nome VARCHAR(25), in_qnt INTEGER, in_str INTEGER, in_per INTEGER, in_end INTEGER, in_car INTEGER, in_int INTEGER, in_agi INTEGER, in_luc INTEGER)
+BEGIN
+	IF (LENGTH(in_nome) < 4) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'O tamanho do nome é inválido.';
+	ELSEIF (in_qnt < 0) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'A quantidade mínima é 0.';
+	ELSE
+		IF in_str <= 0 THEN SET in_str = NULL; END IF;
+		IF in_per <= 0 THEN SET in_per = NULL; END IF;
+		IF in_end <= 0 THEN SET in_end = NULL; END IF;
+		IF in_car <= 0 THEN SET in_car = NULL; END IF;
+		IF in_int <= 0 THEN SET in_int = NULL; END IF;
+		IF in_agi <= 0 THEN SET in_agi = NULL; END IF;
+		IF in_luc <= 0 THEN SET in_luc = NULL; END IF;
+        
+        INSERT INTO tb_special
+        VALUES (DEFAULT, in_str, in_per, in_end, in_car, in_int, in_agi, in_luc);
+        
+        INSERT INTO tb_estoque
+        VALUES (DEFAULT);
+        
+        INSERT INTO tb_roupa
+        VALUES (DEFAULT, in_nome, in_qnt, (SELECT MAX(id_special) FROM tb_special),
+                                          (SELECT MAX(id_estoque) FROM tb_estoque));
+    END IF;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_update_roupa(up_id INTEGER, up_qnt INTEGER)
+BEGIN
+	IF ((SELECT id_roupa FROM tb_roupa WHERE id_roupa = up_id) IS NULL) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'O id_roupa não existe.';
+	ELSEIF (up_qnt < 0) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'A quantidade mínima é 0.';
+	ELSE
+        UPDATE tb_roupa
+        SET quantidade = up_qnt
+        WHERE id_roupa = up_id;
+    END IF;
+END //
+DELIMITER ;
+
+
+
+/*----------------------------------------------------
+TB_ARMA
+----------------------------------------------------*/
+DELIMITER //
+CREATE PROCEDURE sp_insert_arma(in_nome VARCHAR(25), in_mira VARCHAR(5), in_qnt INTEGER)
+BEGIN
+	IF (LENGTH(in_nome) < 4) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'O tamanho do nome é inválido';
+	ELSEIF (LENGTH(in_mira) < 1) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'A descrição da mira é inválida.';
+	ELSEIF (in_qnt < 0) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'A quantidade mínima é 0.';
+	ELSE
+		INSERT INTO tb_estoque
+        VALUES (DEFAULT);
+        
+        INSERT INTO tb_arma
+        VALUES (DEFAULT, in_nome, in_mira, in_qnt, (SELECT MAX(id_estoque) FROM tb_estoque));
+    END IF;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_update_arma(up_id INTEGER, up_qnt INTEGER)
+BEGIN
+	IF((SELECT id_arma FROM tb_arma WHERE id_arma = up_id) IS NULL) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'O id_arma não existe.';
+	ELSEIF (up_qnt < 0) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'A quantidade mínima é 0.';
+	ELSE
+		UPDATE tb_arma
+        SET quantidade = up_qnt
+        WHERE id_arma = up_id;
+	END IF;
 END //
 DELIMITER ;
