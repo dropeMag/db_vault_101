@@ -1,0 +1,48 @@
+DELIMITER //
+CREATE PROCEDURE sp_insert_quarto(in_descricao VARCHAR(50), in_tamanho INTEGER)
+BEGIN
+	IF LENGTH(in_descricao) < 4 THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Descrição inválida; Muito curta.';
+	ELSEIF in_tamanho NOT BETWEEN 1 AND 3 THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Tamanho inválido para o quarto.';
+	ELSE
+		INSERT INTO tb_quartos
+			(descricao, tamanho)
+        VALUES
+			(in_descricao, in_tamanho);
+	END IF;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE sp_update_quarto(up_id INTEGER, up_descricao VARCHAR(50), up_tamanho INTEGER)
+BEGIN
+	DECLARE var_descricao VARCHAR(50);
+	DECLARE var_tamanho INTEGER;
+    
+    IF((SELECT id_quarto FROM tb_quartos WHERE id_quarto = up_id) IS NULL) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'O id_quarto não existe.';
+    ELSEIF (LENGTH(up_descricao) < 4) OR (NOT NULL) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Descrição inválida; Muito curta.';
+	ELSEIF up_tamanho NOT BETWEEN 1 AND 3 THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Tamanho inválido para o quarto.';
+	ELSE
+		IF (up_descricao IS NULL) THEN
+			SET var_descricao = (SELECT descricao FROM tb_quartos WHERE id_quarto = up_id);
+		ELSE
+			SET var_descricao = up_descricao;
+		END IF;
+        
+		IF (up_tamanho IS NULL) THEN
+			SET var_tamanho = (SELECT tamanho FROM tb_quartos WHERE id_quarto = up_id);
+		ELSE
+			SET var_tamanho = up_tamanho;
+		END IF;
+        
+		UPDATE tb_quartos
+        SET descricao = var_descricao,
+			tamanho = var_tamanho
+		WHERE id_quarto = up_id;
+    END IF;
+END //
+DELIMITER ;
