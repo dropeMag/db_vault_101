@@ -64,6 +64,8 @@ BEGIN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'O tamanho do nome é inválido.';
 	ELSEIF (in_qnt < 0) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'A quantidade mínima é 0.';
+	ELSEIF ((SELECT nome FROM tb_roupa WHERE LOWER(nome) = LOWER(in_nome)) IS NOT NULL) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Essa roupa já foi cadastrada.';
 	ELSE
 		IF in_str <= 0 THEN SET in_str = NULL; END IF;
 		IF in_per <= 0 THEN SET in_per = NULL; END IF;
@@ -117,6 +119,8 @@ BEGIN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'A descrição da mira é inválida.';
 	ELSEIF (in_qnt < 0) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'A quantidade mínima é 0.';
+   	ELSEIF ((SELECT nome FROM tb_arma WHERE LOWER(nome) = LOWER(in_nome)) IS NOT NULL) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Essa arma já foi cadastrada.';
 	ELSE
 		INSERT INTO tb_estoque
         VALUES (DEFAULT);
@@ -141,5 +145,84 @@ BEGIN
         SET quantidade = up_qnt
         WHERE id_arma = up_id;
 	END IF;
+END //
+DELIMITER ;
+
+
+
+/*----------------------------------------------------
+TB_PET
+----------------------------------------------------*/
+DELIMITER //
+CREATE PROCEDURE sp_insert_pet(in_nome VARCHAR(25), in_caract VARCHAR(25), in_qnt INTEGER)
+BEGIN
+	IF(LENGTH(in_nome) < 3) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'O tamanho do nome é inválido';
+	ELSEIF (LENGTH(in_caract) < 5) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'O tamanho da característica é inválido';
+	ELSEIF (in_qnt < 0) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'A quantidade mínima é 0.';
+	ELSEIF ((SELECT nome FROM tb_pet WHERE LOWER(nome) = LOWER(in_nome)) IS NOT NULL) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Esse pet já foi cadastrado.';
+	ELSE
+        INSERT INTO tb_estoque
+        VALUES (DEFAULT);
+        
+        INSERT INTO tb_pet
+        VALUES (DEFAULT, in_nome, in_caract, in_qnt, (SELECT MAX(id_estoque) FROM tb_estoque));
+    END IF;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_update_pet(up_id INTEGER, up_qnt INTEGER)
+BEGIN
+	IF((SELECT id_pet FROM tb_pet WHERE id_pet = up_id) IS NULL) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'O id_pet não existe.';
+	ELSEIF (up_qnt < 0) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'A quantidade mínima é 0.';
+	ELSE
+        UPDATE tb_pet
+        SET quantidade = up_qnt
+        WHERE id_pet = up_id;
+    END IF;
+END //
+DELIMITER ;
+
+
+
+/*----------------------------------------------------
+TB_PROFISSAO
+----------------------------------------------------*/
+DELIMITER //
+CREATE PROCEDURE sp_insert_profissao(in_profissao VARCHAR(25))
+BEGIN
+	IF(LENGTH(in_profissao) < 5) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'O tamanho do nome é inválido';
+	ELSEIF ((SELECT nome FROM tb_profissao WHERE LOWER(nome) = LOWER(in_profissao)) IS NOT NULL) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Essa profissão já foi cadastrada.';
+	ELSE
+		INSERT INTO tb_profissao
+        VALUES (DEFAULT, in_profissao);
+    END IF;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_update_profissao(up_id INTEGER, up_profissao VARCHAR(25))
+BEGIN
+	IF(LENGTH(up_profissao) < 5) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'O tamanho do nome é inválido';
+	ELSEIF((SELECT id_profissao FROM tb_profissao WHERE id_profissao = up_id) IS NULL) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'O id_profissao não existe';
+	ELSE
+		UPDATE tb_profissao
+        SET nome = up_profissao
+        WHERE id_profissao = up_id;
+    END IF;
 END //
 DELIMITER ;
