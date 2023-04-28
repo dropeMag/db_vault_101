@@ -226,3 +226,36 @@ BEGIN
     END IF;
 END //
 DELIMITER ;
+
+
+
+/*----------------------------------------------------
+TB_BAIXA
+----------------------------------------------------*/
+DELIMITER //
+CREATE PROCEDURE sp_insert_baixa(in_habitante INTEGER, in_data DATETIME, in_incidente INTEGER, in_quest BOOLEAN)
+BEGIN
+	IF((SELECT id_habitante FROM tb_habitante WHERE id_habitante = in_habitante) IS NULL) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'O habitante não foi localizado.';
+	ELSEIF((SELECT id_baixa FROM tb_habitante WHERE id_habitante = in_habitante) IS NOT NULL) THEN
+		IF((SELECT status FROM tb_habitante WHERE id_habitante = in_habitante) <> 1) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Atenção: habitante possui uma baixa, mas está com status ativo; verifique se há algum erro.';
+        ELSE
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'O habitante já possui uma baixa.';
+		END IF;
+    ELSEIF(in_data > NOW()) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Não é permitido datas futuras';
+	ELSEIF((SELECT id_incidente FROM tb_tipo_incidente WHERE id_incidente = in_incidente) IS NULL) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'O tipo de incidente não existe';
+	ELSEIF(in_quest NOT IN (0, 1)) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = "A 'quest' só aceita valores booleanos.";
+	ELSE
+		INSERT INTO tb_baixa
+        VALUES (DEFAULT, in_data, in_incidente, in_quest);
+        
+        UPDATE tb_habitante
+        SET status = 1, id_baixa = (SELECT MAX(id_baixa) FROM tb_baixa)
+        WHERE id_habitante = in_habitante;
+    END IF;
+END //
+DELIMITER ;

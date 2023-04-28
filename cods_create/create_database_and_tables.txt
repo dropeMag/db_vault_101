@@ -21,14 +21,14 @@ CREATE TABLE IF NOT EXISTS tb_special(
 PRIMARY KEY(id_special)
 );
 
-CREATE TABLE IF NOT EXISTS tb_quartos(
+CREATE TABLE IF NOT EXISTS tb_quarto(
 	id_quarto INTEGER AUTO_INCREMENT,
     descricao VARCHAR(50) NOT NULL,
     tamanho TINYINT UNSIGNED NOT NULL,
 PRIMARY KEY(id_quarto)
 );
 
-CREATE TABLE IF NOT EXISTS tb_tipos_incidentes(
+CREATE TABLE IF NOT EXISTS tb_tipo_incidente(
 	id_incidente INTEGER AUTO_INCREMENT,
     descricao VARCHAR(15) NOT NULL,
 PRIMARY KEY(id_incidente)
@@ -41,10 +41,10 @@ CREATE TABLE IF NOT EXISTS tb_incidentes(
 PRIMARY KEY(id_incidente),
 CONSTRAINT fk_tipo_incidente_tb_incidentes
     FOREIGN KEY (id_tipo_incidente)
-    REFERENCES tb_tipos_incidentes (id_incidente)
+    REFERENCES tb_tipo_incidente (id_incidente)
 );
 
-CREATE TABLE IF NOT EXISTS tb_quests(
+CREATE TABLE IF NOT EXISTS tb_quest(
 	id_quest INTEGER AUTO_INCREMENT,
     descricao VARCHAR(50) NOT NULL,
     data DATETIME NOT NULL,
@@ -66,13 +66,13 @@ PRIMARY KEY(id_profissao)
 
 CREATE TABLE IF NOT EXISTS tb_baixa(
 	id_baixa INTEGER AUTO_INCREMENT,
-    quests BOOLEAN NOT NULL,
     data DATETIME NOT NULL,
-    incidente INTEGER NOT NULL,
+    id_incidente INTEGER NOT NULL,
+    quest BOOLEAN NOT NULL,
 PRIMARY KEY(id_baixa),
 CONSTRAINT fk_incidente_tb_baixa
-    FOREIGN KEY (incidente)
-    REFERENCES tb_tipos_incidentes (id_incidente)
+    FOREIGN KEY (id_incidente)
+    REFERENCES tb_tipo_incidente (id_incidente)
 );
 
 CREATE TABLE IF NOT EXISTS tb_roupa(
@@ -117,14 +117,14 @@ CONSTRAINT fk_id_estoque_tb_arma
     REFERENCES tb_estoque (id_estoque)
 );
 
-CREATE TABLE IF NOT EXISTS tb_vendas(
+CREATE TABLE IF NOT EXISTS tb_venda(
 	id_venda INTEGER AUTO_INCREMENT,
     id_produto INTEGER NOT NULL,
     lucro INTEGER UNSIGNED NOT NULL,
     data DATETIME NOT NULL,
     quantidade TINYINT UNSIGNED NOT NULL,
 PRIMARY KEY(id_venda),
-CONSTRAINT fk_produto_tb_vendas
+CONSTRAINT fk_produto_tb_venda
     FOREIGN KEY (id_produto)
     REFERENCES tb_estoque (id_estoque)
 );
@@ -180,7 +180,7 @@ CONSTRAINT fk_baixa_tb_habitante
     REFERENCES tb_baixa (id_baixa),
 CONSTRAINT fk_quarto_tb_habitante
 	FOREIGN KEY (id_quarto)
-    REFERENCES tb_quartos (id_quarto)
+    REFERENCES tb_quarto (id_quarto)
 );
 
 CREATE TABLE IF NOT EXISTS tb_diario(
@@ -198,28 +198,28 @@ CREATE TABLE IF NOT EXISTS tb_diario(
     pet INTEGER UNSIGNED NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS tb_ganhos_quests(
+CREATE TABLE IF NOT EXISTS tb_ganho_quest(
     id_estoque INTEGER NOT NULL,
     id_quest INTEGER NOT NULL,
 PRIMARY KEY (id_estoque, id_quest),
-CONSTRAINT fk_id_estoque_tb_ganhos_quests
+CONSTRAINT fk_id_estoque_tb_ganho_quest
     FOREIGN KEY (id_estoque)
     REFERENCES tb_estoque (id_estoque),
-CONSTRAINT fk_id_quests_tb_ganhos_quests
+CONSTRAINT fk_id_quests_tb_ganho_quest
     FOREIGN KEY (id_quest)
-    REFERENCES tb_quests (id_quest)
+    REFERENCES tb_quest (id_quest)
 );
 
-CREATE TABLE IF NOT EXISTS tb_habitante_quests(
+CREATE TABLE IF NOT EXISTS tb_habitante_quest(
     id_habitante INTEGER NOT NULL,
     id_quest INTEGER NOT NULL,
 PRIMARY KEY (id_habitante, id_quest),
-CONSTRAINT fk_id_habitante_tb_habitante_quests
+CONSTRAINT fk_id_habitante_tb_habitante_quest
     FOREIGN KEY (id_habitante)
     REFERENCES tb_habitante (id_habitante),
-CONSTRAINT fk_id_quest_tb_habitante_quests
+CONSTRAINT fk_id_quest_tb_habitante_quest
     FOREIGN KEY (id_quest)
-    REFERENCES tb_quests (id_quest)
+    REFERENCES tb_quest (id_quest)
 );
 
 ALTER TABLE tb_filiacao
