@@ -177,7 +177,7 @@ BEGIN
 	ELSEIF((SELECT id_incidente FROM tb_tipo_incidente WHERE id_incidente = in_tipo_incidente) IS NULL) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'O tipo de incidente não existe.';
 	ELSE
-		INSERT INTO tb_incidentes
+		INSERT INTO tb_incidente
         VALUES (DEFAULT, in_data, in_tipo_incidente);
 	END IF;
 END //
@@ -344,12 +344,13 @@ DELIMITER //
 CREATE PROCEDURE sp_insert_diario(in_dinheiro INTEGER, in_luz VARCHAR(9), in_comida VARCHAR(9), in_agua VARCHAR(9))
 BEGIN
 	INSERT INTO tb_diario
-    VALUES (NOW(),
+    VALUES (DEFAULT,
+		NOW(),
 			(SELECT COUNT(*) FROM tb_habitante),
             in_dinheiro,
             (SELECT COUNT(*) FROM tb_quest),
             (SELECT COUNT(*) FROM tb_quarto),
-            (SELECT COUNT(*) FROM tb_incidentes),
+            (SELECT COUNT(*) FROM tb_incidente),
             in_luz,
             in_comida,
             in_agua,

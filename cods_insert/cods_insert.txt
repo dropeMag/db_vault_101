@@ -1,0 +1,64 @@
+INSERT INTO tb_quarto
+	(descricao, tamanho)
+VALUES
+	('quarto; primeiro andar', 1),
+	('gerador de luz; segundo andar', 1),
+	('tratamento de água; terceiro andar', 1),
+	('cozinha; quarto andar', 1);
+
+INSERT INTO tb_profissao
+	(nome)
+VALUES
+	('eletricista'),
+	('encanador'),
+	('cozinheiro');
+
+CALL sp_insert_habitante('Bruce Simmons', 'm', 1, 1, 1, 1, 1, 3, 5, 1, NULL, NULL);
+UPDATE tb_habitante
+SET id_profissao = 3,
+	id_quarto = 4
+WHERE id_habitante = 1;
+
+CALL sp_insert_habitante('Dorothy Hardy', 'f', 1, 2, 2, 2, 1, 2, 2, 1, NULL, NULL);
+UPDATE tb_habitante
+SET id_profissao = 3,
+	id_quarto = 4
+WHERE id_habitante = 2;
+
+CALL sp_insert_habitante('Emma Fox', 'f', 1, 2, 2, 3, 1, 1, 2, 1, NULL, NULL);
+UPDATE tb_habitante
+SET id_profissao = 2,
+	id_quarto = 3
+WHERE id_habitante = 3;
+
+CALL sp_insert_habitante('Marilyn Graham', 'f', 1, 2, 1, 1, 2, 2, 1, 3, NULL, NULL);
+UPDATE tb_habitante
+SET id_profissao = 1,
+	id_quarto = 2
+WHERE id_habitante = 4;
+
+CALL sp_insert_habitante('Raymond Bishop', 'm', 1, 5, 2, 1, 1, 1, 1, 2, NULL, NULL);
+UPDATE tb_habitante
+SET id_profissao = 1,
+	id_quarto = 2
+WHERE id_habitante = 5;
+
+CALL sp_insert_habitante('Todd Ross', 'm', 1, 1, 5, 1, 1, 2, 1, 2, NULL, NULL);
+UPDATE tb_habitante
+SET id_profissao = 2,
+	id_quarto = 3
+WHERE id_habitante = 6;
+
+CALL sp_insert_habitante('Russel Baker', 'm', 1, 2, 1, 2, 2, 3, 1, 1, NULL, NULL);
+UPDATE tb_habitante
+SET id_profissao = 1,
+	id_quarto = 2
+WHERE id_habitante = 7;
+
+CALL sp_insert_habitante('Megan Adams', 'f', 1, 2, 2, 1, 1, 2, 2, 2, NULL, NULL);
+UPDATE tb_habitante
+SET id_profissao = 1,
+	id_quarto = 2
+WHERE id_habitante = 8;
+
+CALL sp_insert_diario(200, '50/100', '31/50', '38/50');

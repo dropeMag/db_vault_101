@@ -7,7 +7,7 @@ BEGIN
 	DECLARE var_descricao VARCHAR(50);
 	DECLARE var_tamanho INTEGER;
     
-    IF((SELECT id_quarto FROM tb_quartos WHERE id_quarto = up_id) IS NULL) THEN
+    IF((SELECT id_quarto FROM tb_quarto WHERE id_quarto = up_id) IS NULL) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'O id_quarto não existe.';
     ELSEIF (fn_calcula_tamanho_string(up_descricao) < 4) OR (NOT NULL) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Descrição inválida; Muito curta.';
@@ -15,18 +15,18 @@ BEGIN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Tamanho inválido para o quarto.';
 	ELSE
 		IF (up_descricao IS NULL) THEN
-			SET var_descricao = (SELECT descricao FROM tb_quartos WHERE id_quarto = up_id);
+			SET var_descricao = (SELECT descricao FROM tb_quarto WHERE id_quarto = up_id);
 		ELSE
 			SET var_descricao = up_descricao;
 		END IF;
         
 		IF (up_tamanho IS NULL) THEN
-			SET var_tamanho = (SELECT tamanho FROM tb_quartos WHERE id_quarto = up_id);
+			SET var_tamanho = (SELECT tamanho FROM tb_quarto WHERE id_quarto = up_id);
 		ELSE
 			SET var_tamanho = up_tamanho;
 		END IF;
         
-		UPDATE tb_quartos
+		UPDATE tb_quarto
         SET descricao = var_descricao,
 			tamanho = var_tamanho
 		WHERE id_quarto = up_id;
@@ -186,23 +186,23 @@ TB_INCIDENTE
 DELIMITER //
 CREATE PROCEDURE sp_update_incidente(up_id INTEGER, up_data DATETIME, up_tipo_incidente INTEGER)
 BEGIN
-	IF((SELECT id_incidente FROM tb_incidentes WHERE id_incidente = up_id) IS NULL) THEN
+	IF((SELECT id_incidente FROM tb_incidente WHERE id_incidente = up_id) IS NULL) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'O id_incidente não existe.';
 	END IF;
     
     IF(up_data IS NULL) THEN
-		SET up_data = (SELECT data FROM tb_incidentes WHERE id_incidente = up_id);
+		SET up_data = (SELECT data FROM tb_incidente WHERE id_incidente = up_id);
 	ELSEIF(up_data > NOW()) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Não é permitido datas futuras.';
 	END IF;
     
     IF(up_tipo_incidente IS NULL) THEN
-		SET up_tipo_incidente = (SELECT id_tipo_incidente FROM tb_incidentes WHERE id_incidente = up_id);
+		SET up_tipo_incidente = (SELECT id_tipo_incidente FROM tb_incidente WHERE id_incidente = up_id);
 	ELSEIF((SELECT id_incidente FROM tb_tipo_incidente WHERE id_incidente = up_tipo_incidente) IS NULL) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'O tipo de incidente não existe.';
 	END IF;
 
-	UPDATE tb_incidentes
+	UPDATE tb_incidente
     SET data = up_data,
 		id_tipo_incidente = up_tipo_incidente
 	WHERE id_incidente = up_id;
