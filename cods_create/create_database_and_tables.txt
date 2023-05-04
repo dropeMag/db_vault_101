@@ -6,6 +6,7 @@ USE db_vault_101;
 
 CREATE TABLE IF NOT EXISTS tb_estoque(
 	id_estoque INTEGER AUTO_INCREMENT,
+	quantidade INTEGER UNSIGNED NOT NULL,
 PRIMARY KEY(id_estoque)
 );
 
@@ -34,12 +35,12 @@ CREATE TABLE IF NOT EXISTS tb_tipo_incidente(
 PRIMARY KEY(id_incidente)
 );
 
-CREATE TABLE IF NOT EXISTS tb_incidentes(
+CREATE TABLE IF NOT EXISTS tb_incidente(
 	id_incidente INTEGER AUTO_INCREMENT,
     data DATETIME NOT NULL,
     id_tipo_incidente INTEGER NOT NULL,
 PRIMARY KEY(id_incidente),
-CONSTRAINT fk_tipo_incidente_tb_incidentes
+CONSTRAINT fk_tipo_incidente_tb_incidente
     FOREIGN KEY (id_tipo_incidente)
     REFERENCES tb_tipo_incidente (id_incidente)
 );
@@ -55,7 +56,8 @@ CREATE TABLE IF NOT EXISTS tb_filiacao(
 	id_filiacao INTEGER AUTO_INCREMENT,
     id_pai INTEGER NOT NULL,
     id_mae INTEGER NOT NULL,
-PRIMARY KEY(id_filiacao, id_pai, id_mae)
+PRIMARY KEY(id_filiacao),
+UNIQUE(id_pai, id_mae)
 );
 
 CREATE TABLE IF NOT EXISTS tb_profissao(
@@ -78,11 +80,11 @@ CONSTRAINT fk_incidente_tb_baixa
 CREATE TABLE IF NOT EXISTS tb_roupa(
 	id_roupa INTEGER AUTO_INCREMENT,
     nome VARCHAR(25) NOT NULL,
-    quantidade INTEGER UNSIGNED NOT NULL,
     id_special INTEGER NOT NULL,
     id_estoque INTEGER NOT NULL,
 PRIMARY KEY(id_roupa),
-UNIQUE(id_special, id_estoque),
+UNIQUE(id_special),
+UNIQUE(id_estoque),
 CONSTRAINT fk_special_tb_roupa
     FOREIGN KEY (id_special)
     REFERENCES tb_special (id_special),
@@ -95,7 +97,6 @@ CREATE TABLE IF NOT EXISTS tb_pet(
 	id_pet INTEGER AUTO_INCREMENT,
     nome VARCHAR(25) NOT NULL,
     caracteristica VARCHAR(25) NOT NULL,
-    quantidade INTEGER UNSIGNED NOT NULL,
     id_estoque INTEGER NOT NULL,
 PRIMARY KEY(id_pet),
 UNIQUE(id_estoque),
@@ -108,7 +109,6 @@ CREATE TABLE IF NOT EXISTS tb_arma(
 	id_arma INTEGER AUTO_INCREMENT,
     nome VARCHAR(25) NOT NULL,
     mira VARCHAR(5) NOT NULL,
-    quantidade INTEGER UNSIGNED NOT NULL,
     id_estoque INTEGER NOT NULL,
 PRIMARY KEY(id_arma),
 UNIQUE(id_estoque),
@@ -132,7 +132,7 @@ CONSTRAINT fk_produto_tb_venda
 CREATE TABLE IF NOT EXISTS tb_reciclagem(
 	id_reciclagem INTEGER AUTO_INCREMENT,
     id_produto INTEGER NOT NULL,
-    lucro INTEGER UNSIGNED NOT NULL,
+    lucro VARCHAR(100) NOT NULL,
     data DATETIME NOT NULL,
     quantidade TINYINT UNSIGNED NOT NULL,
 PRIMARY KEY(id_reciclagem),
@@ -156,7 +156,9 @@ CREATE TABLE IF NOT EXISTS tb_habitante(
     id_baixa INTEGER,
     id_quarto INTEGER,
 PRIMARY KEY(id_habitante),
-UNIQUE (id_special, id_baixa, id_pet),
+UNIQUE (id_special),
+UNIQUE (id_baixa),
+UNIQUE (id_pet),
 CONSTRAINT fk_special_tb_habitante
 	FOREIGN KEY (id_special)
     REFERENCES tb_special (id_special),
@@ -184,6 +186,7 @@ CONSTRAINT fk_quarto_tb_habitante
 );
 
 CREATE TABLE IF NOT EXISTS tb_diario(
+	id_diario INTEGER AUTO_INCREMENT,
 	data DATETIME NOT NULL,
     moradores INTEGER UNSIGNED NOT NULL,
     dinheiro INTEGER UNSIGNED NOT NULL,
@@ -195,7 +198,8 @@ CREATE TABLE IF NOT EXISTS tb_diario(
     agua VARCHAR(9) NOT NULL,
 	roupa INTEGER UNSIGNED NOT NULL,
     arma INTEGER UNSIGNED NOT NULL,
-    pet INTEGER UNSIGNED NOT NULL
+    pet INTEGER UNSIGNED NOT NULL,
+PRIMARY KEY(id_diario)
 );
 
 CREATE TABLE IF NOT EXISTS tb_ganho_quest(
