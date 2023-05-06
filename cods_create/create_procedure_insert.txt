@@ -21,6 +21,32 @@ DELIMITER ;
 
 
 /*----------------------------------------------------
+TB_LIXO
+----------------------------------------------------*/
+DELIMITER //
+CREATE PROCEDURE sp_insert_lixo(in_nome VARCHAR(25), in_qnt INTEGER)
+BEGIN
+	IF fn_calcula_tamanho_string(in_nome) < 4 THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Descrição inválida; Muito curta.';
+	ELSEIF (in_qnt < 0) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'A quantidade mínima é 0.';
+   	ELSEIF ((SELECT nome FROM tb_arma WHERE LOWER(nome) = LOWER(in_nome)) IS NOT NULL) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Esse lixo já foi cadastrado.';
+	ELSE
+		INSERT INTO tb_estoque
+        VALUES (DEFAULT, in_qnt);
+        
+        INSERT INTO tb_lixo
+        VALUES (DEFAULT, in_nome, (SELECT MAX(id_estoque) FROM tb_estoque));
+	END IF;
+END //
+DELIMITER ;
+
+
+
+
+
+/*----------------------------------------------------
 TB_ROUPA
 ----------------------------------------------------*/
 DELIMITER //
@@ -32,14 +58,16 @@ BEGIN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'A quantidade mínima é 0.';
 	ELSEIF ((SELECT nome FROM tb_roupa WHERE LOWER(nome) = LOWER(in_nome)) IS NOT NULL) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Essa roupa já foi cadastrada.';
+	ELSEIF (in_str < 0) OR (in_per < 0) OR (in_end < 0) OR (in_car < 0) OR (in_int < 0) OR (in_agi < 0) OR (in_luc < 0) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'SPECIAL não pode ter valor negativo.';
 	ELSE
-		IF in_str <= 0 THEN SET in_str = NULL; END IF;
-		IF in_per <= 0 THEN SET in_per = NULL; END IF;
-		IF in_end <= 0 THEN SET in_end = NULL; END IF;
-		IF in_car <= 0 THEN SET in_car = NULL; END IF;
-		IF in_int <= 0 THEN SET in_int = NULL; END IF;
-		IF in_agi <= 0 THEN SET in_agi = NULL; END IF;
-		IF in_luc <= 0 THEN SET in_luc = NULL; END IF;
+		IF in_str = 0 THEN SET in_str = NULL; END IF;
+		IF in_per = 0 THEN SET in_per = NULL; END IF;
+		IF in_end = 0 THEN SET in_end = NULL; END IF;
+		IF in_car = 0 THEN SET in_car = NULL; END IF;
+		IF in_int = 0 THEN SET in_int = NULL; END IF;
+		IF in_agi = 0 THEN SET in_agi = NULL; END IF;
+		IF in_luc = 0 THEN SET in_luc = NULL; END IF;
         
         INSERT INTO tb_special
         VALUES (DEFAULT, in_str, in_per, in_end, in_car, in_int, in_agi, in_luc);
@@ -53,6 +81,7 @@ BEGIN
     END IF;
 END //
 DELIMITER ;
+
 
 
 
@@ -80,6 +109,7 @@ BEGIN
     END IF;
 END //
 DELIMITER ;
+
 
 
 
@@ -354,8 +384,8 @@ BEGIN
             in_luz,
             in_comida,
             in_agua,
-            ((SELECT SUM(quantidade) FROM tb_estoque WHERE id_estoque IN (SELECT id_estoque FROM tb_roupa)) + (SELECT COUNT(*) FROM tb_habitante WHERE id_roupa IS NOT NULL)),
-			((SELECT SUM(quantidade) FROM tb_estoque WHERE id_estoque IN (SELECT id_estoque FROM tb_arma)) + (SELECT COUNT(*) FROM tb_habitante WHERE id_arma IS NOT NULL)),
-            ((SELECT SUM(quantidade) FROM tb_estoque WHERE id_estoque IN (SELECT id_estoque FROM tb_pet)) + (SELECT COUNT(*) FROM tb_habitante WHERE id_pet IS NOT NULL)));
+            ((SELECT SUM(quantidade) FROM tb_estoque WHERE id_estoque IN (SELECT id_estoque FROM tb_roupa)) + (SELECT COUNT(id_roupa) FROM tb_habitante WHERE id_roupa IS NOT NULL)),
+			((SELECT SUM(quantidade) FROM tb_estoque WHERE id_estoque IN (SELECT id_estoque FROM tb_arma)) + (SELECT COUNT(id_arma) FROM tb_habitante WHERE id_arma IS NOT NULL)),
+            ((SELECT SUM(quantidade) FROM tb_estoque WHERE id_estoque IN (SELECT id_estoque FROM tb_pet)) + (SELECT COUNT(id_pet) FROM tb_habitante WHERE id_pet IS NOT NULL)));
 END //
 DELIMITER ;

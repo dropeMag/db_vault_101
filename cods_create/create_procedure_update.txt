@@ -38,6 +38,28 @@ DELIMITER ;
 
 
 /*----------------------------------------------------
+TB_LIXO
+----------------------------------------------------*/
+DELIMITER //
+CREATE PROCEDURE sp_update_lixo(up_id INTEGER, up_qnt INTEGER)
+BEGIN
+	IF((SELECT id_lixo FROM tb_lixo WHERE id_lixo = up_id) IS NULL) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'O id_lixo não existe.';
+	ELSEIF (up_qnt < 0) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'A quantidade mínima é 0.';
+	ELSE
+        UPDATE tb_estoque
+        SET quantidade = up_qnt
+        WHERE id_estoque = (SELECT id_estoque FROM tb_lixo WHERE id_lixo = up_id);
+	END IF;
+END //
+DELIMITER ;
+
+
+
+
+
+/*----------------------------------------------------
 TB_ROUPA
 ----------------------------------------------------*/
 DELIMITER //
@@ -248,7 +270,7 @@ DELIMITER ;
 TB_HABITANTE
 ----------------------------------------------------*/
 DELIMITER //
-CREATE PROCEDURE sp_atualizador(at_roupa INTEGER, at_arma INTEGER, at_pet INTEGER)
+CREATE PROCEDURE sp_atualizador(at_id INTEGER, at_roupa INTEGER, at_arma INTEGER, at_pet INTEGER)
 BEGIN
 	DECLARE roupa_estoque INTEGER;
 	DECLARE arma_estoque INTEGER;
@@ -261,17 +283,29 @@ BEGIN
 		UPDATE tb_estoque
         SET quantidade = roupa_estoque - 1
         WHERE id_estoque = (SELECT id_estoque FROM tb_roupa WHERE id_roupa = at_roupa);
-    END IF;
+	ELSEIF((SELECT id_roupa FROM tb_habitante WHERE id_habitante = at_id) IS NOT NULL) THEN
+		UPDATE tb_estoque
+        SET quantidade = roupa_estoque + 1
+        WHERE id_estoque = (SELECT id_estoque FROM tb_roupa WHERE id_roupa = at_roupa);
+	END IF;
     
     IF(at_arma IS NOT NULL) THEN
 		UPDATE tb_estoque
         SET quantidade = arma_estoque - 1
+        WHERE id_estoque = (SELECT id_estoque FROM tb_arma WHERE id_arma = at_arma);
+	ELSEIF((SELECT id_arma FROM tb_habitante WHERE id_habitante = at_id) IS NOT NULL) THEN
+		UPDATE tb_estoque
+        SET quantidade = arma_estoque + 1
         WHERE id_estoque = (SELECT id_estoque FROM tb_arma WHERE id_arma = at_arma);
     END IF;
     
     IF(at_pet IS NOT NULL) THEN
 		UPDATE tb_estoque
         SET quantidade = pet_estoque - 1
+        WHERE id_estoque = (SELECT id_estoque FROM tb_pet WHERE id_pet = at_pet);
+	ELSEIF((SELECT id_arma FROM tb_habitante WHERE id_habitante = at_id) IS NOT NULL) THEN
+		UPDATE tb_estoque
+        SET quantidade = pet_estoque + 1
         WHERE id_estoque = (SELECT id_estoque FROM tb_pet WHERE id_pet = at_pet);
 	END IF;
 END //
@@ -286,7 +320,9 @@ BEGIN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'O id_habitante não existe.';
 	END IF;
 
-	IF(fn_calcula_tamanho_string(up_nome) < 5) THEN
+	IF(up_nome IS NULL) THEN
+		SET up_nome = (SELECT nome FROM tb_habitante WHERE id_habitante = up_id);
+	ELSEIF(fn_calcula_tamanho_string(up_nome) < 5) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Nome inválido; Muito curto.';
 	END IF;
 	
@@ -344,6 +380,8 @@ BEGIN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Este quarto não existe.';
     END IF;
     
+    CALL sp_atualizador(up_id, up_roupa, up_arma, up_pet);
+    
 	UPDATE tb_habitante
 	SET nome = up_nome,
 		level = up_level,
@@ -353,11 +391,8 @@ BEGIN
         id_pet = up_pet, 
         id_quarto = up_quarto
 	WHERE id_habitante = up_id;
-    
-    CALL sp_atualizador(up_roupa, up_arma, up_pet);
 END //
 DELIMITER ;
-
 
 
 

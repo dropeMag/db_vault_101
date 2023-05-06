@@ -5,6 +5,7 @@ CREATE JUNIOR
 ----------------------------------------------------*/
 CREATE USER 'Junior'@'localhost' IDENTIFIED BY '1234';
 GRANT EXECUTE ON PROCEDURE sp_insert_quarto TO 'Junior'@'localhost';
+GRANT EXECUTE ON PROCEDURE sp_insert_lixo TO 'Junior'@'localhost';
 GRANT EXECUTE ON PROCEDURE sp_insert_roupa TO 'Junior'@'localhost';
 GRANT EXECUTE ON PROCEDURE sp_insert_arma TO 'Junior'@'localhost';
 GRANT EXECUTE ON PROCEDURE sp_insert_pet TO 'Junior'@'localhost';
@@ -17,6 +18,7 @@ GRANT EXECUTE ON PROCEDURE sp_insert_venda TO 'Junior'@'localhost';
 GRANT EXECUTE ON PROCEDURE sp_insert_reciclagem TO 'Junior'@'localhost';
 GRANT EXECUTE ON PROCEDURE sp_insert_diario TO 'Junior'@'localhost';
 
+GRANT EXECUTE ON PROCEDURE sp_update_lixo TO 'Junior'@'localhost';
 GRANT EXECUTE ON PROCEDURE sp_update_quarto TO 'Junior'@'localhost';
 GRANT EXECUTE ON PROCEDURE sp_update_roupa TO 'Junior'@'localhost';
 GRANT EXECUTE ON PROCEDURE sp_update_arma TO 'Junior'@'localhost';

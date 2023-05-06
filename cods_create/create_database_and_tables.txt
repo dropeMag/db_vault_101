@@ -77,6 +77,17 @@ CONSTRAINT fk_incidente_tb_baixa
     REFERENCES tb_tipo_incidente (id_incidente)
 );
 
+CREATE TABLE IF NOT EXISTS tb_lixo(
+	id_lixo INTEGER AUTO_INCREMENT,
+    nome VARCHAR(25) NOT NULL,
+    id_estoque INTEGER NOT NULL,
+PRIMARY KEY(id_lixo),
+UNIQUE(id_estoque),
+CONSTRAINT fk_id_estoque_tb_lixo
+    FOREIGN KEY (id_estoque)
+    REFERENCES tb_estoque (id_estoque)
+);
+
 CREATE TABLE IF NOT EXISTS tb_roupa(
 	id_roupa INTEGER AUTO_INCREMENT,
     nome VARCHAR(25) NOT NULL,

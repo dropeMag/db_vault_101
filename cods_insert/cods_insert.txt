@@ -1,3 +1,38 @@
+/*----------------------------------------------------
+DIA 0
+----------------------------------------------------*/
+
+INSERT INTO tb_profissao
+	(nome)
+VALUES
+	('eletricista'),
+	('encanador'),
+	('cozinheiro'),
+    ('explorador'),
+	('segurança'),
+	('estoquista'),
+	('cientista'),
+	('radialista'),
+	('fabricador de arma'),
+	('fabricador de roupa'),
+	('produtor de nuka-cola');
+
+INSERT INTO tb_tipo_incidente
+	(descricao)
+VALUES
+	('fogo'),
+	('expulsão'),
+	('radroache'),
+	('raider'),
+	('molerat'),
+	('deathclaw'),
+	('ghoul'),
+	('radscorpion');
+
+/*----------------------------------------------------
+DIA 1
+----------------------------------------------------*/
+
 INSERT INTO tb_quarto
 	(descricao, tamanho)
 VALUES
@@ -5,13 +40,6 @@ VALUES
 	('gerador de luz; segundo andar', 1),
 	('tratamento de água; terceiro andar', 1),
 	('cozinha; quarto andar', 1);
-
-INSERT INTO tb_profissao
-	(nome)
-VALUES
-	('eletricista'),
-	('encanador'),
-	('cozinheiro');
 
 CALL sp_insert_habitante('Bruce Simmons', 'm', 1, 1, 1, 1, 1, 3, 5, 1, NULL, NULL);
 UPDATE tb_habitante
@@ -62,3 +90,76 @@ SET id_profissao = 1,
 WHERE id_habitante = 8;
 
 CALL sp_insert_diario(200, '50/100', '31/50', '38/50');
+
+/*----------------------------------------------------
+DIA 2
+----------------------------------------------------*/
+
+INSERT INTO tb_incidente
+VALUES
+	(1, NOW(), 1);
+
+CALL sp_insert_arma('Hardened Sniper Rifle', '10-13', 1);
+
+CALL sp_insert_roupa('Radiation Suit', 1, 0, 1, 2, 0, 0, 0, 0);
+
+CALL sp_insert_lixo('Shovel', 1);
+
+CALL sp_update_quarto(1, NULL, 2);
+
+CALL sp_update_quarto(2, NULL, 2);
+
+CALL sp_update_quarto(3, NULL, 2);
+
+CALL sp_update_quarto(4, NULL, 2);
+
+CALL sp_insert_habitante('Lauren Perry', 'f', 1, 2, 1, 2, 2, 1, 2, 2, NULL, NULL);
+UPDATE tb_habitante
+SET id_profissao = 3,
+	id_quarto = 4
+WHERE id_habitante = 9;
+
+CALL sp_insert_habitante('Teresa Brown', 'f', 1, 2, 2, 2, 1, 1, 2, 2, NULL, NULL);
+UPDATE tb_habitante
+SET id_profissao = 3,
+	id_quarto = 4
+WHERE id_habitante = 10;
+
+CALL sp_insert_habitante('Bobby Ward', 'm', 1, 2, 2, 1, 2, 2, 1, 2, NULL, NULL);
+UPDATE tb_habitante
+SET id_profissao = 2,
+	id_quarto = 3
+WHERE id_habitante = 11;
+
+CALL sp_insert_habitante('Daniel Scott', 'm', 1, 2, 2, 2, 2, 1, 2, 1, NULL, NULL);
+UPDATE tb_habitante
+SET id_profissao = 2,
+	id_quarto = 3
+WHERE id_habitante = 12;
+
+CALL sp_insert_roupa('T-45a Power Armor', 1, 2, 1, 0, 0, 0, 0, 0);
+
+CALL sp_insert_lixo('Yao Guai Hide', 1);
+
+CALL sp_insert_arma('Mean Green Monster', '17-23', 1);
+
+CALL sp_insert_lixo('Brahmin Hide', 1);
+
+CALL sp_insert_roupa('Officer Uniform', 1, 0, 0, 0, 2, 3, 0, 0);
+
+CALL sp_insert_lixo('Camera', 1);
+
+CALL sp_insert_roupa('Country Girl', 1, 4, 0, 0, 0, 0, 0, 0);
+
+CALL sp_insert_habitante('Ruth Turner', 'f', 5, 3, 3, 3, 5, 6, 1, 7, NULL, NULL);
+UPDATE tb_habitante
+SET id_profissao = 4
+WHERE id_habitante = 13;
+
+CALL sp_insert_roupa('Movie Fan Outfit', 1, 0, 4, 0, 0, 0, 0, 1);
+
+CALL sp_update_habitante(13, NULL, NULL, NULL, 5, 2, NULL, NULL);
+
+CALL sp_insert_incidente(NOW(), 3);
+
+CALL sp_insert_diario(2138, '113/100', '70/100', '25/100');
