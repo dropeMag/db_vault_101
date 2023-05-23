@@ -1,5 +1,5 @@
 /*----------------------------------------------------
-DIA 0
+DAY 0
 ----------------------------------------------------*/
 
 INSERT INTO tb_profissao
@@ -30,7 +30,7 @@ VALUES
 	('radscorpion');
 
 /*----------------------------------------------------
-DIA 1
+DAY 1
 ----------------------------------------------------*/
 
 INSERT INTO tb_quarto
@@ -92,7 +92,7 @@ WHERE id_habitante = 8;
 CALL sp_insert_diario(200, '50/100', '31/50', '38/50');
 
 /*----------------------------------------------------
-DIA 2
+DAY 2
 ----------------------------------------------------*/
 
 INSERT INTO tb_incidente
@@ -165,7 +165,7 @@ CALL sp_insert_incidente(NOW(), 3);
 CALL sp_insert_diario(2138, '113/100', '70/100', '25/100');
 
 /*----------------------------------------------------
-DIA 3
+DAY 3
 ----------------------------------------------------*/
 
 INSERT INTO tb_quarto
@@ -271,3 +271,32 @@ CALL sp_insert_incidente(NOW(), 1);
 
 CALL sp_insert_diario(1044, '177/225', '65/225', '87/225');
 
+/*----------------------------------------------------
+DAY 4
+----------------------------------------------------*/
+
+CALL sp_insert_habitante('Zachary Ross', 'm', 0, 3, 2, 1, 2, 1, 1, 2, 2, 6);
+
+CALL sp_update_quarto(1, 'quarto; primeiro andar; lvl 2', NULL);
+
+CALL sp_insert_incidente(NOW(), 3);
+
+CALL sp_update_habitante(15, NULL, 2, NULL, NULL, NULL, NULL, NULL);
+
+CALL sp_insert_venda(2, 10, NOW(), 1);
+
+CALL sp_insert_venda(12, 10, NOW(), 1);
+
+CALL sp_insert_quarto('madbay; quinto andar', 1);
+
+UPDATE tb_habitante
+SET id_profissao = 7
+WHERE id_habitante = 13;
+
+UPDATE tb_habitante
+SET id_profissao = 4
+WHERE id_habitante = 17;
+
+CALL sp_insert_incidente(NOW(), 3);
+
+CALL sp_insert_diario(946, '219/255', '97/225', '119/225');
