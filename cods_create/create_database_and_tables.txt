@@ -216,11 +216,6 @@ CREATE TABLE IF NOT EXISTS tb_diary (
     food INTEGER DEFAULT(0)
 );
 
-
-
-
-
-
 CREATE TABLE IF NOT EXISTS tb_storage_quest (
     id_storage INTEGER NOT NULL,
     id_quest INTEGER NOT NULL,

@@ -1,8 +1,11 @@
-('fire'),
-('expulsion'),
-('radroache'),
-('raider'),
-('molerat'),
-('deathclaw'),
-('ghoul'),
-('radscorpion');
+INSERT INTO tb_incident_type
+	(description)
+VALUES
+	('fire'),
+	('expulsion'),
+	('radroache'),
+	('raider'),
+	('molerat'),
+	('deathclaw'),
+	('ghoul'),
+	('radscorpion');

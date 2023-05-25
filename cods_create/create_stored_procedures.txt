@@ -1,0 +1,36 @@
+DELIMITER //
+CREATE PROCEDURE sp_insert_room(in_size INTEGER, in_floor INTEGER, in_room_type INTEGER)
+BEGIN
+	CASE
+		WHEN ((SELECT id_room_type FROM tb_room_type WHERE id_room_type = in_room_type) IS NULL) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Room does not exists.';
+		WHEN (in_size NOT IN (1, 2, 3)) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid room size.';
+		WHEN (in_floor NOT BETWEEN 1 AND 25) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid floor.';
+		ELSE
+			INSERT INTO tb_room
+				(size, floor, id_room)
+			VALUES
+				(in_size, in_floor, in_room_type);
+	END CASE;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_insert_incident(in_date DATE, in_incident_type INTEGER, in_room INTEGER)
+BEGIN
+	IF ((SELECT id_incident_type FROM tb_incident_type WHERE id_incident_type = in_incident_type) IS NULL) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Incident type does not exists.';
+	ELSEIF ((SELECT id_room FROM tb_room WHERE id_room = in_room) IS NULL) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Room does not exists.';
+	ELSE
+		INSERT INTO tb_incident
+			(date, id_incident_type, id_room)
+		VALUES
+			(in_date, in_incident_type, in_room);
+	END IF;
+END //
+DELIMITER ;
