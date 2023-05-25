@@ -1,0 +1,64 @@
+﻿Zula,Damage resistance
+Sterling,Wasteland caps
+Shadow,Health
+Ashes,Healing speed
+Cloudy,Crafting cost
+Diamond,Crafting cost
+Merlin,Crafting time
+Merlin,Crafting time
+Luna,Wasteland junk
+Pouncer,Wasteland junk
+Static,Wasteland junk
+Calypso,Damage
+Bangor,Training time
+Genius,Twins chance
+Shakespeare,Twins chance
+Stubbs,Twins chance
+Speckle,Wasteland weapons & outfits
+Cinder,Wasteland junk
+Mr. Pebbles,Happiness
+Pugsley,Uninterrupted Training
+Ginger,XP
+Goblet,Rad healing speed
+Saffron,Crafting time
+Saffron,Crafting time
+Bastet,Wasteland return speed
+Kato,Stranger chance
+Duchess,Child SPECIALs
+Pumpkin,Child SPECIALs
+Kabosu,Stranger chance
+Kuma,Stranger chance
+Bandit,Child SPECIALs
+Bandit,Child SPECIALs
+Muttface,Training time
+Duke,Wasteland junk
+Moose,Wasteland junk
+Valentine,Wasteland junk
+Scavver,XP
+Gaston,Crafting time & cost
+Four Score,Wasteland caps
+Pal,Crafting cost
+Bigsby,Crafting cost
+Lucky,Twins chance
+Pongo,Twins chance
+Apolda,Healing speed
+Goliath,Crafting cost
+Goliath,Crafting cost
+Mr. Peepers,Rad healing speed
+Cocoa Bean,Wasteland return speed
+Dogmeat,Objective completion
+Cindy,Wasteland weapons & outfits
+Little Helper,Crafting time
+Trench,Wasteland return speed
+Hulk,Damage
+Ranger,Damage
+Titan,Damage
+Lord Puffington,Happiness
+Maizie Rai,Health
+Barry,Wasteland junk
+Alien Drone,Damage
+Wanderer,Damage resistance
+Butch,Damage
+Polly,Damage
+Pip,Objective completion
+Vinnie,Objective completion

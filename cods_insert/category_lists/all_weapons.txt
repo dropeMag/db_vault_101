@@ -1,0 +1,214 @@
+﻿Institute pistol;9-11
+Incendiary Institute pistol;10-13
+Improved Institute pistol;11-15
+Scoped Institute pistol;12-17
+Scattered Institute pistol;13-19
+Apotheosis;14-21
+Institute rifle;14-16
+Excited Institute rifle;15-18
+Long Institute rifle;16-20
+Night-vision Institute rifle;17-22
+Targeting Institute rifle;18-24
+Virgil's rifle;19-26
+Junk Jet;13-15
+Recoil compensated Junk Jet;14-17
+Tactical Junk Jet;15-19
+Electrified Junk Jet;16-21
+Flaming Junk Jet;17-23
+Technician's Revenge;18-25
+Pipe pistol;1-3
+Hair trigger pipe pistol;2-5
+Heavy pipe pistol;3-7
+Scoped pipe pistol;4-9
+Auto pipe pistol;5-11
+Little Brother;6-13
+Pipe rifle;5-7
+Calibrated pipe rifle;6-9
+Long pipe rifle;7-11
+Night-vision pipe rifle;8-13
+Bayoneted pipe rifle;9-15
+Big Sister;10-17
+Plasma thrower;17-19
+Agitated plasma thrower;18-21
+Tactical plasma thrower;19-23
+Boosted plasma thrower;20-25
+Overcharged plasma thrower;21-27
+Dragon's Maw;22-29
+Rusty combat shotgun;13
+Combat shotgun;13-14
+Enhanced combat shotgun;13-15
+Hardened combat shotgun;13-16
+Double-barrel combat shotgun;13-17
+Charon's shotgun;13-18
+Mountain Mama;14-19
+Rusty sawed-off shotgun;6
+Sawed-off shotgun;6-7
+Enhanced sawed-off shotgun;6-8
+Hardened sawed-off shotgun;6-9
+Double-barrel sawed-off shotgun;6-10
+Kneecapper;6-11
+Rusty shotgun;9
+Shotgun;9-10
+Enhanced shotgun;9-11
+Hardened shotgun;9-12
+Double-barrel shotgun;9-13
+Farmer's Daughter;9-14
+Laser musket;10-13
+Rusty alien disintegrator;16
+Alien disintegrator;17
+Enhanced alien disintegrator;18
+Hardened alien disintegrator;19
+Rusty laser rifle;12
+Laser rifle;12-13
+Tuned laser rifle;12-14
+Focused laser rifle;12-15
+Amplified laser rifle;12-16
+Wazer Wifle;12-17
+Rusty plasma rifle;17
+Plasma rifle;17-18
+Tuned plasma rifle;17-19
+Focused plasma rifle;17-20
+Amplified plasma rifle;17-22
+Mean Green Monster;17-23
+Rusty pulse rifle;17-18
+Pulse rifle;18-19
+Enhanced pulse rifle;19-20
+Hardened pulse rifle;20-21
+Rusty assault rifle;8
+Assault rifle;8-9
+Enhanced assault rifle;8-10
+Hardened assault rifle;8-11
+Armor piercing assault rifle;8-12
+Infiltrator;8-13
+Rusty BB gun;0-1
+BB gun;0-2
+Enhanced BB gun;0-3
+Hardened BB gun;0-4
+Armor piercing BB gun;0-5
+Red Rocket;0-6
+Rusty Gauss rifle;16
+Gauss rifle;16-17
+Enhanced Gauss rifle;16-18
+Hardened Gauss rifle;16-19
+Accelerated Gauss rifle;16-20
+Magnetron 4000;16-21
+Henrietta;13-16
+Rusty hunting rifle;5
+Hunting rifle;5-6
+Enhanced hunting rifle;5-7
+Hardened hunting rifle;5-8
+Armor piercing hunting rifle;5-9
+Ol' Painless;5-10
+Rusty lever-action rifle;4
+Lever-action rifle;4-5
+Enhanced lever-action rifle;4-6
+Hardened lever-action rifle;4-7
+Armor piercing lever-action rifle;4-8
+Lincoln's repeater;4-9
+Rusty railway rifle;14
+Railway rifle;14-15
+Enhanced railway rifle;14-16
+Hardened railway rifle;14-17
+Accelerated railway rifle;14-18
+Railmaster;14-19
+Rusty sniper rifle;10
+Sniper rifle;10-11
+Enhanced sniper rifle;10-12
+Hardened sniper rifle;10-13
+Armor piercing sniper rifle;10-14
+Victory rifle;10-15
+Rusty alien blaster;18
+Alien blaster;18-19
+Tuned alien blaster;18-20
+Focused alien blaster;18-21
+Amplified alien blaster;18-22
+Destabilizer;18-23
+Rusty laser pistol;7
+Laser pistol;7-8
+Tuned laser pistol;7-9
+Focused laser pistol;7-10
+Amplified laser pistol;7-11
+Smuggler's End;7-12
+Rusty plasma pistol;11
+Plasma pistol;11-12
+Tuned plasma pistol;11-13
+Focused plasma pistol;11-14
+Amplified plasma pistol;11-15
+MPXL Novasurge;11-16
+Rusty Assaultron head;7-11
+Assaultron head;8-12
+Enhanced Assaultron head;9-13
+Hardened Assaultron head;10-14
+Rusty .32 pistol;1
+.32 pistol;1-2
+Enhanced .32 pistol;1-3
+Hardened .32 pistol;1-4
+Armor piercing .32 pistol;1-5
+Wild Bill's Sidearm;1-6
+Rusty 10mm pistol;2
+10mm pistol;2-3
+Enhanced 10mm pistol;2-4
+Hardened 10mm pistol;2-5
+Armor piercing 10mm pistol;2-6
+Lone Wanderer;2-7
+Rusty scoped .44;3
+Scoped .44;3-4
+Enhanced scoped .44;3-5
+Hardened scoped .44;3-6
+Armor piercing scoped .44;3-7
+Blackhawk;3-8
+Rusty Gauss pistol;12
+Focused Gauss pistol;13
+Enhanced Gauss pistol;14
+Hardened Gauss pistol;15
+Baseball bat;5-15
+Butcher knife;8-18
+Kitchen knife;3-11
+Pickaxe;11-21
+Pool cue;0-8
+Fire hydrant bat;19-31
+Relentless raider sword;16-28
+Rusty Ripper;10-15
+Ripper;11-16
+Enhanced Ripper;12-17
+Hardened Ripper;13-18
+Rusty power fist;12-17
+Power fist;13-18
+Enhanced power fist;14-19
+Hardened power fist;15-20
+Ed's custom power fist;16-22
+Grognak's axe;18-26
+Amplified Gatling laser;21-25
+Armor piercing minigun;19-23
+Burnmaster;15-20
+Enhanced Fat Man;22-24
+Enhanced flamer;15-17
+Enhanced minigun;19-21
+Enhanced missile launcher;20-22
+Enhanced plasma caster;18-22
+Fat Man;22-23
+Flamer;15-16
+Focused Gatling laser;21-24
+Gatling laser;21-22
+Guided Fat Man;22-26
+Guided missile launcher;20-24
+Hardened Fat Man;22-25
+Hardened flamer;15-18
+Hardened minigun;19-22
+Hardened missile launcher;20-23
+Hardened plasma caster;19-23
+Lead Belcher;19-24
+MIRV;22-27
+Minigun;19-20
+Miss Launcher;20-25
+Missile launcher;20-21
+Plasma caster;17-21
+Pressurized flamer;15-19
+Rusty Fat Man;22
+Rusty Gatling laser;21
+Rusty flamer;15
+Rusty minigun;19
+Rusty missile launcher;20
+Rusty plasma caster;16-20
+Tuned Gatling laser;21-23
+Vengeance;21-26

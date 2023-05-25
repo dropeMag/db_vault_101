@@ -1,0 +1,11 @@
+('electrician'),
+('plumber'),
+('chef'),
+('explorer'),
+('security'),
+('stockist'),
+('scientist'),
+('broadcaster'),
+('gun maker'),
+('clothing manufacturer'),
+('nuka cola producer');

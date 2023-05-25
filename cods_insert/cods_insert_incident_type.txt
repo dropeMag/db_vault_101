@@ -1,0 +1,8 @@
+('fire'),
+('expulsion'),
+('radroache'),
+('raider'),
+('molerat'),
+('deathclaw'),
+('ghoul'),
+('radscorpion');

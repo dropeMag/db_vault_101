@@ -1,0 +1,170 @@
+
+
+# NOVO INSERT
+
+
+("Shakespeare","Twins chance",1),
+("Mr. Pebbles","Happiness",1),
+("Ginger","XP",1),
+("Duchess","Child SPECIALs",1),
+("Pumpkin","Child SPECIALs",1),
+("Valentine","Wasteland junk",1),
+("Apolda","Healing speed",1),
+("Titan","Damage",1),
+("Maizie Rai","Health",1),
+("Pip","Objective completion",1),
+
+
+# NOVO INSERT
+
+
+("Luna","Wasteland junk",1),
+("Cinder","Wasteland junk",1),
+("Duke","Wasteland junk",1),
+("Cindy","Wasteland weapons & outfits",1),
+("Little Helper","Crafting time",1),
+("Alien Drone","Damage",1),
+
+
+# NOVO INSERT
+
+
+("Shakespeare","Twins chance",1),
+("Saffron","Crafting time",1),
+("Bastet","Wasteland return speed",1),
+("Pumpkin","Child SPECIALs",1),
+("Scavver","XP",1),
+("Bigsby","Crafting cost",1),
+("Lucky","Twins chance",1),
+("Goliath","Crafting cost",1),
+("Mr. Peepers","Rad healing speed",1),
+("Polly","Damage",1),
+
+
+# NOVO INSERT
+
+
+("Genius","Twins chance",1),
+("Mr. Pebbles","Happiness",1),
+("Pugsley","Uninterrupted Training",1),
+("Goblet","Rad healing speed",1),
+("Kato","Stranger chance",1),
+("Duchess","Child SPECIALs",1),
+("Kabosu","Stranger chance",1),
+("Bandit","Child SPECIALs",1),
+("Bandit","Child SPECIALs",1),
+("Moose","Wasteland junk",1),
+("Valentine","Wasteland junk",1),
+("Goliath","Crafting cost",1),
+("Vinnie","Objective completion",1),
+
+
+# NOVO INSERT
+
+
+("Cloudy","Crafting cost",1),
+("Cinder","Wasteland junk",1),
+("Pumpkin","Child SPECIALs",1),
+("Moose","Wasteland junk",1),
+("Four Score","Wasteland caps",1),
+("Apolda","Healing speed",1),
+("Polly","Damage",1),
+("Vinnie","Objective completion",1),
+
+
+# NOVO INSERT
+
+
+("﻿Zula","Damage resistance",1),
+("Diamond","Crafting cost",1),
+("Calypso","Damage",1),
+("Bangor","Training time",1),
+("Ginger","XP",1),
+("Moose","Wasteland junk",1),
+("Apolda","Healing speed",1),
+("Barry","Wasteland junk",1),
+("Vinnie","Objective completion",1),
+
+
+# NOVO INSERT
+
+
+("Diamond","Crafting cost",1),
+("Speckle","Wasteland weapons & outfits",1),
+("Pugsley","Uninterrupted Training",1),
+("Duke","Wasteland junk",1),
+("Apolda","Healing speed",1),
+("Little Helper","Crafting time",1),
+("Ranger","Damage",1),
+("Barry","Wasteland junk",1),
+
+
+# NOVO INSERT
+
+
+("Sterling","Wasteland caps",1),
+("Pouncer","Wasteland junk",1),
+("Mr. Pebbles","Happiness",1),
+("Pugsley","Uninterrupted Training",1),
+("Butch","Damage",1),
+
+
+# NOVO INSERT
+
+
+("Ashes","Healing speed",1),
+("Calypso","Damage",1),
+("Shakespeare","Twins chance",1),
+("Bastet","Wasteland return speed",1),
+("Pumpkin","Child SPECIALs",1),
+("Kabosu","Stranger chance",1),
+("Cocoa Bean","Wasteland return speed",1),
+("Trench","Wasteland return speed",1),
+
+
+# NOVO INSERT
+
+
+("Luna","Wasteland junk",1),
+("Mr. Pebbles","Happiness",1),
+("Kuma","Stranger chance",1),
+("Gaston","Crafting time & cost",1),
+("Lucky","Twins chance",1),
+("Goliath","Crafting cost",1),
+("Goliath","Crafting cost",1),
+
+
+# NOVO INSERT
+
+
+("Calypso","Damage",1),
+("Bangor","Training time",1),
+("Speckle","Wasteland weapons & outfits",1),
+("Valentine","Wasteland junk",1),
+("Four Score","Wasteland caps",1),
+("Bigsby","Crafting cost",1),
+("Apolda","Healing speed",1),
+("Goliath","Crafting cost",1),
+("Mr. Peepers","Rad healing speed",1),
+("Cindy","Wasteland weapons & outfits",1),
+("Trench","Wasteland return speed",1),
+("Pip","Objective completion",1),
+
+
+# NOVO INSERT
+
+
+("Merlin","Crafting time",1),
+("Static","Wasteland junk",1),
+("Shakespeare","Twins chance",1),
+("Pugsley","Uninterrupted Training",1),
+("Pumpkin","Child SPECIALs",1),
+("Moose","Wasteland junk",1),
+("Pal","Crafting cost",1),
+("Goliath","Crafting cost",1),
+("Mr. Peepers","Rad healing speed",1),
+("Cocoa Bean","Wasteland return speed",1),
+("Cindy","Wasteland weapons & outfits",1),
+("Ranger","Damage",1),
+("Maizie Rai","Health",1),
+("Pip","Objective completion",1),
