@@ -34,3 +34,205 @@ BEGIN
 	END IF;
 END //
 DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_insert_special(in_str INTEGER, in_per INTEGER, in_end INTEGER, in_cha INTEGER, in_int INTEGER, in_agi INTEGER, in_luc INTEGER, in_category VARCHAR(10))
+BEGIN
+	CASE
+		WHEN in_str < 0 THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Strengh can not be negative.';
+		WHEN in_per < 0 THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Perception can not be negative.';
+		WHEN in_end < 0 THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Endurance can not be negative.';
+		WHEN in_cha < 0 THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Charisma can not be negative.';
+		WHEN in_int < 0 THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Intelligence can not be negative.';
+		WHEN in_agi < 0 THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Agility can not be negative.';
+		WHEN in_luc < 0 THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Luck can not be negative.';
+
+		WHEN in_str > 10 THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Strengh can not be more than 10.';
+		WHEN in_per > 10 THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Perception can not be more than 10.';
+		WHEN in_end > 10 THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Endurance can not be more than 10.';
+		WHEN in_cha > 10 THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Charisma can not be more than 10.';
+		WHEN in_int > 10 THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Intelligence can not be more than 10.';
+		WHEN in_agi > 10 THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Agility can not be more than 10.';
+		WHEN in_luc > 10 THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Luck can not be more than 10.';
+		
+        WHEN (LOWER(in_category) NOT IN ("outfit", "dweller")) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Category is invalid.';
+        
+        ELSE
+			IF in_str = 0 THEN SET in_str = NULL; END IF;
+			IF in_per = 0 THEN SET in_per = NULL; END IF;
+			IF in_end = 0 THEN SET in_end = NULL; END IF;
+			IF in_cha = 0 THEN SET in_cha = NULL; END IF;
+			IF in_int = 0 THEN SET in_int = NULL; END IF;
+			IF in_agi = 0 THEN SET in_agi = NULL; END IF;
+			IF in_luc = 0 THEN SET in_luc = NULL; END IF;
+            
+            INSERT INTO tb_special
+            VALUES (DEFAULT, in_str, in_per, in_end, in_cha, in_int, in_agi, in_luc, LOWER(in_category));
+        END CASE;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_insert_storage(in_category VARCHAR(10))
+BEGIN
+	IF (LOWER(in_category) NOT IN ('outfit', 'weapon', 'pet', 'junk')) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Category is invalid.';
+    ELSE
+		INSERT INTO tb_storage
+		VALUES (DEFAULT, LOWER(in_category));
+    END IF;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_insert_outfit(in_name VARCHAR(25), in_qnt INTEGER, in_str INTEGER, in_per INTEGER, in_end INTEGER, in_cha INTEGER, in_int INTEGER, in_agi INTEGER, in_luc INTEGER)
+BEGIN
+	CASE
+		WHEN (in_qnt < 0) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Quantity can not be negative.';
+
+		WHEN (in_name IN (SELECT name FROM tb_outfit)) THEN
+			SET @id_outfit = (SELECT id_outfit FROM tb_outfit WHERE name = in_name);
+			SET @qnt_outfit = (SELECT quantity FROM tb_outfit WHERE name = in_name);
+            
+            UPDATE tb_outfit
+            SET quantity = @qnt_outfit + in_qnt
+            WHERE id_outfit = @id_outfit;
+
+		ELSE
+			CALL sp_insert_special(in_str, in_per, in_end, in_cha, in_int, in_agi, in_luc, 'outfit');
+            SET @last_insert_special = LAST_INSERT_ID();
+            
+			CALL sp_insert_storage('outfit');
+            SET @last_insert_storage = LAST_INSERT_ID();
+
+            INSERT INTO tb_outfit
+            VALUES (default, in_name, in_qnt, @last_insert_special, @last_insert_storage);
+    END CASE;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_insert_weapon(in_name VARCHAR(25), in_damage VARCHAR(7), in_qnt INTEGER)
+BEGIN
+	CASE
+		WHEN in_qnt < 0 THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Quantity can not be negative.';
+		
+        WHEN (in_name IN (SELECT name FROM tb_weapon)) THEN
+			SET @id_weapon = (SELECT id_weapon FROM tb_weapon WHERE name = in_name);
+			SET @qnt_weapon = (SELECT quantity FROM tb_weapon WHERE name = in_name);
+            
+            UPDATE tb_weapon
+            SET quantity = @qnt_weapon + in_qnt
+            WHERE id_weapon = @id_weapon;
+            
+		ELSE
+			CALL sp_insert_storage('weapon');
+            SET @last_insert_storage = LAST_INSERT_ID();
+
+            INSERT INTO tb_weapon
+            VALUES (default, in_name, in_damage, in_qnt, @last_insert_storage);
+    END CASE;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_insert_pet(in_name VARCHAR(25), in_description VARCHAR(25), in_qnt INTEGER)
+BEGIN
+	CASE
+		WHEN in_qnt < 0 THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Quantity can not be negative.';
+		
+        WHEN (in_name IN (SELECT name FROM tb_pet)) THEN
+			SET @id_pet = (SELECT id_pet FROM tb_pet WHERE name = in_name);
+			SET @qnt_pet = (SELECT quantity FROM tb_pet WHERE name = in_name);
+            
+            UPDATE tb_pet
+            SET quantity = @qnt_pet + in_qnt
+            WHERE id_pet = @id_pet;
+            
+		ELSE
+			CALL sp_insert_storage('pet');
+            SET @last_insert_storage = LAST_INSERT_ID();
+
+            INSERT INTO tb_pet
+            VALUES (default, in_name, in_description, in_qnt, @last_insert_storage);
+    END CASE;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_insert_junk(in_name VARCHAR(25), in_qnt INTEGER)
+BEGIN
+	CASE
+		WHEN in_qnt < 0 THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Quantity can not be negative.';
+		
+        WHEN (in_name IN (SELECT name FROM tb_junk)) THEN
+			SET @id_junk = (SELECT id_junk FROM tb_junk WHERE name = in_name);
+			SET @qnt_junk = (SELECT quantity FROM tb_junk WHERE name = in_name);
+
+            UPDATE tb_junk
+            SET quantity = @qnt_junk + in_qnt
+            WHERE id_junk = @id_junk;
+            
+		ELSE
+			CALL sp_insert_storage('junk');
+            SET @last_insert_storage = LAST_INSERT_ID();
+
+            INSERT INTO tb_junk
+            VALUES (default, in_name, in_qnt, @last_insert_storage);
+    END CASE;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_insert_kinship(in_id_mom INTEGER, in_id_dad INTEGER)
+BEGIN
+	CASE
+		WHEN ((SELECT gender FROM tb_dweller WHERE id_dweller = in_id_mom) IS NULL) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Mother id does not exists.';
+		WHEN ((SELECT gender FROM tb_dweller WHERE id_dweller = in_id_mom) != 'f') THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Mother id is not from a Female.';
+
+        WHEN ((SELECT gender FROM tb_dweller WHERE id_dweller = in_id_dad) IS NULL) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Father id does not exists.';
+        WHEN ((SELECT gender FROM tb_dweller WHERE id_dweller = in_id_dad) != 'm') THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Father id is not from a Male.';
+
+		ELSE
+			INSERT INTO tb_kinship
+            VALUES (DEFAULT, in_id_mom, in_id_dad);
+    END CASE;
+END //
+DELIMITER ;

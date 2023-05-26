@@ -11,4 +11,5 @@ VALUES
 	('broadcaster'),
 	('gun maker'),
 	('clothing manufacturer'),
-	('nuka cola producer');
+	('nuka cola producer'),
+	('unemployed');
