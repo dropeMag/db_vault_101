@@ -40,52 +40,20 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE sp_insert_special(in_str INTEGER, in_per INTEGER, in_end INTEGER, in_cha INTEGER, in_int INTEGER, in_agi INTEGER, in_luc INTEGER, in_category VARCHAR(10))
 BEGIN
-	CASE
-		WHEN in_str < 0 THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Strengh can not be negative.';
-		WHEN in_per < 0 THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Perception can not be negative.';
-		WHEN in_end < 0 THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Endurance can not be negative.';
-		WHEN in_cha < 0 THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Charisma can not be negative.';
-		WHEN in_int < 0 THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Intelligence can not be negative.';
-		WHEN in_agi < 0 THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Agility can not be negative.';
-		WHEN in_luc < 0 THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Luck can not be negative.';
-
-		WHEN in_str > 10 THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Strengh can not be more than 10.';
-		WHEN in_per > 10 THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Perception can not be more than 10.';
-		WHEN in_end > 10 THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Endurance can not be more than 10.';
-		WHEN in_cha > 10 THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Charisma can not be more than 10.';
-		WHEN in_int > 10 THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Intelligence can not be more than 10.';
-		WHEN in_agi > 10 THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Agility can not be more than 10.';
-		WHEN in_luc > 10 THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Luck can not be more than 10.';
-		
-        WHEN (LOWER(in_category) NOT IN ("outfit", "dweller")) THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Category is invalid.';
-        
-        ELSE
-			IF in_str = 0 THEN SET in_str = NULL; END IF;
-			IF in_per = 0 THEN SET in_per = NULL; END IF;
-			IF in_end = 0 THEN SET in_end = NULL; END IF;
-			IF in_cha = 0 THEN SET in_cha = NULL; END IF;
-			IF in_int = 0 THEN SET in_int = NULL; END IF;
-			IF in_agi = 0 THEN SET in_agi = NULL; END IF;
-			IF in_luc = 0 THEN SET in_luc = NULL; END IF;
-            
-            INSERT INTO tb_special
-            VALUES (DEFAULT, in_str, in_per, in_end, in_cha, in_int, in_agi, in_luc, LOWER(in_category));
-        END CASE;
+	IF (SELECT fn_verify_special(in_str, in_per, in_end, in_cha, in_int, in_agi, in_luc, in_category)) THEN
+		IF in_str = 0 THEN SET in_str = NULL; END IF;
+		IF in_per = 0 THEN SET in_per = NULL; END IF;
+		IF in_end = 0 THEN SET in_end = NULL; END IF;
+		IF in_cha = 0 THEN SET in_cha = NULL; END IF;
+		IF in_int = 0 THEN SET in_int = NULL; END IF;
+		IF in_agi = 0 THEN SET in_agi = NULL; END IF;
+		IF in_luc = 0 THEN SET in_luc = NULL; END IF;
+    
+		INSERT INTO tb_special
+		VALUES (DEFAULT, in_str, in_per, in_end, in_cha, in_int, in_agi, in_luc, LOWER(in_category));
+	ELSE
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'SPECIAL is invalid.';
+    END IF;
 END //
 DELIMITER ;
 
@@ -217,6 +185,23 @@ DELIMITER ;
 
 
 DELIMITER //
+CREATE PROCEDURE sp_insert_decease(in_decease_type CHAR(1), in_incident_type INTEGER)
+BEGIN
+	CASE
+		WHEN ((SELECT id_decease_type FROM tb_decease_type WHERE id_decease_type = in_decease_type) IS NULL) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Decease type is invalid.';
+		WHEN ((SELECT id_incident_type FROM tb_incident_type WHERE id_incident_type = in_incident_type) IS NULL) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Incident type is invalid.';
+		ELSE
+			INSERT INTO tb_decease
+            VALUES (DEFAULT, NOW(), in_decease_type, in_incident_type);
+    END CASE;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
 CREATE PROCEDURE sp_insert_kinship(in_id_mom INTEGER, in_id_dad INTEGER)
 BEGIN
 	CASE
@@ -243,7 +228,9 @@ DELIMITER //
 CREATE PROCEDURE sp_insert_dweller(in_name VARCHAR(25), in_gender CHAR(1), in_level INTEGER, in_room INTEGER, in_str INTEGER, in_per INTEGER, in_end INTEGER, in_cha INTEGER, in_int INTEGER, in_agi INTEGER, in_luc INTEGER)
 BEGIN
 	CASE
-		WHEN (LENGTH(in_name) < 7) THEN
+        WHEN ((SELECT name FROM tb_dweller WHERE LOWER(name) = LOWER(in_name)) IS NOT NULL) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dweller alredy exists.';
+        WHEN (LENGTH(in_name) < 7) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Name too short.';
 
 		WHEN (LOWER(in_gender) NOT IN ('f', 'm')) THEN
@@ -256,7 +243,7 @@ BEGIN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Room does not exists.';
             
         ELSE
-			CALL sp_insert_special(in_str, in_per, in_end, in_cha, in_int, in_agi, in_luc, 'outfit');
+			CALL sp_insert_special(in_str, in_per, in_end, in_cha, in_int, in_agi, in_luc, 'dweller');
             SET @last_insert_special = LAST_INSERT_ID();
 
 			INSERT INTO tb_dweller
@@ -264,5 +251,133 @@ BEGIN
 			VALUES
 				(in_name, in_gender, in_level, 0, @last_insert_special, in_room);
 	END CASE;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_insert_baby(in_name VARCHAR(25), in_gender CHAR(1), in_id_mom INTEGER, in_id_dad INTEGER, in_str INTEGER, in_per INTEGER, in_end INTEGER, in_cha INTEGER, in_int INTEGER, in_agi INTEGER, in_luc INTEGER)
+BEGIN
+	CASE
+        WHEN ((SELECT name FROM tb_dweller WHERE LOWER(name) = LOWER(in_name)) IS NOT NULL) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dweller alredy exists.';
+        WHEN (LENGTH(in_name) < 7) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Name too short.';
+
+		WHEN (LOWER(in_gender) NOT IN ('f', 'm')) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Gender is invalid.';
+            
+        ELSE
+			CALL sp_insert_special(in_str, in_per, in_end, in_cha, in_int, in_agi, in_luc, 'dweller');
+            SET @last_insert_special = LAST_INSERT_ID();
+            
+            CALL sp_insert_kinship(in_id_mom, in_id_dad);
+            SET @last_insert_kinship = LAST_INSERT_ID();
+
+			INSERT INTO tb_dweller
+				(name, gender, level, status, id_special, id_kinship)
+			VALUES
+				(in_name, in_gender, 0, 0, @last_insert_special, @last_insert_kinship);
+	END CASE;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_update_dweller_bonus(in_dweller VARCHAR(25), in_outfit INTEGER, in_weapon INTEGER, in_pet INTEGER)
+BEGIN
+	SET @update_id_dweller = (SELECT id_dweller FROM tb_dweller WHERE id_dweller LIKE in_dweller OR 
+																				 LOWER(name) = LOWER(in_dweller));
+
+	CASE
+		WHEN (@update_id_dweller IS NULL) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dweller does not exists.';
+		WHEN ((SELECT fn_calculate_outfit(in_outfit)) AND in_outfit IS NULL) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Sum Ting Wong.';
+		WHEN ((SELECT fn_calculate_weapon(in_weapon)) AND in_weapon IS NULL) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Sum Ting Wong.';
+		WHEN ((SELECT fn_calculate_pet(in_pet)) AND in_pet IS NULL) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Sum Ting Wong.';
+		ELSE
+			UPDATE tb_dweller
+			SET id_outfit = in_outfit,
+				id_weapon = in_weapon,
+				id_pet = in_pet
+			WHERE id_dweller = @update_id_dweller;
+	END CASE;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_update_dweller_special(in_dweller VARCHAR(25), in_str INTEGER, in_per INTEGER, in_end INTEGER, in_cha INTEGER, in_int INTEGER, in_agi INTEGER, in_luc INTEGER)
+BEGIN
+	SET @update_id_special = (SELECT id_special FROM tb_dweller WHERE id_dweller LIKE in_dweller OR 
+																				 LOWER(name) = LOWER(in_dweller));
+	
+    CASE
+		WHEN (@update_id_special IS NULL) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dweller does not exists.';
+		WHEN NOT (SELECT fn_verify_special(in_str, in_per, in_end, in_cha, in_int, in_agi, in_luc, 'dweller')) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'SPECIAL is invalid.';
+		ELSE        
+			IF in_str = 0 THEN SET in_str = NULL; END IF;
+			IF in_per = 0 THEN SET in_per = NULL; END IF;
+			IF in_end = 0 THEN SET in_end = NULL; END IF;
+			IF in_cha = 0 THEN SET in_cha = NULL; END IF;
+			IF in_int = 0 THEN SET in_int = NULL; END IF;
+			IF in_agi = 0 THEN SET in_agi = NULL; END IF;
+			IF in_luc = 0 THEN SET in_luc = NULL; END IF;
+
+			UPDATE tb_special
+			SET strength = in_str,
+				perception = in_per,
+				endurance = in_end,
+				charisma = in_cha,
+				intelligence = in_int,
+				agility = in_agi,
+				luck = in_luc
+			WHERE id_special = @update_id_special;
+	END CASE;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_update_dweller_status(in_dweller VARCHAR(25), in_lvl INTEGER, in_room INTEGER, in_decease_type CHAR(1), in_incident_type INTEGER)
+BEGIN
+	SET @update_id_dweller = (SELECT id_dweller FROM tb_dweller WHERE id_dweller LIKE in_dweller OR 
+																				 LOWER(name) = LOWER(in_dweller));
+
+	CASE
+		WHEN (@update_id_dweller IS NULL) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dweller does not exists.';
+		WHEN ((in_lvl NOT BETWEEN 1 AND 50) AND (in_lvl IS NOT NULL)) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Level is invalid.';
+		WHEN (((SELECT id_room FROM tb_room WHERE id_room = in_room) IS NULL) AND (in_room IS NOT NULL)) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Room does not exists.';
+		WHEN (in_decease_type IS NOT NULL) AND (in_incident_type IS NOT NULL) THEN        
+			CALL sp_insert_decease(in_decease_type, in_incident_type);
+            SET @last_insert_decease = LAST_INSERT_ID();
+            
+            UPDATE tb_dweller
+            SET level = in_lvl,
+				status = 1,
+				id_decease = @last_insert_decease,
+				id_room = in_room
+			WHERE id_dweller = @update_id_dweller;
+		ELSE
+			IF (in_lvl IS NULL) THEN SET in_lvl = (SELECT level FROM tb_dweller WHERE id_dweller = @update_id_dweller); END IF;
+			IF (in_room IS NULL) THEN SET in_room = (SELECT id_room FROM tb_dweller WHERE id_dweller = @update_id_dweller); END IF;
+            
+			UPDATE tb_dweller
+            SET level = in_lvl,
+				id_room = in_room
+			WHERE id_dweller = @update_id_dweller;
+    END CASE;
 END //
 DELIMITER ;
