@@ -10,7 +10,7 @@ BEGIN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid floor.';
 		ELSE
 			INSERT INTO tb_room
-				(size, floor, id_room)
+				(size, floor, id_room_type)
 			VALUES
 				(in_size, in_floor, in_room_type);
 	END CASE;
@@ -234,5 +234,35 @@ BEGIN
 			INSERT INTO tb_kinship
             VALUES (DEFAULT, in_id_mom, in_id_dad);
     END CASE;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_insert_dweller(in_name VARCHAR(25), in_gender CHAR(1), in_level INTEGER, in_room INTEGER, in_str INTEGER, in_per INTEGER, in_end INTEGER, in_cha INTEGER, in_int INTEGER, in_agi INTEGER, in_luc INTEGER)
+BEGIN
+	CASE
+		WHEN (LENGTH(in_name) < 7) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Name too short.';
+
+		WHEN (LOWER(in_gender) NOT IN ('f', 'm')) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Gender is invalid.';
+
+		WHEN (in_level NOT BETWEEN 1 AND 50) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Level is invalid.';
+		
+        WHEN ((SELECT id_room FROM tb_room WHERE id_room = in_room) IS NULL) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Room does not exists.';
+            
+        ELSE
+			CALL sp_insert_special(in_str, in_per, in_end, in_cha, in_int, in_agi, in_luc, 'outfit');
+            SET @last_insert_special = LAST_INSERT_ID();
+
+			INSERT INTO tb_dweller
+				(name, gender, level, status, id_special, id_room)
+			VALUES
+				(in_name, in_gender, in_level, 0, @last_insert_special, in_room);
+	END CASE;
 END //
 DELIMITER ;

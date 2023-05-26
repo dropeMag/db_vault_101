@@ -11,7 +11,8 @@ CREATE TABLE IF NOT EXISTS tb_incident_type (
 
 CREATE TABLE IF NOT EXISTS tb_room_type (
     id_room_type INTEGER PRIMARY KEY AUTO_INCREMENT,
-    description VARCHAR(50) NOT NULL
+    name VARCHAR(50) NOT NULL,
+    job VARCHAR(25) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS tb_decease_type (
@@ -55,11 +56,6 @@ CONSTRAINT fk_id_incident_type_tb_decease
 	REFERENCES tb_incident_type(id_incident_type)
 );
 
-CREATE TABLE IF NOT EXISTS tb_job (
-    id_job INTEGER PRIMARY KEY AUTO_INCREMENT,
-    description VARCHAR(25) NOT NULL
-);
-
 CREATE TABLE IF NOT EXISTS tb_kinship (
     id_kinship INTEGER PRIMARY KEY AUTO_INCREMENT,
     id_mother INTEGER NOT NULL,
@@ -75,7 +71,8 @@ CREATE TABLE IF NOT EXISTS tb_special (
     charisma INTEGER,
     intelligence INTEGER,
     agility INTEGER,
-    luck INTEGER
+    luck INTEGER,
+    category VARCHAR(10) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS tb_storage (
@@ -159,7 +156,6 @@ CREATE TABLE IF NOT EXISTS tb_dweller (
     level INTEGER NOT NULL,
     status BOOLEAN DEFAULT(0),
     id_special INTEGER UNIQUE NOT NULL,
-    id_job INTEGER,
     id_outfit INTEGER,
     id_weapon INTEGER,
     id_pet INTEGER,
