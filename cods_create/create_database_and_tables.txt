@@ -83,7 +83,8 @@ CREATE TABLE IF NOT EXISTS tb_storage (
 CREATE TABLE IF NOT EXISTS tb_quest (
     id_quest INTEGER PRIMARY KEY AUTO_INCREMENT,
     description VARCHAR(25) NOT NULL,
-    date DATE NOT NULL
+    date_begin DATE NOT NULL,
+    date_end DATE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS tb_scrap (

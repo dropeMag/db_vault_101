@@ -59,6 +59,8 @@ BEGIN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Outfit does not exists.';
 		WHEN (@count_outfit_storage = @count_outfit_dweller) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Out of stock for this outfit.';
+		WHEN (@count_outfit_storage < @count_outfit_dweller) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Too much outift for dweller!! Fix it!!';
 		ELSE
 			RETURN TRUE;
     END CASE;
@@ -82,6 +84,8 @@ BEGIN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Weapon does not exists.';
 		WHEN (@count_weapon_storage = @count_weapon_dweller) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Out of stock for this weapon.';
+		WHEN (@count_outfit_storage < @count_outfit_dweller) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Too much weapon for dweller!! Fix it!!';
 		ELSE
 			RETURN TRUE;
     END CASE;
@@ -105,6 +109,8 @@ BEGIN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Pet does not exists.';
 		WHEN (@count_pet_storage = @count_pet_dweller) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Out of stock for this pet.';
+		WHEN (@count_outfit_storage < @count_outfit_dweller) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Too much pet for dweller!! Fix it!!';
 		ELSE
 			RETURN TRUE;
     END CASE;

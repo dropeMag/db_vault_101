@@ -381,3 +381,67 @@ BEGIN
     END CASE;
 END //
 DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_insert_exploration(in_dweller INTEGER, in_duration INTEGER)
+BEGIN
+	SET @update_id_dweller = (SELECT id_dweller FROM tb_dweller WHERE id_dweller LIKE in_dweller OR 
+																				 LOWER(name) = LOWER(in_dweller));
+
+	CASE
+		WHEN (@update_id_dweller IS NULL) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dweller does not exists.';
+		WHEN (in_duration < 0) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Duration can not be negative.';
+		ELSE
+			INSERT INTO tb_exploration
+            VALUES (DEFAULT, in_duration, in_dweller);
+	END CASE;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_insert_quest(in_description VARCHAR(25), in_date_begin DATE, in_dweller_1 INTEGER, in_dweller_2 INTEGER, in_dweller_3 INTEGER)
+BEGIN
+	SET @update_id_dweller_1 = (SELECT id_dweller FROM tb_dweller WHERE id_dweller LIKE in_dweller_1 OR LOWER(name) = LOWER(in_dweller_1));
+	SET @update_id_dweller_2 = (SELECT id_dweller FROM tb_dweller WHERE id_dweller LIKE in_dweller_2 OR LOWER(name) = LOWER(in_dweller_2));
+	SET @update_id_dweller_3 = (SELECT id_dweller FROM tb_dweller WHERE id_dweller LIKE in_dweller_3 OR LOWER(name) = LOWER(in_dweller_3));
+
+	CASE
+		WHEN (@update_id_dweller_1 IS NULL) AND (in_dweller_1 IS NOT NULL) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'First dweller does not exists.';
+		WHEN (@update_id_dweller_2 IS NULL) AND (in_dweller_2 IS NOT NULL) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Second dweller does not exists.';
+		WHEN (@update_id_dweller_3 IS NULL) AND (in_dweller_3 IS NOT NULL) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Third dweller does not exists.';
+		WHEN (in_dweller_1 IS NULL) AND (in_dweller_2 IS NULL) AND (in_dweller_3 IS NULL) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'At least one dweller must be on this quest.';
+		WHEN (in_date_begin > NOW()) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Begin date is invalid.';
+		ELSE
+			INSERT INTO tb_quest
+			VALUES (DEFAULT, in_description, in_date_begin, DATE(NOW()));
+            
+            SET @last_insert_quest = LAST_INSERT_ID();
+            
+            IF (in_dweller_1 IS NOT NULL) THEN
+				INSERT INTO tb_dweller_quest
+				VALUES (in_dweller_1, @last_insert_quest);
+            END IF;
+            
+            IF (in_dweller_2 IS NOT NULL) THEN
+				INSERT INTO tb_dweller_quest
+				VALUES (in_dweller_2, @last_insert_quest);
+            END IF;
+
+            IF (in_dweller_3 IS NOT NULL) THEN
+				INSERT INTO tb_dweller_quest
+				VALUES (in_dweller_3, @last_insert_quest);
+            END IF;
+	END CASE;
+END //
+DELIMITER ;
