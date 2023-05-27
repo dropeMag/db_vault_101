@@ -294,11 +294,11 @@ BEGIN
 	CASE
 		WHEN (@update_id_dweller IS NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dweller does not exists.';
-		WHEN ((SELECT fn_calculate_outfit(in_outfit)) AND in_outfit IS NULL) THEN
+		WHEN ((SELECT fn_calculate_outfit(in_outfit) > 0) AND in_outfit IS NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Sum Ting Wong.';
-		WHEN ((SELECT fn_calculate_weapon(in_weapon)) AND in_weapon IS NULL) THEN
+		WHEN ((SELECT fn_calculate_weapon(in_weapon) > 0) AND in_weapon IS NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Sum Ting Wong.';
-		WHEN ((SELECT fn_calculate_pet(in_pet)) AND in_pet IS NULL) THEN
+		WHEN ((SELECT fn_calculate_pet(in_pet) > 0) AND in_pet IS NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Sum Ting Wong.';
 		ELSE
 			UPDATE tb_dweller
@@ -443,5 +443,52 @@ BEGIN
 				VALUES (in_dweller_3, @last_insert_quest);
             END IF;
 	END CASE;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_insert_sale(in_product VARCHAR(25), in_quantity INTEGER, in_profit INTEGER, in_date DATE)
+BEGIN
+	SET @insert_id_storage = fn_verify_storage(in_product, 1);
+	SET @tb_product_sold = fn_verify_storage(in_product, 2);
+	SET @insert_qnt_storage = fn_verify_storage(in_product, 3);
+    
+    CASE
+		WHEN (in_quantity > @insert_qnt_storage) OR (in_quantity <= 0) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid quantity of product to be sold.';
+		WHEN (in_profit <= 0) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid profit.';
+		WHEN (in_date > DATE(NOW())) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid date.';
+		ELSE
+			INSERT INTO tb_sale
+            VALUES (DEFAULT, @insert_id_storage, in_quantity, in_profit, in_date);
+            
+            CASE
+				WHEN (@tb_product_sold = 'outfit') THEN
+					UPDATE tb_outfit
+                    SET quantity = (@insert_qnt_storage - in_quantity)
+                    WHERE id_storage = @insert_id_storage;
+                    
+				WHEN (@tb_product_sold = 'weapon') THEN
+					UPDATE tb_weapon
+                    SET quantity = (@insert_qnt_storage - in_quantity)
+                    WHERE id_storage = @insert_id_storage;
+                    
+				WHEN (@tb_product_sold = 'pet') THEN
+					UPDATE tb_pet
+                    SET quantity = (@insert_qnt_storage - in_quantity)
+                    WHERE id_storage = @insert_id_storage;
+                    
+				WHEN (@tb_product_sold = 'junk') THEN
+					UPDATE tb_junk
+                    SET quantity = (@insert_qnt_storage - in_quantity)
+                    WHERE id_storage = @insert_id_storage;
+				ELSE
+					SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Table does not exists.';
+            END CASE;
+    END CASE;
 END //
 DELIMITER ;

@@ -46,7 +46,7 @@ DELIMITER ;
 
 DELIMITER //
 CREATE FUNCTION fn_calculate_outfit(ct_outfit INTEGER)
-RETURNS BOOL
+RETURNS INTEGER
 READS SQL DATA
 BEGIN
     SET @count_outfit_storage = (SELECT quantity FROM tb_outfit WHERE id_outfit = ct_outfit);
@@ -54,7 +54,7 @@ BEGIN
     
     CASE
 		WHEN (ct_outfit IS NULL) THEN
-			RETURN FALSE;
+			RETURN 0;
 		WHEN (@count_outfit_storage IS NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Outfit does not exists.';
 		WHEN (@count_outfit_storage = @count_outfit_dweller) THEN
@@ -62,7 +62,7 @@ BEGIN
 		WHEN (@count_outfit_storage < @count_outfit_dweller) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Too much outift for dweller!! Fix it!!';
 		ELSE
-			RETURN TRUE;
+			RETURN (@count_outfit_storage - @count_outfit_dweller);
     END CASE;
 END //
 DELIMITER ;
@@ -71,7 +71,7 @@ DELIMITER ;
 
 DELIMITER //
 CREATE FUNCTION fn_calculate_weapon(ct_weapon INTEGER)
-RETURNS BOOL
+RETURNS INTEGER
 READS SQL DATA
 BEGIN
     SET @count_weapon_storage = (SELECT quantity FROM tb_weapon WHERE id_weapon = ct_weapon);
@@ -79,15 +79,15 @@ BEGIN
     
     CASE
 		WHEN (ct_weapon IS NULL) THEN
-			RETURN FALSE;
+			RETURN 0;
 		WHEN (@count_weapon_storage IS NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Weapon does not exists.';
 		WHEN (@count_weapon_storage = @count_weapon_dweller) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Out of stock for this weapon.';
-		WHEN (@count_outfit_storage < @count_outfit_dweller) THEN
+		WHEN (@count_weapon_storage < @count_weapon_dweller) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Too much weapon for dweller!! Fix it!!';
 		ELSE
-			RETURN TRUE;
+			RETURN (@count_weapon_storage - @count_weapon_dweller);
     END CASE;
 END //
 DELIMITER ;
@@ -96,7 +96,7 @@ DELIMITER ;
 
 DELIMITER //
 CREATE FUNCTION fn_calculate_pet(ct_pet INTEGER)
-RETURNS BOOL
+RETURNS INTEGER
 READS SQL DATA
 BEGIN
     SET @count_pet_storage = (SELECT quantity FROM tb_pet WHERE id_pet = ct_pet);
@@ -104,15 +104,64 @@ BEGIN
     
     CASE
 		WHEN (ct_pet IS NULL) THEN
-			RETURN FALSE;
+			RETURN 0;
 		WHEN (@count_pet_storage IS NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Pet does not exists.';
 		WHEN (@count_pet_storage = @count_pet_dweller) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Out of stock for this pet.';
-		WHEN (@count_outfit_storage < @count_outfit_dweller) THEN
+		WHEN (@count_pet_storage < @count_pet_dweller) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Too much pet for dweller!! Fix it!!';
 		ELSE
-			RETURN TRUE;
+			RETURN (@count_pet_storage - @count_pet_dweller);
     END CASE;
 END //
 DELIMITER ;
+
+
+
+DELIMITER //
+CREATE FUNCTION fn_verify_storage(in_product VARCHAR(25), return_type INTEGER)
+RETURNS VARCHAR(255)
+READS SQL DATA
+BEGIN
+	CASE
+		WHEN ((SELECT id_storage FROM tb_outfit WHERE LOWER(name) = LOWER(in_product)) IS NOT NULL) THEN
+			SET @insert_id_storage = (SELECT id_storage FROM tb_outfit WHERE LOWER(name) = LOWER(in_product));
+            SET @tb_product_sold = 'outfit';
+			SET @insert_qnt_storage = fn_calculate_outfit((SELECT id_outfit FROM tb_outfit WHERE LOWER(name) = LOWER(in_product)));
+            
+        WHEN ((SELECT id_storage FROM tb_weapon WHERE LOWER(name) = LOWER(in_product)) IS NOT NULL) THEN
+			SET @insert_id_storage = (SELECT id_storage FROM tb_weapon WHERE LOWER(name) = LOWER(in_product));
+            SET @tb_product_sold = 'weapon';
+			SET @insert_qnt_storage = fn_calculate_weapon((SELECT id_weapon FROM tb_weapon WHERE LOWER(name) = LOWER(in_product)));
+        
+        WHEN ((SELECT id_storage FROM tb_pet WHERE LOWER(name) = LOWER(in_product)) IS NOT NULL) THEN
+			SET @insert_id_storage = (SELECT id_storage FROM tb_pet WHERE LOWER(name) = LOWER(in_product));
+            SET @tb_product_sold = 'pet';
+			SET @insert_qnt_storage = fn_calculate_pet((SELECT id_pet FROM tb_pet WHERE LOWER(name) = LOWER(in_product)));
+
+        WHEN ((SELECT id_storage FROM tb_junk WHERE LOWER(name) = LOWER(in_product)) IS NOT NULL) THEN
+			SET @insert_id_storage = (SELECT id_storage FROM tb_junk WHERE LOWER(name) = LOWER(in_product));
+            SET @tb_product_sold = 'junk';
+			SET @insert_qnt_storage = fn_calculate_junk((SELECT id_junk FROM tb_junk WHERE LOWER(name) = LOWER(in_product)));
+        
+        ELSE
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Product not found.';
+    END CASE;
+    
+    CASE
+		WHEN (return_type = 1) THEN
+			RETURN @insert_id_storage;
+		
+		WHEN (return_type = 2) THEN
+			RETURN @tb_product_sold;
+		
+        WHEN (return_type = 3) THEN
+			RETURN @insert_qnt_storage;
+		
+        ELSE
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Return type is invalid.';
+    END CASE;
+END //
+DELIMITER ;
+

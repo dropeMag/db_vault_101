@@ -89,8 +89,12 @@ CREATE TABLE IF NOT EXISTS tb_quest (
 
 CREATE TABLE IF NOT EXISTS tb_scrap (
     id_scrap INTEGER PRIMARY KEY AUTO_INCREMENT,
+    id_product INTEGER NOT NULL,
     scrap_quantity INTEGER NOT NULL,
-    date DATE NOT NULL
+    date DATE NOT NULL,
+CONSTRAINT fk_id_product_tb_scrap
+	FOREIGN KEY (id_storage)
+    REFERENCES tb_storage(id_storage)
 );
 
 CREATE TABLE IF NOT EXISTS tb_outfit (
@@ -140,7 +144,7 @@ CONSTRAINT fk_id_storage_tb_junk
 );
 
 CREATE TABLE IF NOT EXISTS tb_sale (
-    id_sale INTEGER PRIMARY KEY,
+    id_sale INTEGER PRIMARY KEY AUTO_INCREMENT,
     product INTEGER,
     quantity INTEGER,
     profit INTEGER,
@@ -253,14 +257,10 @@ CONSTRAINT fk_id_quest_tb_dweller_quest
 );
 
 CREATE TABLE IF NOT EXISTS tb_storage_scrap (
-    id_storage INTEGER NOT NULL,
     id_scrap INTEGER NOT NULL,
     id_junk INTEGER NOT NULL,
-    profit_quantity INTEGER NOT NULL,
-    PRIMARY KEY (id_storage, id_scrap, id_junk),
-CONSTRAINT fk_id_storage_tb_storage_scrap
-	FOREIGN KEY (id_storage)
-    REFERENCES tb_storage (id_storage),
+    junk_quantity INTEGER NOT NULL,
+    PRIMARY KEY (id_scrap, id_junk),
 CONSTRAINT fk_id_scrap_tb_storage_scrap
 	FOREIGN KEY (id_scrap)
     REFERENCES tb_scrap (id_scrap),
