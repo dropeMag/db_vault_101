@@ -492,3 +492,47 @@ BEGIN
     END CASE;
 END //
 DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_insert_scrap(in_product VARCHAR(25), in_quantity INTEGER, in_date DATE)
+BEGIN
+	SET @insert_id_storage = fn_verify_storage(in_product, 1);
+	SET @tb_product_scraped = fn_verify_storage(in_product, 2);
+	SET @insert_qnt_storage = fn_verify_storage(in_product, 3);
+    
+	IF (@tb_product_scraped = 'pet') THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'You can not scrap a pet.';
+	END IF;
+    
+    CASE
+		WHEN (in_quantity > @insert_qnt_storage) OR (in_quantity <= 0) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid quantity of product to be scraped.';
+		WHEN (in_date > DATE(NOW())) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid date.';
+		ELSE        
+			INSERT INTO tb_scrap
+            VALUES (DEFAULT, @insert_id_storage, in_quantity, in_date);
+            
+            CASE
+				WHEN (@tb_product_scraped = 'outfit') THEN
+					UPDATE tb_outfit
+                    SET quantity = (@insert_qnt_storage - in_quantity)
+                    WHERE id_storage = @insert_id_storage;
+                    
+				WHEN (@tb_product_scraped = 'weapon') THEN
+					UPDATE tb_weapon
+                    SET quantity = (@insert_qnt_storage - in_quantity)
+                    WHERE id_storage = @insert_id_storage;
+                    
+				WHEN (@tb_product_scraped = 'junk') THEN
+					UPDATE tb_junk
+                    SET quantity = (@insert_qnt_storage - in_quantity)
+                    WHERE id_storage = @insert_id_storage;
+				ELSE
+					SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Table does not exists.';
+            END CASE;
+    END CASE;
+END //
+DELIMITER ;
