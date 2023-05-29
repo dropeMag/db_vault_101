@@ -294,11 +294,11 @@ BEGIN
 	CASE
 		WHEN (@update_id_dweller IS NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dweller does not exists.';
-		WHEN ((SELECT fn_calculate_outfit(in_outfit) > 0) AND in_outfit IS NULL) THEN
+		WHEN ((SELECT fn_calculate_outfit(in_outfit, 0) > 0) AND in_outfit IS NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Sum Ting Wong.';
-		WHEN ((SELECT fn_calculate_weapon(in_weapon) > 0) AND in_weapon IS NULL) THEN
+		WHEN ((SELECT fn_calculate_weapon(in_weapon, 0) > 0) AND in_weapon IS NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Sum Ting Wong.';
-		WHEN ((SELECT fn_calculate_pet(in_pet) > 0) AND in_pet IS NULL) THEN
+		WHEN ((SELECT fn_calculate_pet(in_pet) > 0, 0) AND in_pet IS NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Sum Ting Wong.';
 		ELSE
 			UPDATE tb_dweller
@@ -385,7 +385,7 @@ DELIMITER ;
 
 
 DELIMITER //
-CREATE PROCEDURE sp_insert_exploration(in_dweller INTEGER, in_duration INTEGER)
+CREATE PROCEDURE sp_insert_exploration(in_dweller INTEGER, in_duration INTEGER, in_date DATE)
 BEGIN
 	SET @update_id_dweller = (SELECT id_dweller FROM tb_dweller WHERE id_dweller LIKE in_dweller OR 
 																				 LOWER(name) = LOWER(in_dweller));
@@ -395,9 +395,11 @@ BEGIN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dweller does not exists.';
 		WHEN (in_duration < 0) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Duration can not be negative.';
+		WHEN (in_date > DATE(NOW())) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid date.';
 		ELSE
 			INSERT INTO tb_exploration
-            VALUES (DEFAULT, in_duration, in_dweller);
+            VALUES (DEFAULT, in_duration, in_date, in_dweller);
 	END CASE;
 END //
 DELIMITER ;
@@ -451,9 +453,9 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE sp_insert_sale(in_product VARCHAR(25), in_quantity INTEGER, in_profit INTEGER, in_date DATE)
 BEGIN
-	SET @insert_id_storage = fn_verify_storage(in_product, 1);
-	SET @tb_product_sold = fn_verify_storage(in_product, 2);
-	SET @insert_qnt_storage = fn_verify_storage(in_product, 3);
+	SET @insert_id_storage = fn_verify_storage(in_product, 1, 0);
+	SET @tb_product_sold = fn_verify_storage(in_product, 2, 0);
+	SET @insert_qnt_storage = fn_verify_storage(in_product, 3, 0);
     
     CASE
 		WHEN (in_quantity > @insert_qnt_storage) OR (in_quantity <= 0) THEN
@@ -498,9 +500,9 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE sp_insert_scrap(in_product VARCHAR(25), in_quantity INTEGER, in_date DATE)
 BEGIN
-	SET @insert_id_storage = fn_verify_storage(in_product, 1);
-	SET @tb_product_scraped = fn_verify_storage(in_product, 2);
-	SET @insert_qnt_storage = fn_verify_storage(in_product, 3);
+	SET @insert_id_storage = fn_verify_storage(in_product, 1, 0);
+	SET @tb_product_scraped = fn_verify_storage(in_product, 2, 0);
+	SET @insert_qnt_storage = fn_verify_storage(in_product, 3, 0);
     
 	IF (@tb_product_scraped = 'pet') THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'You can not scrap a pet.';
@@ -531,8 +533,101 @@ BEGIN
                     SET quantity = (@insert_qnt_storage - in_quantity)
                     WHERE id_storage = @insert_id_storage;
 				ELSE
-					SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Table does not exists.';
+					SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Something went wrong with this procedure or with fn_verify_storage.';
             END CASE;
+    END CASE;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_insert_storage_exploration(in_exploration INTEGER, in_product VARCHAR(25), in_quantity INTEGER)
+BEGIN
+	SET @insert_id_storage = fn_verify_storage(in_product, 1, 1);
+	SET @tb_product_exploration = fn_verify_storage(in_product, 2, 1);
+    SET @insert_qnt_storage = fn_verify_storage(in_product, 3, 1);
+
+	CASE
+		WHEN ((SELECT id_exploration FROM tb_exploration WHERE id_exploration = in_exploration) IS NULL) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Exploration not found.';
+		WHEN (@tb_product_exploration = 'pet') THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'You can not find a pet on explorations.';
+		WHEN (in_quantity <= 0) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid quantity of product found.';
+		ELSE
+            INSERT INTO tb_storage_exploration
+            VALUES (in_exploration, @insert_id_storage, in_quantity);
+            
+			CASE
+				WHEN (@tb_product_exploration = 'outfit') THEN
+					UPDATE tb_outfit
+                    SET quantity = (@insert_qnt_storage + in_quantity)
+                    WHERE id_storage = @insert_id_storage;
+                    
+				WHEN (@tb_product_exploration = 'weapon') THEN
+					UPDATE tb_weapon
+                    SET quantity = (@insert_qnt_storage + in_quantity)
+                    WHERE id_storage = @insert_id_storage;
+                    
+				WHEN (@tb_product_exploration = 'junk') THEN
+					UPDATE tb_junk
+                    SET quantity = (@insert_qnt_storage + in_quantity)
+                    WHERE id_storage = @insert_id_storage;
+				ELSE
+					SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Something went wrong with this procedure or with fn_verify_storage.';
+            END CASE;
+    END CASE;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_insert_diary(in_money INTEGER, in_energy INTEGER, in_water INTEGER, in_food INTEGER)
+BEGIN
+    CASE
+		WHEN (in_money < 0) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid amount of money.';
+		WHEN (in_energy NOT BETWEEN 0 AND 100) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid energy percentage.';
+		WHEN (in_water NOT BETWEEN 0 AND 100) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid water percentage.';
+		WHEN (in_food NOT BETWEEN 0 AND 100) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid food percentage.';
+		ELSE
+        	SET @insert_count_dweller = (SELECT COUNT(*) FROM tb_dweller);
+			SET @insert_count_decease = (SELECT COUNT(*) FROM tb_decease);
+			SET @insert_count_room = (SELECT COUNT(*) FROM tb_room);
+			SET @insert_count_exploration = (SELECT COUNT(*) FROM tb_exploration);
+			SET @insert_count_quest = (SELECT COUNT(*) FROM tb_quest);
+			SET @insert_count_incident = (SELECT COUNT(*) FROM tb_incident);
+			SET @insert_count_outfit = (SELECT SUM(quantity) FROM tb_outfit);
+			SET @insert_count_weapon = (SELECT SUM(quantity) FROM tb_weapon);
+			SET @insert_count_pet = (SELECT SUM(quantity) FROM tb_pet);
+			SET @insert_count_junk = (SELECT SUM(quantity) FROM tb_junk);
+			SET @insert_count_sale = (SELECT COUNT(*) FROM tb_sale);
+			SET @insert_count_scrap = (SELECT COUNT(*) FROM tb_scrap);
+            
+            INSERT INTO tb_diary
+            VALUES (DEFAULT,
+					DATE(NOW()),
+					@insert_count_dweller,
+					@insert_count_decease,
+                    in_money,
+					@insert_count_room,
+					@insert_count_exploration,
+					@insert_count_quest,
+					@insert_count_incident,
+					@insert_count_outfit,
+					@insert_count_weapon,
+					@insert_count_pet,
+					@insert_count_junk,
+					@insert_count_sale,
+					@insert_count_scrap,
+                    in_energy,
+                    in_water,
+                    in_food);
     END CASE;
 END //
 DELIMITER ;

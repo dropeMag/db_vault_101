@@ -145,12 +145,12 @@ CONSTRAINT fk_id_storage_tb_junk
 
 CREATE TABLE IF NOT EXISTS tb_sale (
     id_sale INTEGER PRIMARY KEY AUTO_INCREMENT,
-    product INTEGER,
+    id_product INTEGER,
     quantity INTEGER,
     profit INTEGER,
     date DATE,
-CONSTRAINT fk_product_tb_sale
-	FOREIGN KEY (product)
+CONSTRAINT fk_id_product_tb_sale
+	FOREIGN KEY (id_product)
     REFERENCES tb_storage(id_storage)
 );
 
@@ -196,6 +196,7 @@ CONSTRAINT fk_id_room_tb_dweller
 CREATE TABLE IF NOT EXISTS tb_exploration (
     id_exploration INTEGER PRIMARY KEY AUTO_INCREMENT,
     duration INTEGER NOT NULL,
+    date DATE NOT NULL,
     id_dweller INTEGER NOT NULL,
 CONSTRAINT fk_id_dweller_tb_exploration
 	FOREIGN KEY (id_dweller)
@@ -206,21 +207,26 @@ CREATE TABLE IF NOT EXISTS tb_diary (
     id_diary INTEGER PRIMARY KEY AUTO_INCREMENT,
     date DATE NOT NULL,
     dweller_count INTEGER DEFAULT(0),
+    decease_count INTEGER DEFAULT(0),
     money INTEGER DEFAULT(0),
     room_count INTEGER DEFAULT(0),
+    exploration_count INTEGER DEFAULT(0),
     quest_count INTEGER DEFAULT(0),
     incident_count INTEGER DEFAULT(0),
     outfit_count INTEGER DEFAULT(0),
     weapon_count INTEGER DEFAULT(0),
     pet_count INTEGER DEFAULT(0),
+    junk_count INTEGER DEFAULT(0),
+    sale_count INTEGER DEFAULT(0),
+    scrap_count INTEGER DEFAULT(0),
     energy INTEGER DEFAULT(0),
     water INTEGER DEFAULT(0),
     food INTEGER DEFAULT(0)
 );
 
 CREATE TABLE IF NOT EXISTS tb_storage_quest (
-    id_storage INTEGER NOT NULL,
     id_quest INTEGER NOT NULL,
+    id_storage INTEGER NOT NULL,
     quantity INTEGER NOT NULL,
     PRIMARY KEY (id_storage, id_quest),
 CONSTRAINT fk_id_storage_tb_storage_quest
@@ -232,8 +238,8 @@ CONSTRAINT fk_id_quest_tb_storage_quest
 );
 
 CREATE TABLE IF NOT EXISTS tb_storage_exploration (
-    id_storage INTEGER NOT NULL,
     id_exploration INTEGER NOT NULL,
+    id_storage INTEGER NOT NULL,
     quantity INTEGER NOT NULL,
     PRIMARY KEY (id_storage, id_exploration),
 CONSTRAINT fk_id_storage_tb_storage_exploration
@@ -245,8 +251,8 @@ CONSTRAINT fk_id_exploration_tb_storage_exploration
 );
 
 CREATE TABLE IF NOT EXISTS tb_dweller_quest (
-    id_dweller INTEGER NOT NULL,
     id_quest INTEGER NOT NULL,
+    id_dweller INTEGER NOT NULL,
     PRIMARY KEY (id_dweller, id_quest),
 CONSTRAINT fk_id_dweller_tb_dweller_quest
 	FOREIGN KEY (id_dweller)
