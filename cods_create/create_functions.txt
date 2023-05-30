@@ -125,17 +125,16 @@ RETURNS INTEGER
 READS SQL DATA
 BEGIN
     SET @count_junk_storage = (SELECT quantity FROM tb_junk WHERE id_junk = ct_junk);
-    SET @count_junk_dweller = (SELECT COUNT(*) FROM tb_dweller WHERE id_junk = ct_junk);
     
     CASE
 		WHEN (ct_junk IS NULL) THEN
 			RETURN 0;
 		WHEN (@count_junk_storage IS NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Junk does not exists.';
-		WHEN (@count_junk_storage = @count_junk_dweller) AND (NOT accept_zero) THEN
+		WHEN (@count_junk_storage = 0) AND (NOT accept_zero) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Out of stock for this junk.';
 		ELSE
-			RETURN (@count_junk_storage - @count_junk_dweller);
+			RETURN (@count_junk_storage);
     END CASE;
 END //
 DELIMITER ;
@@ -188,3 +187,105 @@ BEGIN
 END //
 DELIMITER ;
 
+
+
+DELIMITER //
+CREATE FUNCTION fn_string_filter(in_string VARCHAR(255))
+RETURNS VARCHAR(255)
+DETERMINISTIC
+BEGIN
+	SET in_string = REPLACE(in_string, '  ', ' '),
+		in_string = REPLACE(in_string, '´', ''),
+		in_string = REPLACE(in_string, '`', ''),
+		in_string = REPLACE(in_string, '~', ''),
+		in_string = REPLACE(in_string, '^', ''),
+		in_string = REPLACE(in_string, '¨', ''),
+        
+		in_string = REPLACE(in_string, '!', ''),
+		in_string = REPLACE(in_string, '?', ''),
+		in_string = REPLACE(in_string, '@', ''),
+		in_string = REPLACE(in_string, '#', ''),
+		in_string = REPLACE(in_string, '$', ''),
+		in_string = REPLACE(in_string, '%', ''),
+		in_string = REPLACE(in_string, '&', ''),
+		in_string = REPLACE(in_string, '*', ''),
+		in_string = REPLACE(in_string, '(', ''),
+		in_string = REPLACE(in_string, ')', ''),
+		in_string = REPLACE(in_string, '+', ''),
+		in_string = REPLACE(in_string, '=', ''),
+		in_string = REPLACE(in_string, '_', ''),
+		in_string = REPLACE(in_string, '<', ''),
+		in_string = REPLACE(in_string, '>', '');
+	
+    RETURN TRIM(in_string);
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE FUNCTION fn_string_length(in_string VARCHAR(255))
+RETURNS VARCHAR(255)
+DETERMINISTIC
+BEGIN
+	SET in_string = REPLACE(in_string, 'á', 'a'),
+		in_string = REPLACE(in_string, 'à', 'a'),
+		in_string = REPLACE(in_string, 'ã', 'a'),
+		in_string = REPLACE(in_string, 'â', 'a'),
+		in_string = REPLACE(in_string, 'ä', 'a'),
+		in_string = REPLACE(in_string, 'Á', 'A'),
+		in_string = REPLACE(in_string, 'À', 'A'),
+		in_string = REPLACE(in_string, 'Ã', 'A'),
+		in_string = REPLACE(in_string, 'Â', 'A'),
+		in_string = REPLACE(in_string, 'Ä', 'A'),
+		 
+		in_string = REPLACE(in_string, 'é', 'e'),
+		in_string = REPLACE(in_string, 'è', 'e'),
+		in_string = REPLACE(in_string, 'ê', 'e'),
+		in_string = REPLACE(in_string, 'É', 'E'),
+		in_string = REPLACE(in_string, 'È', 'E'),
+		in_string = REPLACE(in_string, 'Ê', 'E'),
+		 
+		in_string = REPLACE(in_string, 'í', 'i'),
+		in_string = REPLACE(in_string, 'ì', 'i'),
+		in_string = REPLACE(in_string, 'Í', 'I'),
+		in_string = REPLACE(in_string, 'Ì', 'I'),
+		 
+		in_string = REPLACE(in_string, 'ó', 'o'),
+		in_string = REPLACE(in_string, 'ò', 'o'),
+		in_string = REPLACE(in_string, 'õ', 'o'),
+		in_string = REPLACE(in_string, 'ô', 'o'),
+		in_string = REPLACE(in_string, 'ö', 'o'),
+		in_string = REPLACE(in_string, 'Ó', 'O'),
+		in_string = REPLACE(in_string, 'Ò', 'O'),
+		in_string = REPLACE(in_string, 'Õ', 'O'),
+		in_string = REPLACE(in_string, 'Ô', 'O'),
+		in_string = REPLACE(in_string, 'Ö', 'O'),
+		
+		in_string = REPLACE(in_string, 'ú', 'u'),
+		in_string = REPLACE(in_string, 'ù', 'u'),
+		in_string = REPLACE(in_string, 'ü', 'u'),
+		in_string = REPLACE(in_string, 'Ú', 'U'),
+		in_string = REPLACE(in_string, 'Ù', 'U'),
+		in_string = REPLACE(in_string, 'Ü', 'U');
+	
+    RETURN LENGTH(fn_string_filter(in_string));
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE FUNCTION fn_count_room_size(in_floor INTEGER)
+RETURNS INTEGER
+DETERMINISTIC
+BEGIN
+	SET @count_floor_size = (SELECT SUM(size) FROM tb_room WHERE floor = in_floor);
+    
+    IF (in_floor = 1) THEN
+		RETURN (@count_floor_size + 1);
+    ELSE
+		RETURN @count_floor_size;
+    END IF;
+END //
+DELIMITER ;

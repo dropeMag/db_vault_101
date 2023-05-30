@@ -3,16 +3,46 @@ CREATE PROCEDURE sp_insert_room(in_size INTEGER, in_floor INTEGER, in_room_type 
 BEGIN
 	CASE
 		WHEN ((SELECT id_room_type FROM tb_room_type WHERE id_room_type = in_room_type) IS NULL) THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Room does not exists.';
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Room type does not exists.';
 		WHEN (in_size NOT IN (1, 2, 3)) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid room size.';
 		WHEN (in_floor NOT BETWEEN 1 AND 25) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid floor.';
+		WHEN ((fn_count_room_size(in_floor) + in_size) > 8) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid size for this floor.';
 		ELSE
 			INSERT INTO tb_room
 				(size, floor, id_room_type)
 			VALUES
 				(in_size, in_floor, in_room_type);
+	END CASE;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_update_room(in_room INTEGER, up_size INTEGER)
+BEGIN
+	SET @update_room_id = (SELECT id_room FROM tb_room WHERE id_room = in_room);
+	SET @update_room_size = (SELECT size FROM tb_room WHERE id_room = in_room);
+	SET @update_room_floor = (SELECT floor FROM tb_room WHERE id_room = in_room);
+
+	IF (up_size IS NULL) THEN SET up_size = @update_room_size; END IF;
+
+	CASE
+		WHEN (@update_room_id IS NULL) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Room does not exists.';
+		WHEN (up_size NOT IN (1, 2, 3)) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid room size.';
+		WHEN (up_size < @update_room_size) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'New size can not be smaller than before.';
+		WHEN ((fn_count_room_size(@update_room_floor) + up_size) > 8) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid size for this floor.';
+		ELSE
+			UPDATE tb_room
+            SET size = up_size
+            WHERE id_room = @update_room_id;
 	END CASE;
 END //
 DELIMITER ;
@@ -80,7 +110,7 @@ BEGIN
 		WHEN (in_qnt < 0) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Quantity can not be negative.';
 
-		WHEN (in_name IN (SELECT name FROM tb_outfit)) THEN
+		WHEN (fn_string_filter(in_name) IN (SELECT name FROM tb_outfit)) THEN
 			SET @id_outfit = (SELECT id_outfit FROM tb_outfit WHERE name = in_name);
 			SET @qnt_outfit = (SELECT quantity FROM tb_outfit WHERE name = in_name);
             
@@ -96,7 +126,7 @@ BEGIN
             SET @last_insert_storage = LAST_INSERT_ID();
 
             INSERT INTO tb_outfit
-            VALUES (default, in_name, in_qnt, @last_insert_special, @last_insert_storage);
+            VALUES (default, LOWER(fn_string_filter(in_name)), in_qnt, @last_insert_special, @last_insert_storage);
     END CASE;
 END //
 DELIMITER ;
@@ -110,7 +140,7 @@ BEGIN
 		WHEN in_qnt < 0 THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Quantity can not be negative.';
 		
-        WHEN (in_name IN (SELECT name FROM tb_weapon)) THEN
+        WHEN (fn_string_filter(in_name) IN (SELECT name FROM tb_weapon)) THEN
 			SET @id_weapon = (SELECT id_weapon FROM tb_weapon WHERE name = in_name);
 			SET @qnt_weapon = (SELECT quantity FROM tb_weapon WHERE name = in_name);
             
@@ -123,7 +153,7 @@ BEGIN
             SET @last_insert_storage = LAST_INSERT_ID();
 
             INSERT INTO tb_weapon
-            VALUES (default, in_name, in_damage, in_qnt, @last_insert_storage);
+            VALUES (default, LOWER(fn_string_filter(in_name)), in_damage, in_qnt, @last_insert_storage);
     END CASE;
 END //
 DELIMITER ;
@@ -137,7 +167,7 @@ BEGIN
 		WHEN in_qnt < 0 THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Quantity can not be negative.';
 		
-        WHEN (in_name IN (SELECT name FROM tb_pet)) THEN
+        WHEN (fn_string_filter(in_name) IN (SELECT name FROM tb_pet)) THEN
 			SET @id_pet = (SELECT id_pet FROM tb_pet WHERE name = in_name);
 			SET @qnt_pet = (SELECT quantity FROM tb_pet WHERE name = in_name);
             
@@ -150,7 +180,7 @@ BEGIN
             SET @last_insert_storage = LAST_INSERT_ID();
 
             INSERT INTO tb_pet
-            VALUES (default, in_name, in_description, in_qnt, @last_insert_storage);
+            VALUES (default, LOWER(fn_string_filter(in_name)), in_description, in_qnt, @last_insert_storage);
     END CASE;
 END //
 DELIMITER ;
@@ -164,7 +194,7 @@ BEGIN
 		WHEN in_qnt < 0 THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Quantity can not be negative.';
 		
-        WHEN (in_name IN (SELECT name FROM tb_junk)) THEN
+        WHEN (fn_string_filter(in_name) IN (SELECT name FROM tb_junk)) THEN
 			SET @id_junk = (SELECT id_junk FROM tb_junk WHERE name = in_name);
 			SET @qnt_junk = (SELECT quantity FROM tb_junk WHERE name = in_name);
 
@@ -177,7 +207,7 @@ BEGIN
             SET @last_insert_storage = LAST_INSERT_ID();
 
             INSERT INTO tb_junk
-            VALUES (default, in_name, in_qnt, @last_insert_storage);
+            VALUES (default, LOWER(fn_string_filter(in_name)), in_qnt, @last_insert_storage);
     END CASE;
 END //
 DELIMITER ;
@@ -230,7 +260,7 @@ BEGIN
 	CASE
         WHEN ((SELECT name FROM tb_dweller WHERE LOWER(name) = LOWER(in_name)) IS NOT NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dweller alredy exists.';
-        WHEN (LENGTH(in_name) < 7) THEN
+        WHEN (fn_string_length(fn_string_filter(in_name)) < 7) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Name too short.';
 
 		WHEN (LOWER(in_gender) NOT IN ('f', 'm')) THEN
@@ -249,7 +279,7 @@ BEGIN
 			INSERT INTO tb_dweller
 				(name, gender, level, status, id_special, id_room)
 			VALUES
-				(in_name, in_gender, in_level, 0, @last_insert_special, in_room);
+				(LOWER(fn_string_filter(in_name)), in_gender, in_level, 0, @last_insert_special, in_room);
 	END CASE;
 END //
 DELIMITER ;
@@ -262,7 +292,7 @@ BEGIN
 	CASE
         WHEN ((SELECT name FROM tb_dweller WHERE LOWER(name) = LOWER(in_name)) IS NOT NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dweller alredy exists.';
-        WHEN (LENGTH(in_name) < 7) THEN
+        WHEN (fn_string_length(fn_string_filter(in_name)) < 7) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Name too short.';
 
 		WHEN (LOWER(in_gender) NOT IN ('f', 'm')) THEN
@@ -278,7 +308,7 @@ BEGIN
 			INSERT INTO tb_dweller
 				(name, gender, level, status, id_special, id_kinship)
 			VALUES
-				(in_name, in_gender, 0, 0, @last_insert_special, @last_insert_kinship);
+				(LOWER(fn_string_filter(in_name)), in_gender, 0, 0, @last_insert_special, @last_insert_kinship);
 	END CASE;
 END //
 DELIMITER ;
@@ -290,23 +320,36 @@ CREATE PROCEDURE sp_update_dweller_bonus(in_dweller VARCHAR(25), in_outfit INTEG
 BEGIN
 	SET @update_id_dweller = (SELECT id_dweller FROM tb_dweller WHERE id_dweller LIKE in_dweller OR 
 																				 LOWER(name) = LOWER(in_dweller));
-
-	CASE
-		WHEN (@update_id_dweller IS NULL) THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dweller does not exists.';
-		WHEN ((SELECT fn_calculate_outfit(in_outfit, 0) > 0) AND in_outfit IS NULL) THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Sum Ting Wong.';
-		WHEN ((SELECT fn_calculate_weapon(in_weapon, 0) > 0) AND in_weapon IS NULL) THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Sum Ting Wong.';
-		WHEN ((SELECT fn_calculate_pet(in_pet) > 0, 0) AND in_pet IS NULL) THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Sum Ting Wong.';
-		ELSE
-			UPDATE tb_dweller
-			SET id_outfit = in_outfit,
-				id_weapon = in_weapon,
-				id_pet = in_pet
-			WHERE id_dweller = @update_id_dweller;
-	END CASE;
+	
+    IF (in_outfit IS NULL) THEN 
+		SET in_outfit = (SELECT id_outfit FROM tb_dweller WHERE id_dweller = @update_id_dweller); 
+	ELSEIF (in_outfit = 0) THEN 
+		SET in_outfit = NULL; 
+	ELSEIF (fn_calculate_outfit(in_outfit, 0) <= 0) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'An error occourred at fn_calculate_outfit.';
+    END IF;
+    
+	IF (in_weapon IS NULL) THEN 
+		SET in_weapon = (SELECT id_weapon FROM tb_dweller WHERE id_dweller = @update_id_dweller); 
+	ELSEIF (in_weapon = 0) THEN 
+		SET in_weapon = NULL; 
+	ELSEIF (fn_calculate_weapon(in_weapon, 0) <= 0) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'An error occourred at fn_calculate_weapon.';
+    END IF;
+    
+	IF (in_pet IS NULL) THEN 
+		SET in_pet = (SELECT id_pet FROM tb_dweller WHERE id_dweller = @update_id_dweller); 
+	ELSEIF (in_pet = 0) THEN 
+		SET in_pet = NULL; 
+	ELSEIF (fn_calculate_pet(in_pet, 0) <= 0) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'An error occourred at fn_calculate_pet.';
+    END IF;
+    
+	UPDATE tb_dweller
+	SET id_outfit = in_outfit,
+		id_weapon = in_weapon,
+		id_pet = in_pet
+	WHERE id_dweller = @update_id_dweller;
 END //
 DELIMITER ;
 
@@ -665,6 +708,31 @@ BEGIN
             VALUES (in_quest, @insert_id_storage, in_quantity);
             
 			CALL sp_add_product(@tb_product_quest, @insert_id_storage, @insert_qnt_storage, in_quantity);
+    END CASE;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_insert_storage_scrap(in_scrap INTEGER, in_product VARCHAR(25), in_quantity INTEGER)
+BEGIN
+    SET @insert_id_storage = fn_verify_storage(in_product, 1, 1);
+    SET @tb_product_scrap = fn_verify_storage(in_product, 2, 1);
+    SET @insert_qnt_storage = fn_verify_storage(in_product, 3, 1);
+
+	CASE
+		WHEN ((SELECT id_scrap FROM tb_scrap WHERE id_scrap = in_scrap) IS NULL) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Scrap not found.';
+		WHEN (@tb_product_scrap <> 'junk') THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'You can only get junk from scrap.';
+		WHEN (in_quantity <= 0) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid quantity of product scraped.';
+		ELSE
+            INSERT INTO tb_storage_scrap
+            VALUES (in_scrap, @insert_id_storage, in_quantity);
+            
+			CALL sp_add_product(@tb_product_scrap, @insert_id_storage, @insert_qnt_storage, in_quantity);
     END CASE;
 END //
 DELIMITER ;
