@@ -414,6 +414,10 @@ BEGIN
 	SET @update_id_dweller_3 = (SELECT id_dweller FROM tb_dweller WHERE id_dweller LIKE in_dweller_3 OR LOWER(name) = LOWER(in_dweller_3));
 
 	CASE
+		WHEN (@update_id_dweller_1 IS NOT NULL) AND (@update_id_dweller_1 = @update_id_dweller_2) OR
+			 (@update_id_dweller_2 IS NOT NULL) AND (@update_id_dweller_2 = @update_id_dweller_3) OR
+			 (@update_id_dweller_3 IS NOT NULL) AND (@update_id_dweller_3 = @update_id_dweller_1) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dwellers must be different from each other.';        
 		WHEN (@update_id_dweller_1 IS NULL) AND (in_dweller_1 IS NOT NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'First dweller does not exists.';
 		WHEN (@update_id_dweller_2 IS NULL) AND (in_dweller_2 IS NOT NULL) THEN
@@ -451,6 +455,70 @@ DELIMITER ;
 
 
 DELIMITER //
+CREATE PROCEDURE sp_subtract_product(in_product_category VARCHAR(10), in_id_storage INTEGER, in_qnt_storage INTEGER, in_quantity INTEGER)
+BEGIN
+	CASE
+		WHEN (in_product_category = 'outfit') THEN
+			UPDATE tb_outfit
+			SET quantity = (in_qnt_storage - in_quantity)
+			WHERE id_storage = in_id_storage;
+			
+		WHEN (in_product_category = 'weapon') THEN
+			UPDATE tb_weapon
+			SET quantity = (in_qnt_storage - in_quantity)
+			WHERE id_storage = in_id_storage;
+			
+		WHEN (in_product_category = 'pet') THEN
+			UPDATE tb_pet
+			SET quantity = (in_qnt_storage - in_quantity)
+			WHERE id_storage = in_id_storage;
+			
+		WHEN (in_product_category = 'junk') THEN
+			UPDATE tb_junk
+			SET quantity = (in_qnt_storage - in_quantity)
+			WHERE id_storage = in_id_storage;
+            
+		ELSE
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Something went wrong with this procedure or with fn_verify_storage.';
+	END CASE;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_add_product(in_product_category VARCHAR(10), in_id_storage INTEGER, in_qnt_storage INTEGER, in_quantity INTEGER)
+BEGIN
+	CASE
+		WHEN (in_product_category = 'outfit') THEN
+			UPDATE tb_outfit
+			SET quantity = (in_qnt_storage + in_quantity)
+			WHERE id_storage = in_id_storage;
+			
+		WHEN (in_product_category = 'weapon') THEN
+			UPDATE tb_weapon
+			SET quantity = (in_qnt_storage + in_quantity)
+			WHERE id_storage = in_id_storage;
+			
+		WHEN (in_product_category = 'pet') THEN
+			UPDATE tb_pet
+			SET quantity = (in_qnt_storage + in_quantity)
+			WHERE id_storage = in_id_storage;
+			
+		WHEN (in_product_category = 'junk') THEN
+			UPDATE tb_junk
+			SET quantity = (in_qnt_storage + in_quantity)
+			WHERE id_storage = in_id_storage;
+            
+		ELSE
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Something went wrong with this procedure or with fn_verify_storage.';
+	END CASE;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
 CREATE PROCEDURE sp_insert_sale(in_product VARCHAR(25), in_quantity INTEGER, in_profit INTEGER, in_date DATE)
 BEGIN
 	SET @insert_id_storage = fn_verify_storage(in_product, 1, 0);
@@ -468,29 +536,7 @@ BEGIN
 			INSERT INTO tb_sale
             VALUES (DEFAULT, @insert_id_storage, in_quantity, in_profit, in_date);
             
-            CASE
-				WHEN (@tb_product_sold = 'outfit') THEN
-					UPDATE tb_outfit
-                    SET quantity = (@insert_qnt_storage - in_quantity)
-                    WHERE id_storage = @insert_id_storage;
-                    
-				WHEN (@tb_product_sold = 'weapon') THEN
-					UPDATE tb_weapon
-                    SET quantity = (@insert_qnt_storage - in_quantity)
-                    WHERE id_storage = @insert_id_storage;
-                    
-				WHEN (@tb_product_sold = 'pet') THEN
-					UPDATE tb_pet
-                    SET quantity = (@insert_qnt_storage - in_quantity)
-                    WHERE id_storage = @insert_id_storage;
-                    
-				WHEN (@tb_product_sold = 'junk') THEN
-					UPDATE tb_junk
-                    SET quantity = (@insert_qnt_storage - in_quantity)
-                    WHERE id_storage = @insert_id_storage;
-				ELSE
-					SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Table does not exists.';
-            END CASE;
+			CALL sp_subtract_product(@tb_product_sold, @insert_id_storage, @insert_qnt_storage, in_quantity);
     END CASE;
 END //
 DELIMITER ;
@@ -517,24 +563,7 @@ BEGIN
 			INSERT INTO tb_scrap
             VALUES (DEFAULT, @insert_id_storage, in_quantity, in_date);
             
-            CASE
-				WHEN (@tb_product_scraped = 'outfit') THEN
-					UPDATE tb_outfit
-                    SET quantity = (@insert_qnt_storage - in_quantity)
-                    WHERE id_storage = @insert_id_storage;
-                    
-				WHEN (@tb_product_scraped = 'weapon') THEN
-					UPDATE tb_weapon
-                    SET quantity = (@insert_qnt_storage - in_quantity)
-                    WHERE id_storage = @insert_id_storage;
-                    
-				WHEN (@tb_product_scraped = 'junk') THEN
-					UPDATE tb_junk
-                    SET quantity = (@insert_qnt_storage - in_quantity)
-                    WHERE id_storage = @insert_id_storage;
-				ELSE
-					SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Something went wrong with this procedure or with fn_verify_storage.';
-            END CASE;
+			CALL sp_subtract_product(@tb_product_scraped, @insert_id_storage, @insert_qnt_storage, in_quantity);
     END CASE;
 END //
 DELIMITER ;
@@ -559,24 +588,7 @@ BEGIN
             INSERT INTO tb_storage_exploration
             VALUES (in_exploration, @insert_id_storage, in_quantity);
             
-			CASE
-				WHEN (@tb_product_exploration = 'outfit') THEN
-					UPDATE tb_outfit
-                    SET quantity = (@insert_qnt_storage + in_quantity)
-                    WHERE id_storage = @insert_id_storage;
-                    
-				WHEN (@tb_product_exploration = 'weapon') THEN
-					UPDATE tb_weapon
-                    SET quantity = (@insert_qnt_storage + in_quantity)
-                    WHERE id_storage = @insert_id_storage;
-                    
-				WHEN (@tb_product_exploration = 'junk') THEN
-					UPDATE tb_junk
-                    SET quantity = (@insert_qnt_storage + in_quantity)
-                    WHERE id_storage = @insert_id_storage;
-				ELSE
-					SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Something went wrong with this procedure or with fn_verify_storage.';
-            END CASE;
+			CALL sp_add_product(@tb_product_exploration, @insert_id_storage, @insert_qnt_storage, in_quantity);
     END CASE;
 END //
 DELIMITER ;
@@ -628,6 +640,31 @@ BEGIN
                     in_energy,
                     in_water,
                     in_food);
+    END CASE;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_insert_storage_quest(in_quest INTEGER, in_product VARCHAR(25), in_quantity INTEGER)
+BEGIN
+	SET @insert_id_storage = fn_verify_storage(in_product, 1, 1);
+	SET @tb_product_quest = fn_verify_storage(in_product, 2, 1);
+    SET @insert_qnt_storage = fn_verify_storage(in_product, 3, 1);
+
+	CASE
+		WHEN ((SELECT id_quest FROM tb_quest WHERE id_quest = in_quest) IS NULL) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Quest not found.';
+		WHEN (@tb_product_quest = 'pet') THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'You can not find a pet on quests.';
+		WHEN (in_quantity <= 0) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid quantity of product found.';
+		ELSE
+            INSERT INTO tb_storage_quest
+            VALUES (in_quest, @insert_id_storage, in_quantity);
+            
+			CALL sp_add_product(@tb_product_quest, @insert_id_storage, @insert_qnt_storage, in_quantity);
     END CASE;
 END //
 DELIMITER ;
