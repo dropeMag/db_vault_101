@@ -289,3 +289,35 @@ BEGIN
     END IF;
 END //
 DELIMITER ;
+
+
+
+DELIMITER //
+CREATE FUNCTION fn_insert_kinship(in_id_mom INTEGER, in_id_dad INTEGER)
+RETURNS INTEGER
+READS SQL DATA
+BEGIN
+	SET @insert_id_kinship = (SELECT id_kinship FROM tb_kinship WHERE id_mother = in_id_mom AND id_father = in_id_dad);
+    
+	CASE
+		WHEN ((SELECT gender FROM tb_dweller WHERE id_dweller = in_id_mom) IS NULL) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Mother id does not exists.';
+		WHEN ((SELECT gender FROM tb_dweller WHERE id_dweller = in_id_mom) != 'f') THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Mother id is not from a Female.';
+
+        WHEN ((SELECT gender FROM tb_dweller WHERE id_dweller = in_id_dad) IS NULL) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Father id does not exists.';
+        WHEN ((SELECT gender FROM tb_dweller WHERE id_dweller = in_id_dad) != 'm') THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Father id is not from a Male.';
+
+		WHEN (@insert_id_kinship IS NOT NULL) THEN
+			RETURN @insert_id_kinship;
+            
+		ELSE
+			INSERT INTO tb_kinship
+            VALUES (DEFAULT, in_id_mom, in_id_dad);
+            
+            RETURN LAST_INSERT_ID();
+    END CASE;
+END //
+DELIMITER ;

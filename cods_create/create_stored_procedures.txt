@@ -232,29 +232,6 @@ DELIMITER ;
 
 
 DELIMITER //
-CREATE PROCEDURE sp_insert_kinship(in_id_mom INTEGER, in_id_dad INTEGER)
-BEGIN
-	CASE
-		WHEN ((SELECT gender FROM tb_dweller WHERE id_dweller = in_id_mom) IS NULL) THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Mother id does not exists.';
-		WHEN ((SELECT gender FROM tb_dweller WHERE id_dweller = in_id_mom) != 'f') THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Mother id is not from a Female.';
-
-        WHEN ((SELECT gender FROM tb_dweller WHERE id_dweller = in_id_dad) IS NULL) THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Father id does not exists.';
-        WHEN ((SELECT gender FROM tb_dweller WHERE id_dweller = in_id_dad) != 'm') THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Father id is not from a Male.';
-
-		ELSE
-			INSERT INTO tb_kinship
-            VALUES (DEFAULT, in_id_mom, in_id_dad);
-    END CASE;
-END //
-DELIMITER ;
-
-
-
-DELIMITER //
 CREATE PROCEDURE sp_insert_dweller(in_name VARCHAR(25), in_gender CHAR(1), in_level INTEGER, in_room INTEGER, in_str INTEGER, in_per INTEGER, in_end INTEGER, in_cha INTEGER, in_int INTEGER, in_agi INTEGER, in_luc INTEGER)
 BEGIN
 	CASE
@@ -302,8 +279,7 @@ BEGIN
 			CALL sp_insert_special(in_str, in_per, in_end, in_cha, in_int, in_agi, in_luc, 'dweller');
             SET @last_insert_special = LAST_INSERT_ID();
             
-            CALL sp_insert_kinship(in_id_mom, in_id_dad);
-            SET @last_insert_kinship = LAST_INSERT_ID();
+            SET @last_insert_kinship = fn_insert_kinship(in_id_mom, in_id_dad);
 
 			INSERT INTO tb_dweller
 				(name, gender, level, status, id_special, id_kinship)
@@ -318,9 +294,14 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE sp_update_dweller_bonus(in_dweller VARCHAR(25), in_outfit INTEGER, in_weapon INTEGER, in_pet INTEGER)
 BEGIN
-	SET @update_id_dweller = (SELECT id_dweller FROM tb_dweller WHERE id_dweller LIKE in_dweller OR 
-																				 LOWER(name) = LOWER(in_dweller));
+	SET @update_id_dweller = (SELECT id_dweller FROM tb_dweller WHERE id_dweller LIKE in_dweller OR LOWER(name) = LOWER(in_dweller));
 	
+    IF (@update_id_dweller IS NULL) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dweller does not exists.';
+	ELSEIF (SELECT status FROM tb_dweller WHERE id_dweller = @update_id_dweller) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dweller is dead. You can not give them a bonus.';
+	END IF;
+    
     IF (in_outfit IS NULL) THEN 
 		SET in_outfit = (SELECT id_outfit FROM tb_dweller WHERE id_dweller = @update_id_dweller); 
 	ELSEIF (in_outfit = 0) THEN 
@@ -358,15 +339,19 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE sp_update_dweller_special(in_dweller VARCHAR(25), in_str INTEGER, in_per INTEGER, in_end INTEGER, in_cha INTEGER, in_int INTEGER, in_agi INTEGER, in_luc INTEGER)
 BEGIN
-	SET @update_id_special = (SELECT id_special FROM tb_dweller WHERE id_dweller LIKE in_dweller OR 
-																				 LOWER(name) = LOWER(in_dweller));
-	
+	SET @update_id_special = (SELECT id_special FROM tb_dweller WHERE id_dweller LIKE in_dweller OR LOWER(name) = LOWER(in_dweller));
+    
     CASE
 		WHEN (@update_id_special IS NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dweller does not exists.';
+		
+        WHEN (SELECT status FROM tb_dweller WHERE id_special = @update_id_special) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dweller is dead. You can not change their special.';
+        
 		WHEN NOT (SELECT fn_verify_special(in_str, in_per, in_end, in_cha, in_int, in_agi, in_luc, 'dweller')) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'SPECIAL is invalid.';
-		ELSE        
+		
+        ELSE        
 			IF in_str = 0 THEN SET in_str = NULL; END IF;
 			IF in_per = 0 THEN SET in_per = NULL; END IF;
 			IF in_end = 0 THEN SET in_end = NULL; END IF;
@@ -391,35 +376,93 @@ DELIMITER ;
 
 
 DELIMITER //
-CREATE PROCEDURE sp_update_dweller_status(in_dweller VARCHAR(25), in_lvl INTEGER, in_room INTEGER, in_decease_type CHAR(1), in_incident_type INTEGER)
+CREATE PROCEDURE sp_insert_dweller_decease(in_dweller VARCHAR(25), in_decease_type CHAR(1), in_incident_type INTEGER, in_save_product BOOL)
 BEGIN
-	SET @update_id_dweller = (SELECT id_dweller FROM tb_dweller WHERE id_dweller LIKE in_dweller OR 
-																				 LOWER(name) = LOWER(in_dweller));
+	SET @insert_id_dweller = (SELECT id_dweller FROM tb_dweller WHERE id_dweller LIKE in_dweller OR LOWER(name) = LOWER(in_dweller));
+	SET @insert_id_outfit = (SELECT id_outfit FROM tb_dweller WHERE id_dweller = @insert_id_dweller);
+	SET @insert_id_weapon = (SELECT id_weapon FROM tb_dweller WHERE id_dweller = @insert_id_dweller);
+	SET @insert_id_pet = (SELECT id_pet FROM tb_dweller WHERE id_dweller = @insert_id_dweller);
+
+	CASE
+		WHEN (@insert_id_dweller IS NULL) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dweller does not exists.';
+
+		WHEN (SELECT status FROM tb_dweller WHERE id_dweller = @insert_id_dweller) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dweller is alredy dead.';
+
+        ELSE
+			CALL sp_insert_decease(in_decease_type, in_incident_type);
+			SET @last_insert_decease = LAST_INSERT_ID();
+
+            UPDATE tb_dweller
+            SET status = 1,
+				id_outfit = NULL,
+				id_weapon = NULL,
+				id_pet = NULL,
+				id_decease = @last_insert_decease,
+				id_room = NULL
+			WHERE id_dweller = @update_id_dweller;
+	END CASE;
+    
+    IF (in_save_product) THEN
+		IF (@insert_id_outfit IS NOT NULL) THEN
+			SET @update_qnt_outfit = (SELECT quantity FROM tb_outfit WHERE id_outfit = @insert_id_outfit);
+            
+			UPDATE tb_outfit
+			SET quantity = (@update_qnt_outfit - 1)
+			WHERE id_outfit = @insert_id_outfit;
+        END IF;
+        
+		IF (@insert_id_weapon IS NOT NULL) THEN 
+			SET @update_qnt_weapon = (SELECT quantity FROM tb_weapon WHERE id_weapon = @insert_id_weapon);
+            
+			UPDATE tb_weapon
+			SET quantity = (@update_qnt_weapon - 1)
+			WHERE id_weapon = @insert_id_weapon;
+        END IF;
+		
+        IF (@insert_id_pet IS NOT NULL) THEN 
+			SET @update_qnt_pet = (SELECT quantity FROM tb_pet WHERE id_pet = @insert_id_pet);
+            
+			UPDATE tb_pet
+			SET quantity = (@update_qnt_pet - 1)
+			WHERE id_pet = @insert_id_pet;
+        END IF;
+    END IF;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE sp_update_dweller_status(up_dweller VARCHAR(25), up_level INTEGER, up_room INTEGER)
+BEGIN
+	SET @update_id_dweller = (SELECT id_dweller FROM tb_dweller WHERE id_dweller LIKE up_dweller OR LOWER(name) = LOWER(up_dweller));
+	SET @update_level_dweller = (SELECT level FROM tb_dweller WHERE id_dweller = @update_id_dweller);
+    
+    IF (up_level IS NULL) THEN SET up_level = @update_level_dweller; END IF;
+    IF (up_room IS NULL) THEN SET up_room = (SELECT id_room FROM tb_dweller WHERE id_dweller = @update_id_dweller); END IF;
 
 	CASE
 		WHEN (@update_id_dweller IS NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dweller does not exists.';
-		WHEN ((in_lvl NOT BETWEEN 1 AND 50) AND (in_lvl IS NOT NULL)) THEN
+            
+		WHEN (SELECT status FROM tb_dweller WHERE id_dweller = @update_id_dweller) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dweller is dead. You can not change their status.';
+
+		WHEN (up_level NOT BETWEEN 1 AND 50) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Level is invalid.';
-		WHEN (((SELECT id_room FROM tb_room WHERE id_room = in_room) IS NULL) AND (in_room IS NOT NULL)) THEN
+
+		WHEN (up_level < @update_level_dweller) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'New level can not be smaller than before.';
+            
+		WHEN ((SELECT id_room FROM tb_room WHERE id_room = up_room) IS NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Room does not exists.';
-		WHEN (in_decease_type IS NOT NULL) AND (in_incident_type IS NOT NULL) THEN        
-			CALL sp_insert_decease(in_decease_type, in_incident_type);
-            SET @last_insert_decease = LAST_INSERT_ID();
-            
-            UPDATE tb_dweller
-            SET level = in_lvl,
-				status = 1,
-				id_decease = @last_insert_decease,
-				id_room = in_room
-			WHERE id_dweller = @update_id_dweller;
+
 		ELSE
-			IF (in_lvl IS NULL) THEN SET in_lvl = (SELECT level FROM tb_dweller WHERE id_dweller = @update_id_dweller); END IF;
-			IF (in_room IS NULL) THEN SET in_room = (SELECT id_room FROM tb_dweller WHERE id_dweller = @update_id_dweller); END IF;
-            
 			UPDATE tb_dweller
-            SET level = in_lvl,
-				id_room = in_room
+            SET level = up_level,
+				id_room = up_room
 			WHERE id_dweller = @update_id_dweller;
     END CASE;
 END //
@@ -430,16 +473,22 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE sp_insert_exploration(in_dweller INTEGER, in_duration INTEGER, in_date DATE)
 BEGIN
-	SET @update_id_dweller = (SELECT id_dweller FROM tb_dweller WHERE id_dweller LIKE in_dweller OR 
+	SET @insert_id_dweller = (SELECT id_dweller FROM tb_dweller WHERE id_dweller LIKE in_dweller OR 
 																				 LOWER(name) = LOWER(in_dweller));
 
 	CASE
 		WHEN (@update_id_dweller IS NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dweller does not exists.';
+
+		WHEN (SELECT status FROM tb_dweller WHERE id_dweller = @insert_id_dweller) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dweller is dead. They can not go into an exploration.';
+
 		WHEN (in_duration < 0) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Duration can not be negative.';
+
 		WHEN (in_date > DATE(NOW())) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid date.';
+
 		ELSE
 			INSERT INTO tb_exploration
             VALUES (DEFAULT, in_duration, in_date, in_dweller);
@@ -461,17 +510,28 @@ BEGIN
 			 (@update_id_dweller_2 IS NOT NULL) AND (@update_id_dweller_2 = @update_id_dweller_3) OR
 			 (@update_id_dweller_3 IS NOT NULL) AND (@update_id_dweller_3 = @update_id_dweller_1) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dwellers must be different from each other.';        
-		WHEN (@update_id_dweller_1 IS NULL) AND (in_dweller_1 IS NOT NULL) THEN
+		
+        WHEN (@update_id_dweller_1 IS NULL) AND (in_dweller_1 IS NOT NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'First dweller does not exists.';
-		WHEN (@update_id_dweller_2 IS NULL) AND (in_dweller_2 IS NOT NULL) THEN
+        WHEN (@update_id_dweller_2 IS NULL) AND (in_dweller_2 IS NOT NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Second dweller does not exists.';
-		WHEN (@update_id_dweller_3 IS NULL) AND (in_dweller_3 IS NOT NULL) THEN
+        WHEN (@update_id_dweller_3 IS NULL) AND (in_dweller_3 IS NOT NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Third dweller does not exists.';
-		WHEN (in_dweller_1 IS NULL) AND (in_dweller_2 IS NULL) AND (in_dweller_3 IS NULL) THEN
+		
+		WHEN (SELECT status FROM tb_dweller WHERE id_dweller = @update_id_dweller_1) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'First dweller is dead. They can not go to a quest.';
+		WHEN (SELECT status FROM tb_dweller WHERE id_dweller = @update_id_dweller_2) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Second dweller is dead. They can not go to a quest.';
+		WHEN (SELECT status FROM tb_dweller WHERE id_dweller = @update_id_dweller_3) THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Third dweller is dead. They can not go to a quest.';
+        
+        WHEN (in_dweller_1 IS NULL) AND (in_dweller_2 IS NULL) AND (in_dweller_3 IS NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'At least one dweller must be on this quest.';
-		WHEN (in_date_begin > NOW()) THEN
+		
+        WHEN (in_date_begin > NOW()) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Begin date is invalid.';
-		ELSE
+		
+        ELSE
 			INSERT INTO tb_quest
 			VALUES (DEFAULT, in_description, in_date_begin, DATE(NOW()));
             
