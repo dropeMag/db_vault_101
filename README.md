@@ -20,16 +20,23 @@ This database organizes and registers dwellers, items, and actions for city mana
 </br>
 
 
+<h1 align='center'>
+  
+  ![capsule_616x353](https://github.com/dropeMag/db_vault_101/assets/107576199/56d6ddfc-7b40-4d7e-b877-6d15fa64115a)
+
+</h1>
+
+
 # SUMMARY
 
 - [Conceptual Schema](#conceptual-schema)
 - [Logical Schema](#logical-schema)
 - [Strong Entities](#strong-entities)
 - [Associative Entities](#associative-entities)
-<!--
-- [Dicionário](#dicionário-de-dados)
-- [Conexão](#conexão)
--->
+- [Functions](#functions)
+- [Stored Procedures](@stored-procedures)
+- [Conection](#conection)
+
 ---
 
 # CONCEPTUAL SCHEMA
@@ -76,24 +83,48 @@ This database organizes and registers dwellers, items, and actions for city mana
 - Storage_quest.
 
 ---
-<!--
-# DICIONÁRIO DE DADOS
 
-Segue o [link](https://github.com/dropeMag/projeto_final_curso_DBA/wiki/Dicion%C3%A1rio-de-Dados) do Wiki para visualizar o dicionário completo.
+# FUNCTIONS
+
+`fn_calculate_junk`: Calculates how much junk is available in storage for sale and scrap
+
+`fn_calculate_outfit`: Calculates how much outfit is available in storage for use, sale, and scrap
+
+`fn_calculate_pet`: Calculates how much pet is available in storage for use, sale, and scrap
+
+`fn_calculate_weapon`: Calculates how much weapon is available in storage for use, sale, and scrap
+
+`fn_count_floor_size`: Counts the sizes of the floor, to make sure there isn’t too much room in it
+
+`fn_insert_kinship`: Inserts a new kinship or returns the id_kinship for the existing kinship
+
+`fn_string_filter`: Filters a string, removing invalid characters
+
+`fn_string_length`: Filters a string, calculating its real length
+
+`fn_verify_special`: Verify if SPECIAL is valid
+
+`fn_verify_storage`: Calculates how much product (it can be outfit, weapon, pet, and junk) has at storage
 
 ---
 
-# CONEXÃO
+# STORED PROCEDURES
 
-## Informações
+There're a lot of stored procedures to be write here, so check the [documentation](https://github.com/dropeMag/db_vault_101/blob/main/documentation/Documentation.pdf) to see them all.
 
-O visitante terá a oportunidade de realizar apenas o **SELECT** nas tabelas.
+---
 
-A database está nomeada como **railway**.
+# CONECTION
 
-A plataforma de hospedagem possui certas limitações, portanto, o banco de dados pode ficar fora em determinados períodos, mas em poucos dias regressará!
+## Informations
 
-## Dados
+The visit can only use **SELECT** on the database.
+
+The database will be named as **db_vault_101**.
+
+The host has some limitations, so the database may go offline sometimes, but it will come back online in a few days.
+
+## Parameters
 
 `HOST:` containers-us-west-124.railway.app
 
@@ -101,20 +132,20 @@ A plataforma de hospedagem possui certas limitações, portanto, o banco de dado
 
 `USER:` visita
 
-`SENHA:` 1234
+`PASSWORD:` 1234
 
-## Requisitos
+## Requirements
 
-- Possuir um SGBD em sua máquina;
-- Conexão estável com a internet;
-- Conhecimentos básicos de DQL (Data Query Language).
+- Have a DBMS on your machine;
+- Stable internet connection;
+- Basic knowledge of DQL (Data Query Language).
 
-## Passo a Passo
+## Step by Step
 
-1. Abra o SGBD de sua preferência;
-2. Inicie uma nova conexão com os dados fornecidos;
-3. Realize as consultas que desejar.
--->
+1. Open your DBMS;
+2. Setup a new connection with the given parameters;
+3. Have fun.
+
 
 
 
