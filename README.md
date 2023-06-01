@@ -34,7 +34,7 @@ This database organizes and registers dwellers, items, and actions for city mana
 - [Strong Entities](#strong-entities)
 - [Associative Entities](#associative-entities)
 - [Functions](#functions)
-- [Stored Procedures](@stored-procedures)
+- [Stored Procedures](#stored-procedures)
 - [Conection](#conection)
 
 ---
