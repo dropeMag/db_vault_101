@@ -93,13 +93,13 @@ CREATE TABLE IF NOT EXISTS tb_scrap (
     scrap_quantity INTEGER NOT NULL,
     date DATE NOT NULL,
 CONSTRAINT fk_id_product_tb_scrap
-	FOREIGN KEY (id_storage)
+	FOREIGN KEY (id_product)
     REFERENCES tb_storage(id_storage)
 );
 
 CREATE TABLE IF NOT EXISTS tb_outfit (
     id_outfit INTEGER PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(25) NOT NULL,
+    name VARCHAR(50) NOT NULL,
     quantity INTEGER NOT NULL,
     id_special INTEGER UNIQUE NOT NULL,
     id_storage INTEGER UNIQUE NOT NULL,
@@ -113,7 +113,7 @@ CONSTRAINT fk_id_storage_tb_outfit
 
 CREATE TABLE IF NOT EXISTS tb_weapon (
     id_weapon INTEGER PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(25) NOT NULL,
+    name VARCHAR(50) NOT NULL,
     damage VARCHAR(7) NOT NULL,
     quantity INTEGER NOT NULL,
     id_storage INTEGER UNIQUE NOT NULL,
@@ -124,8 +124,8 @@ CONSTRAINT fk_id_storage_tb_weapon
 
 CREATE TABLE IF NOT EXISTS tb_pet (
     id_pet INTEGER PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(25) NOT NULL,
-    description VARCHAR(25) NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    description VARCHAR(50) NOT NULL,
     quantity INTEGER NOT NULL,
     id_storage INTEGER UNIQUE NOT NULL,
 CONSTRAINT fk_id_storage_tb_pet
@@ -135,7 +135,7 @@ CONSTRAINT fk_id_storage_tb_pet
 
 CREATE TABLE IF NOT EXISTS tb_junk (
     id_junk INTEGER PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(25) NOT NULL,
+    name VARCHAR(50) NOT NULL,
     quantity INTEGER NOT NULL,
     id_storage INTEGER UNIQUE NOT NULL,
 CONSTRAINT fk_id_storage_tb_junk
@@ -170,9 +170,6 @@ CREATE TABLE IF NOT EXISTS tb_dweller (
 CONSTRAINT fk_id_special_tb_dweller
 	FOREIGN KEY (id_special)
     REFERENCES tb_special (id_special),
-CONSTRAINT fk_id_job_tb_dweller
-	FOREIGN KEY (id_job)
-    REFERENCES tb_job (id_job),
 CONSTRAINT fk_id_outfit_tb_dweller
 	FOREIGN KEY (id_outfit)
     REFERENCES tb_outfit (id_outfit),
@@ -251,8 +248,8 @@ CONSTRAINT fk_id_exploration_tb_storage_exploration
 );
 
 CREATE TABLE IF NOT EXISTS tb_dweller_quest (
-    id_quest INTEGER NOT NULL,
     id_dweller INTEGER NOT NULL,
+    id_quest INTEGER NOT NULL,
     PRIMARY KEY (id_dweller, id_quest),
 CONSTRAINT fk_id_dweller_tb_dweller_quest
 	FOREIGN KEY (id_dweller)
@@ -272,7 +269,7 @@ CONSTRAINT fk_id_scrap_tb_storage_scrap
     REFERENCES tb_scrap (id_scrap),
 CONSTRAINT fk_id_junk_tb_storage_scrap
 	FOREIGN KEY (id_junk)
-    REFERENCES tb_junk (id_junk)
+    REFERENCES tb_storage (id_storage)
 );
 
 ALTER TABLE tb_kinship

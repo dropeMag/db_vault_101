@@ -142,7 +142,7 @@ DELIMITER ;
 
 
 DELIMITER //
-CREATE FUNCTION fn_verify_storage(in_product VARCHAR(25), return_type INTEGER, accept_zero BOOL)
+CREATE FUNCTION fn_verify_storage(in_product VARCHAR(50), return_type INTEGER, accept_zero BOOL)
 RETURNS VARCHAR(255)
 READS SQL DATA
 BEGIN
@@ -276,7 +276,7 @@ DELIMITER ;
 
 
 DELIMITER //
-CREATE FUNCTION fn_count_room_size(in_floor INTEGER)
+CREATE FUNCTION fn_count_floor_size(in_floor INTEGER)
 RETURNS INTEGER
 DETERMINISTIC
 BEGIN

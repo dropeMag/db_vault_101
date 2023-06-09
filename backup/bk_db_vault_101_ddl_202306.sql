@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: db_vault_101
+-- Host: 127.0.0.1    Database: db2_vault_101
 -- ------------------------------------------------------
 -- Server version	8.0.32
 
@@ -32,18 +32,8 @@ CREATE TABLE `tb_decease` (
   KEY `fk_id_incident_type_tb_decease` (`id_incident_type`),
   CONSTRAINT `fk_id_decease_type_tb_decease` FOREIGN KEY (`id_decease_type`) REFERENCES `tb_decease_type` (`id_decease_type`),
   CONSTRAINT `fk_id_incident_type_tb_decease` FOREIGN KEY (`id_incident_type`) REFERENCES `tb_incident_type` (`id_incident_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tb_decease`
---
-
-LOCK TABLES `tb_decease` WRITE;
-/*!40000 ALTER TABLE `tb_decease` DISABLE KEYS */;
-INSERT INTO `tb_decease` VALUES (1,'2023-05-26','v',1),(2,'2023-05-30','v',2),(3,'2023-05-30','v',2);
-/*!40000 ALTER TABLE `tb_decease` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tb_decease_type`
@@ -58,16 +48,6 @@ CREATE TABLE `tb_decease_type` (
   PRIMARY KEY (`id_decease_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tb_decease_type`
---
-
-LOCK TABLES `tb_decease_type` WRITE;
-/*!40000 ALTER TABLE `tb_decease_type` DISABLE KEYS */;
-INSERT INTO `tb_decease_type` VALUES ('q','quest'),('v','vault'),('w','westland');
-/*!40000 ALTER TABLE `tb_decease_type` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tb_diary`
@@ -96,18 +76,8 @@ CREATE TABLE `tb_diary` (
   `water` int DEFAULT (0),
   `food` int DEFAULT (0),
   PRIMARY KEY (`id_diary`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tb_diary`
---
-
-LOCK TABLES `tb_diary` WRITE;
-/*!40000 ALTER TABLE `tb_diary` DISABLE KEYS */;
-INSERT INTO `tb_diary` VALUES (1,'2023-05-29',4,1,901,1,1,2,0,3,2,2,2,2,1,78,76,19);
-/*!40000 ALTER TABLE `tb_diary` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tb_dweller`
@@ -144,18 +114,8 @@ CREATE TABLE `tb_dweller` (
   CONSTRAINT `fk_id_room_tb_dweller` FOREIGN KEY (`id_room`) REFERENCES `tb_room` (`id_room`),
   CONSTRAINT `fk_id_special_tb_dweller` FOREIGN KEY (`id_special`) REFERENCES `tb_special` (`id_special`),
   CONSTRAINT `fk_id_weapon_tb_dweller` FOREIGN KEY (`id_weapon`) REFERENCES `tb_weapon` (`id_weapon`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tb_dweller`
---
-
-LOCK TABLES `tb_dweller` WRITE;
-/*!40000 ALTER TABLE `tb_dweller` DISABLE KEYS */;
-INSERT INTO `tb_dweller` VALUES (1,'José Maria','m',10,1,2,NULL,1,NULL,NULL,1,1),(2,'Maria José','f',10,1,3,NULL,NULL,NULL,NULL,2,NULL),(3,'Josemar','m',0,1,6,NULL,NULL,NULL,1,3,NULL),(4,'Sanderson','f',50,0,9,NULL,NULL,NULL,NULL,NULL,1),(5,'hank  água','m',1,0,11,NULL,NULL,NULL,NULL,NULL,1),(6,'darkness','f',0,0,14,NULL,NULL,NULL,2,NULL,NULL),(7,'kiano black','m',0,0,15,NULL,NULL,NULL,2,NULL,NULL);
-/*!40000 ALTER TABLE `tb_dweller` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tb_dweller_quest`
@@ -175,16 +135,6 @@ CREATE TABLE `tb_dweller_quest` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tb_dweller_quest`
---
-
-LOCK TABLES `tb_dweller_quest` WRITE;
-/*!40000 ALTER TABLE `tb_dweller_quest` DISABLE KEYS */;
-INSERT INTO `tb_dweller_quest` VALUES (2,1),(2,2),(3,3),(1,4),(3,4);
-/*!40000 ALTER TABLE `tb_dweller_quest` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `tb_exploration`
 --
 
@@ -199,18 +149,8 @@ CREATE TABLE `tb_exploration` (
   PRIMARY KEY (`id_exploration`),
   KEY `fk_id_dweller_tb_exploration` (`id_dweller`),
   CONSTRAINT `fk_id_dweller_tb_exploration` FOREIGN KEY (`id_dweller`) REFERENCES `tb_dweller` (`id_dweller`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tb_exploration`
---
-
-LOCK TABLES `tb_exploration` WRITE;
-/*!40000 ALTER TABLE `tb_exploration` DISABLE KEYS */;
-INSERT INTO `tb_exploration` VALUES (1,24,'2023-04-29',3),(2,154,'2023-03-29',3),(3,154,'2023-03-29',3);
-/*!40000 ALTER TABLE `tb_exploration` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tb_incident`
@@ -233,15 +173,6 @@ CREATE TABLE `tb_incident` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tb_incident`
---
-
-LOCK TABLES `tb_incident` WRITE;
-/*!40000 ALTER TABLE `tb_incident` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tb_incident` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `tb_incident_type`
 --
 
@@ -252,18 +183,8 @@ CREATE TABLE `tb_incident_type` (
   `id_incident_type` int NOT NULL AUTO_INCREMENT,
   `description` varchar(15) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_incident_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tb_incident_type`
---
-
-LOCK TABLES `tb_incident_type` WRITE;
-/*!40000 ALTER TABLE `tb_incident_type` DISABLE KEYS */;
-INSERT INTO `tb_incident_type` VALUES (1,'fire'),(2,'expulsion'),(3,'radroache'),(4,'raider'),(5,'molerat'),(6,'deathclaw'),(7,'ghoul'),(8,'radscorpion');
-/*!40000 ALTER TABLE `tb_incident_type` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tb_junk`
@@ -274,24 +195,14 @@ DROP TABLE IF EXISTS `tb_junk`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tb_junk` (
   `id_junk` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(25) COLLATE utf8mb4_general_ci NOT NULL,
+  `name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `quantity` int NOT NULL,
   `id_storage` int NOT NULL,
   PRIMARY KEY (`id_junk`),
   UNIQUE KEY `id_storage` (`id_storage`),
   CONSTRAINT `fk_id_storage_tb_junk` FOREIGN KEY (`id_storage`) REFERENCES `tb_storage` (`id_storage`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tb_junk`
---
-
-LOCK TABLES `tb_junk` WRITE;
-/*!40000 ALTER TABLE `tb_junk` DISABLE KEYS */;
-INSERT INTO `tb_junk` VALUES (1,'relogio',4,4);
-/*!40000 ALTER TABLE `tb_junk` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tb_kinship`
@@ -309,18 +220,8 @@ CREATE TABLE `tb_kinship` (
   KEY `fk_id_father_tb_kidship` (`id_father`),
   CONSTRAINT `fk_id_father_tb_kidship` FOREIGN KEY (`id_father`) REFERENCES `tb_dweller` (`id_dweller`),
   CONSTRAINT `fk_id_mother_tb_kidship` FOREIGN KEY (`id_mother`) REFERENCES `tb_dweller` (`id_dweller`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tb_kinship`
---
-
-LOCK TABLES `tb_kinship` WRITE;
-/*!40000 ALTER TABLE `tb_kinship` DISABLE KEYS */;
-INSERT INTO `tb_kinship` VALUES (1,2,1),(2,4,5);
-/*!40000 ALTER TABLE `tb_kinship` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tb_outfit`
@@ -331,7 +232,7 @@ DROP TABLE IF EXISTS `tb_outfit`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tb_outfit` (
   `id_outfit` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(25) COLLATE utf8mb4_general_ci NOT NULL,
+  `name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `quantity` int NOT NULL,
   `id_special` int NOT NULL,
   `id_storage` int NOT NULL,
@@ -340,18 +241,8 @@ CREATE TABLE `tb_outfit` (
   UNIQUE KEY `id_storage` (`id_storage`),
   CONSTRAINT `fk_id_special_tb_outfit` FOREIGN KEY (`id_special`) REFERENCES `tb_special` (`id_special`),
   CONSTRAINT `fk_id_storage_tb_outfit` FOREIGN KEY (`id_storage`) REFERENCES `tb_storage` (`id_storage`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tb_outfit`
---
-
-LOCK TABLES `tb_outfit` WRITE;
-/*!40000 ALTER TABLE `tb_outfit` DISABLE KEYS */;
-INSERT INTO `tb_outfit` VALUES (1,'asdfghja',0,1,1),(2,'vestido',1,7,5),(3,'Bermuda',15,8,6),(4,'avental',1,10,8);
-/*!40000 ALTER TABLE `tb_outfit` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tb_pet`
@@ -362,25 +253,15 @@ DROP TABLE IF EXISTS `tb_pet`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tb_pet` (
   `id_pet` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(25) COLLATE utf8mb4_general_ci NOT NULL,
-  `description` varchar(25) COLLATE utf8mb4_general_ci NOT NULL,
+  `name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `description` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `quantity` int NOT NULL,
   `id_storage` int NOT NULL,
   PRIMARY KEY (`id_pet`),
   UNIQUE KEY `id_storage` (`id_storage`),
   CONSTRAINT `fk_id_storage_tb_pet` FOREIGN KEY (`id_storage`) REFERENCES `tb_storage` (`id_storage`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tb_pet`
---
-
-LOCK TABLES `tb_pet` WRITE;
-/*!40000 ALTER TABLE `tb_pet` DISABLE KEYS */;
-INSERT INTO `tb_pet` VALUES (1,'baianho','cachorro',1,3);
-/*!40000 ALTER TABLE `tb_pet` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tb_quest`
@@ -395,18 +276,8 @@ CREATE TABLE `tb_quest` (
   `date_begin` date NOT NULL,
   `date_end` date NOT NULL,
   PRIMARY KEY (`id_quest`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tb_quest`
---
-
-LOCK TABLES `tb_quest` WRITE;
-/*!40000 ALTER TABLE `tb_quest` DISABLE KEYS */;
-INSERT INTO `tb_quest` VALUES (1,'teste','2023-05-26','2023-05-26'),(2,'teste 2','2023-05-26','2023-05-26'),(3,'teste 2','2023-05-29','2023-05-29'),(4,'teste 2','2023-05-29','2023-05-29');
-/*!40000 ALTER TABLE `tb_quest` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tb_room`
@@ -423,18 +294,8 @@ CREATE TABLE `tb_room` (
   PRIMARY KEY (`id_room`),
   KEY `fk_id_room_type_tb_room` (`id_room_type`),
   CONSTRAINT `fk_id_room_type_tb_room` FOREIGN KEY (`id_room_type`) REFERENCES `tb_room_type` (`id_room_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tb_room`
---
-
-LOCK TABLES `tb_room` WRITE;
-/*!40000 ALTER TABLE `tb_room` DISABLE KEYS */;
-INSERT INTO `tb_room` VALUES (1,3,1,1);
-/*!40000 ALTER TABLE `tb_room` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tb_room_type`
@@ -448,18 +309,8 @@ CREATE TABLE `tb_room_type` (
   `name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `job` varchar(25) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_room_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tb_room_type`
---
-
-LOCK TABLES `tb_room_type` WRITE;
-/*!40000 ALTER TABLE `tb_room_type` DISABLE KEYS */;
-INSERT INTO `tb_room_type` VALUES (1,'Vault door','security'),(2,'Living room','unemployed'),(3,'Power generator','electrician'),(4,'Diner','chef'),(5,'Water treatment','plumber'),(6,'Storage room','stockist'),(7,'Medbay','scientist'),(8,'Science lab','scientist'),(9,'Overseer\'s office','-'),(10,'Radio studio','broadcaster'),(11,'Weapon workshop','gun maker'),(12,'Weight room','unemployed'),(13,'Athletics room','unemployed'),(14,'Armory','unemployed'),(15,'Classroom','unemployed'),(16,'Outfit workshop','clothing manufacturer'),(17,'Fitness room','unemployed'),(18,'Lounge','unemployed'),(19,'Theme workshop','unemployed'),(20,'Game room','unemployed'),(21,'Barbershop','-'),(22,'Nuclear reactor','electrician'),(23,'Garden','chef'),(24,'Water purification','plumber'),(25,'Nuka-Cola bottler','nuka cola producer'),(26,'Westland','explorer');
-/*!40000 ALTER TABLE `tb_room_type` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tb_sale`
@@ -470,25 +321,15 @@ DROP TABLE IF EXISTS `tb_sale`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tb_sale` (
   `id_sale` int NOT NULL AUTO_INCREMENT,
-  `product` int DEFAULT NULL,
+  `id_product` int DEFAULT NULL,
   `quantity` int DEFAULT NULL,
   `profit` int DEFAULT NULL,
   `date` date DEFAULT NULL,
   PRIMARY KEY (`id_sale`),
-  KEY `fk_product_tb_sale` (`product`),
-  CONSTRAINT `fk_product_tb_sale` FOREIGN KEY (`product`) REFERENCES `tb_storage` (`id_storage`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  KEY `fk_id_product_tb_sale` (`id_product`),
+  CONSTRAINT `fk_id_product_tb_sale` FOREIGN KEY (`id_product`) REFERENCES `tb_storage` (`id_storage`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tb_sale`
---
-
-LOCK TABLES `tb_sale` WRITE;
-/*!40000 ALTER TABLE `tb_sale` DISABLE KEYS */;
-INSERT INTO `tb_sale` VALUES (1,6,1,5,'2023-05-27'),(2,5,1,5,'2023-05-27'),(3,6,5,50,'2023-05-29');
-/*!40000 ALTER TABLE `tb_sale` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tb_scrap`
@@ -505,18 +346,8 @@ CREATE TABLE `tb_scrap` (
   PRIMARY KEY (`id_scrap`),
   KEY `fk_id_product_tb_scrap` (`id_product`),
   CONSTRAINT `fk_id_product_tb_scrap` FOREIGN KEY (`id_product`) REFERENCES `tb_storage` (`id_storage`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tb_scrap`
---
-
-LOCK TABLES `tb_scrap` WRITE;
-/*!40000 ALTER TABLE `tb_scrap` DISABLE KEYS */;
-INSERT INTO `tb_scrap` VALUES (1,7,1,'2023-05-27');
-/*!40000 ALTER TABLE `tb_scrap` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tb_special`
@@ -536,18 +367,8 @@ CREATE TABLE `tb_special` (
   `luck` int DEFAULT NULL,
   `category` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_special`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tb_special`
---
-
-LOCK TABLES `tb_special` WRITE;
-/*!40000 ALTER TABLE `tb_special` DISABLE KEYS */;
-INSERT INTO `tb_special` VALUES (1,1,1,1,1,1,1,1,'outfit'),(2,NULL,2,3,1,1,1,1,'outfit'),(3,1,1,1,1,1,1,1,'outfit'),(4,1,1,1,1,1,1,1,'outfit'),(5,1,1,1,1,1,1,1,'outfit'),(6,2,2,3,1,1,1,1,'outfit'),(7,1,1,1,1,1,1,2,'outfit'),(8,1,1,1,0,1,1,2,'outfit'),(9,1,1,1,1,1,1,1,'outfit'),(10,1,1,1,0,1,1,2,'outfit'),(11,1,1,1,1,1,1,1,'dweller'),(12,1,1,1,1,1,1,1,'dweller'),(13,1,1,1,1,1,1,1,'dweller'),(14,1,1,1,1,1,1,1,'dweller'),(15,1,1,1,1,1,1,1,'dweller');
-/*!40000 ALTER TABLE `tb_special` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tb_storage`
@@ -560,18 +381,8 @@ CREATE TABLE `tb_storage` (
   `id_storage` int NOT NULL AUTO_INCREMENT,
   `category` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_storage`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tb_storage`
---
-
-LOCK TABLES `tb_storage` WRITE;
-/*!40000 ALTER TABLE `tb_storage` DISABLE KEYS */;
-INSERT INTO `tb_storage` VALUES (1,'outfit'),(2,'weapon'),(3,'pet'),(4,'junk'),(5,'outfit'),(6,'outfit'),(7,'weapon'),(8,'outfit'),(9,'weapon');
-/*!40000 ALTER TABLE `tb_storage` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tb_storage_exploration`
@@ -592,16 +403,6 @@ CREATE TABLE `tb_storage_exploration` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tb_storage_exploration`
---
-
-LOCK TABLES `tb_storage_exploration` WRITE;
-/*!40000 ALTER TABLE `tb_storage_exploration` DISABLE KEYS */;
-INSERT INTO `tb_storage_exploration` VALUES (3,5,1),(1,6,1),(2,6,1),(3,6,1);
-/*!40000 ALTER TABLE `tb_storage_exploration` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `tb_storage_quest`
 --
 
@@ -618,16 +419,6 @@ CREATE TABLE `tb_storage_quest` (
   CONSTRAINT `fk_id_storage_tb_storage_quest` FOREIGN KEY (`id_storage`) REFERENCES `tb_storage` (`id_storage`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tb_storage_quest`
---
-
-LOCK TABLES `tb_storage_quest` WRITE;
-/*!40000 ALTER TABLE `tb_storage_quest` DISABLE KEYS */;
-INSERT INTO `tb_storage_quest` VALUES (1,6,9),(2,6,9);
-/*!40000 ALTER TABLE `tb_storage_quest` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tb_storage_scrap`
@@ -648,16 +439,6 @@ CREATE TABLE `tb_storage_scrap` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tb_storage_scrap`
---
-
-LOCK TABLES `tb_storage_scrap` WRITE;
-/*!40000 ALTER TABLE `tb_storage_scrap` DISABLE KEYS */;
-INSERT INTO `tb_storage_scrap` VALUES (1,4,2);
-/*!40000 ALTER TABLE `tb_storage_scrap` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `tb_weapon`
 --
 
@@ -666,28 +447,18 @@ DROP TABLE IF EXISTS `tb_weapon`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tb_weapon` (
   `id_weapon` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(25) COLLATE utf8mb4_general_ci NOT NULL,
+  `name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `damage` varchar(7) COLLATE utf8mb4_general_ci NOT NULL,
   `quantity` int NOT NULL,
   `id_storage` int NOT NULL,
   PRIMARY KEY (`id_weapon`),
   UNIQUE KEY `id_storage` (`id_storage`),
   CONSTRAINT `fk_id_storage_tb_weapon` FOREIGN KEY (`id_storage`) REFERENCES `tb_storage` (`id_storage`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tb_weapon`
---
-
-LOCK TABLES `tb_weapon` WRITE;
-/*!40000 ALTER TABLE `tb_weapon` DISABLE KEYS */;
-INSERT INTO `tb_weapon` VALUES (1,'arma de fogo','1-1',1,2),(2,'arma de água','1-1',0,7),(3,'esp6ada','1-1',1,9);
-/*!40000 ALTER TABLE `tb_weapon` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Dumping routines for database 'db_vault_101'
+-- Dumping routines for database 'db2_vault_101'
 --
 /*!50003 DROP FUNCTION IF EXISTS `fn_calculate_junk` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -822,7 +593,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP FUNCTION IF EXISTS `fn_count_room_size` */;
+/*!50003 DROP FUNCTION IF EXISTS `fn_count_floor_size` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -832,7 +603,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`Pedro`@`%` FUNCTION `fn_count_room_size`(in_floor INTEGER) RETURNS int
+CREATE DEFINER=`Pedro`@`%` FUNCTION `fn_count_floor_size`(in_floor INTEGER) RETURNS int
     DETERMINISTIC
 BEGIN
 	SET @count_floor_size = (SELECT SUM(size) FROM tb_room WHERE floor = in_floor);
@@ -1058,7 +829,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`Pedro`@`%` FUNCTION `fn_verify_storage`(in_product VARCHAR(25), return_type INTEGER, accept_zero BOOL) RETURNS varchar(255) CHARSET utf8mb4 COLLATE utf8mb4_general_ci
+CREATE DEFINER=`Pedro`@`%` FUNCTION `fn_verify_storage`(in_product VARCHAR(50), return_type INTEGER, accept_zero BOOL) RETURNS varchar(255) CHARSET utf8mb4 COLLATE utf8mb4_general_ci
     READS SQL DATA
 BEGIN
 	CASE
@@ -1297,12 +1068,14 @@ BEGIN
 		WHEN (in_level NOT BETWEEN 1 AND 50) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Level is invalid.';
 		
-        WHEN ((SELECT id_room FROM tb_room WHERE id_room = in_room) IS NULL) THEN
+        WHEN ((SELECT id_room FROM tb_room WHERE id_room = in_room) IS NULL) AND (in_room IS NOT NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Room does not exists.';
             
         ELSE
 			CALL sp_insert_special(in_str, in_per, in_end, in_cha, in_int, in_agi, in_luc, 'dweller');
             SET @last_insert_special = LAST_INSERT_ID();
+
+			IF (in_room IS NULL) THEN SET in_room = 0; END IF;
 
 			INSERT INTO tb_dweller
 				(name, gender, level, status, id_special, id_room)
@@ -1350,10 +1123,10 @@ BEGIN
 				id_pet = NULL,
 				id_decease = @last_insert_decease,
 				id_room = NULL
-			WHERE id_dweller = @update_id_dweller;
+			WHERE id_dweller = @insert_id_dweller;
 	END CASE;
     
-    IF (in_save_product) THEN
+    IF NOT (in_save_product) THEN
 		IF (@insert_id_outfit IS NOT NULL) THEN
 			SET @update_qnt_outfit = (SELECT quantity FROM tb_outfit WHERE id_outfit = @insert_id_outfit);
             
@@ -1394,13 +1167,12 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`Pedro`@`%` PROCEDURE `sp_insert_exploration`(in_dweller INTEGER, in_duration INTEGER, in_date DATE)
+CREATE DEFINER=`Pedro`@`%` PROCEDURE `sp_insert_exploration`(in_dweller VARCHAR(50), in_duration INTEGER, in_date DATE)
 BEGIN
-	SET @insert_id_dweller = (SELECT id_dweller FROM tb_dweller WHERE id_dweller LIKE in_dweller OR 
-																				 LOWER(name) = LOWER(in_dweller));
+	SET @insert_id_dweller = (SELECT id_dweller FROM tb_dweller WHERE id_dweller LIKE in_dweller OR LOWER(name) = LOWER(in_dweller));
 
 	CASE
-		WHEN (@update_id_dweller IS NULL) THEN
+		WHEN (@insert_id_dweller IS NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dweller does not exists.';
 
 		WHEN (SELECT status FROM tb_dweller WHERE id_dweller = @insert_id_dweller) THEN
@@ -1414,7 +1186,7 @@ BEGIN
 
 		ELSE
 			INSERT INTO tb_exploration
-            VALUES (DEFAULT, in_duration, in_date, in_dweller);
+            VALUES (DEFAULT, in_duration, in_date, @insert_id_dweller);
 	END CASE;
 END ;;
 DELIMITER ;
@@ -1460,7 +1232,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`Pedro`@`%` PROCEDURE `sp_insert_junk`(in_name VARCHAR(25), in_qnt INTEGER)
+CREATE DEFINER=`Pedro`@`%` PROCEDURE `sp_insert_junk`(in_name VARCHAR(50), in_qnt INTEGER)
 BEGIN
 	CASE
 		WHEN in_qnt < 0 THEN
@@ -1487,39 +1259,6 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `sp_insert_kinship` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`Pedro`@`%` PROCEDURE `sp_insert_kinship`(in_id_mom INTEGER, in_id_dad INTEGER)
-BEGIN
-	CASE
-		WHEN ((SELECT gender FROM tb_dweller WHERE id_dweller = in_id_mom) IS NULL) THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Mother id does not exists.';
-		WHEN ((SELECT gender FROM tb_dweller WHERE id_dweller = in_id_mom) != 'f') THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Mother id is not from a Female.';
-
-        WHEN ((SELECT gender FROM tb_dweller WHERE id_dweller = in_id_dad) IS NULL) THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Father id does not exists.';
-        WHEN ((SELECT gender FROM tb_dweller WHERE id_dweller = in_id_dad) != 'm') THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Father id is not from a Male.';
-
-		ELSE
-			INSERT INTO tb_kinship
-            VALUES (DEFAULT, in_id_mom, in_id_dad);
-    END CASE;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `sp_insert_outfit` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -1530,7 +1269,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`Pedro`@`%` PROCEDURE `sp_insert_outfit`(in_name VARCHAR(25), in_qnt INTEGER, in_str INTEGER, in_per INTEGER, in_end INTEGER, in_cha INTEGER, in_int INTEGER, in_agi INTEGER, in_luc INTEGER)
+CREATE DEFINER=`Pedro`@`%` PROCEDURE `sp_insert_outfit`(in_name VARCHAR(50), in_qnt INTEGER, in_str INTEGER, in_per INTEGER, in_end INTEGER, in_cha INTEGER, in_int INTEGER, in_agi INTEGER, in_luc INTEGER)
 BEGIN
 	CASE
 		WHEN (in_qnt < 0) THEN
@@ -1570,7 +1309,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`Pedro`@`%` PROCEDURE `sp_insert_pet`(in_name VARCHAR(25), in_description VARCHAR(25), in_qnt INTEGER)
+CREATE DEFINER=`Pedro`@`%` PROCEDURE `sp_insert_pet`(in_name VARCHAR(50), in_description VARCHAR(50), in_qnt INTEGER)
 BEGIN
 	CASE
 		WHEN in_qnt < 0 THEN
@@ -1609,28 +1348,28 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`Pedro`@`%` PROCEDURE `sp_insert_quest`(in_description VARCHAR(25), in_date_begin DATE, in_dweller_1 INTEGER, in_dweller_2 INTEGER, in_dweller_3 INTEGER)
 BEGIN
-	SET @update_id_dweller_1 = (SELECT id_dweller FROM tb_dweller WHERE id_dweller LIKE in_dweller_1 OR LOWER(name) = LOWER(in_dweller_1));
-	SET @update_id_dweller_2 = (SELECT id_dweller FROM tb_dweller WHERE id_dweller LIKE in_dweller_2 OR LOWER(name) = LOWER(in_dweller_2));
-	SET @update_id_dweller_3 = (SELECT id_dweller FROM tb_dweller WHERE id_dweller LIKE in_dweller_3 OR LOWER(name) = LOWER(in_dweller_3));
+	SET @insert_id_dweller_1 = (SELECT id_dweller FROM tb_dweller WHERE id_dweller LIKE in_dweller_1 OR LOWER(name) = LOWER(in_dweller_1));
+	SET @insert_id_dweller_2 = (SELECT id_dweller FROM tb_dweller WHERE id_dweller LIKE in_dweller_2 OR LOWER(name) = LOWER(in_dweller_2));
+	SET @insert_id_dweller_3 = (SELECT id_dweller FROM tb_dweller WHERE id_dweller LIKE in_dweller_3 OR LOWER(name) = LOWER(in_dweller_3));
 
 	CASE
-		WHEN (@update_id_dweller_1 IS NOT NULL) AND (@update_id_dweller_1 = @update_id_dweller_2) OR
-			 (@update_id_dweller_2 IS NOT NULL) AND (@update_id_dweller_2 = @update_id_dweller_3) OR
-			 (@update_id_dweller_3 IS NOT NULL) AND (@update_id_dweller_3 = @update_id_dweller_1) THEN
+		WHEN (@insert_id_dweller_1 IS NOT NULL) AND (@insert_id_dweller_1 = @insert_id_dweller_2) OR
+			 (@insert_id_dweller_2 IS NOT NULL) AND (@insert_id_dweller_2 = @insert_id_dweller_3) OR
+			 (@insert_id_dweller_3 IS NOT NULL) AND (@insert_id_dweller_3 = @insert_id_dweller_1) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dwellers must be different from each other.';        
 		
-        WHEN (@update_id_dweller_1 IS NULL) AND (in_dweller_1 IS NOT NULL) THEN
+        WHEN (@insert_id_dweller_1 IS NULL) AND (in_dweller_1 IS NOT NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'First dweller does not exists.';
-        WHEN (@update_id_dweller_2 IS NULL) AND (in_dweller_2 IS NOT NULL) THEN
+        WHEN (@insert_id_dweller_2 IS NULL) AND (in_dweller_2 IS NOT NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Second dweller does not exists.';
-        WHEN (@update_id_dweller_3 IS NULL) AND (in_dweller_3 IS NOT NULL) THEN
+        WHEN (@insert_id_dweller_3 IS NULL) AND (in_dweller_3 IS NOT NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Third dweller does not exists.';
 		
-		WHEN (SELECT status FROM tb_dweller WHERE id_dweller = @update_id_dweller_1) THEN
+		WHEN (SELECT status FROM tb_dweller WHERE id_dweller = @insert_id_dweller_1) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'First dweller is dead. They can not go to a quest.';
-		WHEN (SELECT status FROM tb_dweller WHERE id_dweller = @update_id_dweller_2) THEN
+		WHEN (SELECT status FROM tb_dweller WHERE id_dweller = @insert_id_dweller_2) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Second dweller is dead. They can not go to a quest.';
-		WHEN (SELECT status FROM tb_dweller WHERE id_dweller = @update_id_dweller_3) THEN
+		WHEN (SELECT status FROM tb_dweller WHERE id_dweller = @insert_id_dweller_3) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Third dweller is dead. They can not go to a quest.';
         
         WHEN (in_dweller_1 IS NULL) AND (in_dweller_2 IS NULL) AND (in_dweller_3 IS NULL) THEN
@@ -1647,17 +1386,17 @@ BEGIN
             
             IF (in_dweller_1 IS NOT NULL) THEN
 				INSERT INTO tb_dweller_quest
-				VALUES (in_dweller_1, @last_insert_quest);
+				VALUES (@insert_id_dweller_1, @last_insert_quest);
             END IF;
             
             IF (in_dweller_2 IS NOT NULL) THEN
 				INSERT INTO tb_dweller_quest
-				VALUES (in_dweller_2, @last_insert_quest);
+				VALUES (@insert_id_dweller_2, @last_insert_quest);
             END IF;
 
             IF (in_dweller_3 IS NOT NULL) THEN
 				INSERT INTO tb_dweller_quest
-				VALUES (in_dweller_3, @last_insert_quest);
+				VALUES (@insert_id_dweller_3, @last_insert_quest);
             END IF;
 	END CASE;
 END ;;
@@ -1685,7 +1424,7 @@ BEGIN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid room size.';
 		WHEN (in_floor NOT BETWEEN 1 AND 25) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid floor.';
-		WHEN ((fn_count_room_size(in_floor) + in_size) > 8) THEN
+		WHEN ((fn_count_floor_size(in_floor) + in_size) > 8) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid size for this floor.';
 		ELSE
 			INSERT INTO tb_room
@@ -1709,7 +1448,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`Pedro`@`%` PROCEDURE `sp_insert_sale`(in_product VARCHAR(25), in_quantity INTEGER, in_profit INTEGER, in_date DATE)
+CREATE DEFINER=`Pedro`@`%` PROCEDURE `sp_insert_sale`(in_product VARCHAR(50), in_quantity INTEGER, in_profit INTEGER, in_date DATE)
 BEGIN
 	SET @insert_id_storage = fn_verify_storage(in_product, 1, 0);
 	SET @tb_product_sold = fn_verify_storage(in_product, 2, 0);
@@ -1744,7 +1483,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`Pedro`@`%` PROCEDURE `sp_insert_scrap`(in_product VARCHAR(25), in_quantity INTEGER, in_date DATE)
+CREATE DEFINER=`Pedro`@`%` PROCEDURE `sp_insert_scrap`(in_product VARCHAR(50), in_quantity INTEGER, in_date DATE)
 BEGIN
 	SET @insert_id_storage = fn_verify_storage(in_product, 1, 0);
 	SET @tb_product_scraped = fn_verify_storage(in_product, 2, 0);
@@ -1784,6 +1523,14 @@ DELIMITER ;;
 CREATE DEFINER=`Pedro`@`%` PROCEDURE `sp_insert_special`(in_str INTEGER, in_per INTEGER, in_end INTEGER, in_cha INTEGER, in_int INTEGER, in_agi INTEGER, in_luc INTEGER, in_category VARCHAR(10))
 BEGIN
 	IF (SELECT fn_verify_special(in_str, in_per, in_end, in_cha, in_int, in_agi, in_luc, in_category)) THEN
+		IF in_str = 0 THEN SET in_str = NULL; END IF;
+		IF in_per = 0 THEN SET in_per = NULL; END IF;
+		IF in_end = 0 THEN SET in_end = NULL; END IF;
+		IF in_cha = 0 THEN SET in_cha = NULL; END IF;
+		IF in_int = 0 THEN SET in_int = NULL; END IF;
+		IF in_agi = 0 THEN SET in_agi = NULL; END IF;
+		IF in_luc = 0 THEN SET in_luc = NULL; END IF;
+    
 		INSERT INTO tb_special
 		VALUES (DEFAULT, in_str, in_per, in_end, in_cha, in_int, in_agi, in_luc, LOWER(in_category));
 	ELSE
@@ -1829,7 +1576,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`Pedro`@`%` PROCEDURE `sp_insert_storage_exploration`(in_exploration INTEGER, in_product VARCHAR(25), in_quantity INTEGER)
+CREATE DEFINER=`Pedro`@`%` PROCEDURE `sp_insert_storage_exploration`(in_exploration INTEGER, in_product VARCHAR(50), in_quantity INTEGER)
 BEGIN
 	SET @insert_id_storage = fn_verify_storage(in_product, 1, 1);
 	SET @tb_product_exploration = fn_verify_storage(in_product, 2, 1);
@@ -1864,7 +1611,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`Pedro`@`%` PROCEDURE `sp_insert_storage_quest`(in_quest INTEGER, in_product VARCHAR(25), in_quantity INTEGER)
+CREATE DEFINER=`Pedro`@`%` PROCEDURE `sp_insert_storage_quest`(in_quest INTEGER, in_product VARCHAR(50), in_quantity INTEGER)
 BEGIN
 	SET @insert_id_storage = fn_verify_storage(in_product, 1, 1);
 	SET @tb_product_quest = fn_verify_storage(in_product, 2, 1);
@@ -1899,7 +1646,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`Pedro`@`%` PROCEDURE `sp_insert_storage_scrap`(in_scrap INTEGER, in_product VARCHAR(25), in_quantity INTEGER)
+CREATE DEFINER=`Pedro`@`%` PROCEDURE `sp_insert_storage_scrap`(in_scrap INTEGER, in_product VARCHAR(50), in_quantity INTEGER)
 BEGIN
     SET @insert_id_storage = fn_verify_storage(in_product, 1, 1);
     SET @tb_product_scrap = fn_verify_storage(in_product, 2, 1);
@@ -1934,7 +1681,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`Pedro`@`%` PROCEDURE `sp_insert_weapon`(in_name VARCHAR(25), in_damage VARCHAR(7), in_qnt INTEGER)
+CREATE DEFINER=`Pedro`@`%` PROCEDURE `sp_insert_weapon`(in_name VARCHAR(50), in_damage VARCHAR(7), in_qnt INTEGER)
 BEGIN
 	CASE
 		WHEN in_qnt < 0 THEN
@@ -1993,6 +1740,7 @@ BEGIN
 			UPDATE tb_junk
 			SET quantity = (in_qnt_storage - in_quantity)
 			WHERE id_storage = in_id_storage;
+            
 		ELSE
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Something went wrong with this procedure or with fn_verify_storage.';
 	END CASE;
@@ -2019,7 +1767,7 @@ BEGIN
     IF (@update_id_dweller IS NULL) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dweller does not exists.';
 	ELSEIF (SELECT status FROM tb_dweller WHERE id_dweller = @update_id_dweller) THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dweller is dead. You can not give them a bonus.';
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dweller is dead. You can not give them a bonus.';
 	END IF;
     
     IF (in_outfit IS NULL) THEN 
@@ -2137,7 +1885,7 @@ BEGIN
 		WHEN (up_level < @update_level_dweller) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'New level can not be smaller than before.';
             
-		WHEN ((SELECT id_room FROM tb_room WHERE id_room = up_room) IS NULL) THEN
+		WHEN ((SELECT id_room FROM tb_room WHERE id_room = up_room) IS NULL) AND (up_room IS NOT NULL) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Room does not exists.';
 
 		ELSE
@@ -2162,11 +1910,11 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`Pedro`@`%` PROCEDURE `sp_update_room`(in_room INTEGER, up_size INTEGER)
+CREATE DEFINER=`Pedro`@`%` PROCEDURE `sp_update_room`(up_room INTEGER, up_size INTEGER)
 BEGIN
-	SET @update_room_id = (SELECT id_room FROM tb_room WHERE id_room = in_room);
-	SET @update_room_size = (SELECT size FROM tb_room WHERE id_room = in_room);
-	SET @update_room_floor = (SELECT floor FROM tb_room WHERE id_room = in_room);
+	SET @update_room_id = (SELECT id_room FROM tb_room WHERE id_room = up_room);
+	SET @update_room_size = (SELECT size FROM tb_room WHERE id_room = up_room);
+	SET @update_room_floor = (SELECT floor FROM tb_room WHERE id_room = up_room);
 
 	IF (up_size IS NULL) THEN SET up_size = @update_room_size; END IF;
 
@@ -2177,7 +1925,7 @@ BEGIN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid room size.';
 		WHEN (up_size < @update_room_size) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'New size can not be smaller than before.';
-		WHEN ((fn_count_room_size(@update_room_floor) + up_size) > 8) THEN
+		WHEN ((fn_count_floor_size(@update_room_floor) + up_size) > 8) THEN
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid size for this floor.';
 		ELSE
 			UPDATE tb_room
@@ -2200,4 +1948,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-30 23:27:15
+-- Dump completed on 2023-06-09 14:44:41

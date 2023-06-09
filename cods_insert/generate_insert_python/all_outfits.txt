@@ -1,0 +1,157 @@
+﻿Armored vault suit,NULL,3,NULL,NULL,NULL,NULL,NULL
+Sturdy vault suit,NULL,5,NULL,NULL,NULL,NULL,NULL
+Heavy vault suit,NULL,7,NULL,NULL,NULL,NULL,NULL
+Battle armor,2,NULL,1,NULL,NULL,NULL,NULL
+Sturdy battle armor,3,NULL,2,NULL,NULL,NULL,NULL
+Heavy battle armor,4,NULL,3,NULL,NULL,NULL,NULL
+Combat armor,2,NULL,NULL,NULL,NULL,1,NULL
+Sturdy combat armor,3,NULL,NULL,NULL,NULL,2,NULL
+Heavy combat armor,4,NULL,NULL,NULL,NULL,3,NULL
+Formal wear,NULL,NULL,NULL,NULL,NULL,NULL,3
+Fancy formal wear,NULL,NULL,NULL,NULL,NULL,NULL,5
+Lucky formal wear,NULL,NULL,NULL,NULL,NULL,NULL,7
+Handyman jumpsuit,NULL,NULL,NULL,NULL,NULL,3,NULL
+Advanced jumpsuit,NULL,NULL,NULL,NULL,NULL,5,NULL
+Expert jumpsuit,NULL,NULL,NULL,NULL,NULL,7,NULL
+Lab coat,NULL,NULL,NULL,NULL,3,NULL,NULL
+Advanced lab coat,NULL,NULL,NULL,NULL,5,NULL,NULL
+Expert lab coat,NULL,NULL,NULL,NULL,7,NULL,NULL
+Leather armor,1,NULL,2,NULL,NULL,NULL,NULL
+Sturdy leather armor,2,NULL,3,NULL,NULL,NULL,NULL
+Heavy leather armor,3,NULL,4,NULL,NULL,NULL,NULL
+Merc gear,NULL,1,NULL,NULL,NULL,1,1
+Sturdy merc gear,NULL,1,NULL,NULL,NULL,2,2
+Heavy merc gear,NULL,2,NULL,NULL,NULL,3,2
+Military fatigues,3,NULL,NULL,NULL,NULL,NULL,NULL
+Officer fatigues,5,NULL,NULL,NULL,NULL,NULL,NULL
+Commander fatigues,7,NULL,NULL,NULL,NULL,NULL,NULL
+Nightwear,NULL,NULL,NULL,3,NULL,NULL,NULL
+Naughty nightwear,NULL,NULL,NULL,5,NULL,NULL,NULL
+Lucky nightwear,NULL,NULL,NULL,7,NULL,NULL,NULL
+Junior officer uniform,NULL,NULL,NULL,1,2,NULL,NULL
+Officer uniform,NULL,NULL,NULL,2,3,NULL,NULL
+Commander uniform,NULL,NULL,NULL,3,4,NULL,NULL
+Radiation suit,NULL,1,2,NULL,NULL,NULL,NULL
+Advanced radiation suit,NULL,2,3,NULL,NULL,NULL,NULL
+Expert radiation suit,NULL,3,4,NULL,NULL,NULL,NULL
+Raider armor,NULL,1,NULL,NULL,NULL,2,NULL
+Sturdy raider armor,NULL,2,NULL,NULL,NULL,3,NULL
+Heavy raider armor,NULL,3,NULL,NULL,NULL,4,NULL
+Initiate robe,NULL,NULL,NULL,2,NULL,1,NULL
+Scribe robe,NULL,NULL,NULL,3,NULL,2,NULL
+Wasteland gear,NULL,NULL,3,NULL,NULL,NULL,NULL
+Sturdy wasteland gear,NULL,NULL,5,NULL,NULL,NULL,NULL
+Heavy wasteland gear,NULL,NULL,7,NULL,NULL,NULL,NULL
+Wasteland medic,NULL,2,NULL,NULL,NULL,NULL,1
+Wasteland doctor,NULL,3,NULL,NULL,NULL,NULL,2
+Wasteland surgeon,NULL,4,NULL,NULL,NULL,NULL,3
+Treasure hunter gear,2,1,NULL,NULL,NULL,NULL,NULL
+Bounty hunter gear,3,2,NULL,NULL,NULL,NULL,NULL
+Mutant hunter gear,4,3,NULL,NULL,NULL,NULL,NULL
+Flight suit,NULL,NULL,1,NULL,NULL,2,NULL
+Advanced flight suit,NULL,NULL,2,NULL,NULL,3,NULL
+Expert flight suit,NULL,NULL,3,NULL,NULL,4,NULL
+BoS uniform,NULL,2,NULL,1,NULL,NULL,NULL
+Advanced BoS uniform,NULL,3,NULL,2,NULL,NULL,NULL
+Expert BoS uniform,NULL,4,NULL,3,NULL,NULL,NULL
+Sturdy metal armor,3,NULL,NULL,NULL,NULL,NULL,2
+Heavy metal armor,4,NULL,NULL,NULL,NULL,NULL,3
+Advanced Institute jumper,NULL,NULL,NULL,NULL,3,2,NULL
+Expert Institute jumper,NULL,NULL,NULL,NULL,4,3,NULL
+Mechanic jumpsuit,1,NULL,NULL,1,NULL,NULL,NULL
+RobCo factory uniform,NULL,NULL,2,NULL,NULL,NULL,2
+Polka dot sundress,1,NULL,NULL,NULL,1,NULL,NULL
+Pre-War suburbanite,NULL,1,NULL,NULL,1,NULL,NULL
+Rural schoolmarm,NULL,1,1,NULL,NULL,NULL,NULL
+Spring casualwear,NULL,NULL,1,NULL,NULL,1,NULL
+Vault socialite,NULL,NULL,NULL,1,NULL,1,NULL
+Accountant outfit,NULL,4,NULL,NULL,NULL,NULL,NULL
+Agent provocateur,NULL,NULL,NULL,NULL,4,NULL,NULL
+Bespoke attire,NULL,NULL,4,NULL,NULL,NULL,NULL
+Business suit,NULL,NULL,NULL,4,NULL,NULL,NULL
+Country girl,4,NULL,NULL,NULL,NULL,NULL,NULL
+Waitress uniform,NULL,NULL,NULL,NULL,NULL,4,NULL
+NCR Ranger outfit,NULL,4,NULL,2,NULL,NULL,NULL
+RobCo ReD suit,NULL,NULL,2,NULL,4,NULL,NULL
+Robot armor,2,NULL,2,NULL,NULL,NULL,2
+Bowling shirt,NULL,6,NULL,NULL,NULL,NULL,NULL
+Clergy outfit,NULL,NULL,NULL,4,NULL,NULL,1
+Swing dress,NULL,NULL,NULL,NULL,NULL,6,NULL
+Comedian outfit,NULL,2,NULL,2,NULL,NULL,1
+Doo-wop singer,1,NULL,NULL,1,NULL,1,1
+Drag racer,1,NULL,1,NULL,NULL,1,1
+Post-War Casanova,NULL,1,NULL,1,1,NULL,1
+Soda fountain dress,NULL,1,1,NULL,1,NULL,1
+Elf outfit,NULL,NULL,NULL,NULL,3,NULL,2
+Engineer outfit,NULL,NULL,2,NULL,2,NULL,1
+Ghost costume,NULL,NULL,2,NULL,NULL,3,NULL
+Greaser outfit,NULL,NULL,NULL,2,NULL,2,1
+Horror fan outfit,NULL,NULL,4,NULL,NULL,NULL,1
+Knight armor,2,2,NULL,NULL,NULL,NULL,1
+Librarian outfit,NULL,NULL,NULL,NULL,4,NULL,1
+Mayor outfit,NULL,NULL,NULL,2,2,NULL,1
+Medieval ruler outfit,NULL,2,NULL,2,NULL,NULL,1
+Motorcycle jacket,6,NULL,NULL,NULL,NULL,NULL,NULL
+Movie fan outfit,NULL,4,NULL,NULL,NULL,NULL,1
+Ninja outfit,NULL,NULL,NULL,NULL,NULL,4,1
+Nobility outfit,NULL,NULL,2,NULL,2,NULL,1
+Pilgrim outfit,NULL,NULL,NULL,3,2,NULL,NULL
+Professor outfit,NULL,NULL,NULL,NULL,4,NULL,1
+Republic robes,NULL,NULL,NULL,4,NULL,NULL,1
+Santa suit,NULL,3,NULL,2,NULL,NULL,NULL
+Sci-fi fan outfit,NULL,NULL,NULL,NULL,2,2,1
+Skeleton costume,2,NULL,NULL,NULL,NULL,NULL,3
+Soldier uniform,2,NULL,2,NULL,NULL,NULL,1
+Sports fan outfit,4,NULL,NULL,NULL,NULL,NULL,1
+Surgeon outfit,NULL,2,NULL,NULL,NULL,2,1
+Survivor armor,2,NULL,NULL,NULL,NULL,2,1
+Wrestler outfit,2,NULL,2,NULL,NULL,NULL,1
+Baseball uniform,NULL,NULL,NULL,NULL,NULL,4,1
+Lifeguard outfit,NULL,4,NULL,NULL,NULL,NULL,1
+Swimsuit,NULL,NULL,2,2,NULL,NULL,1
+Abraham's relaxedwear,NULL,NULL,1,NULL,2,2,2
+Tattered longcoat,2,NULL,2,2,NULL,NULL,2
+Autumn's uniform,2,2,2,1,NULL,NULL,NULL
+Bittercup's outfit,2,2,2,1,NULL,NULL,NULL
+Confessor Cromwell's rags,NULL,2,2,NULL,1,NULL,2
+Elder robe,NULL,NULL,NULL,4,NULL,3,NULL
+Eulogy Jones' suit,NULL,2,NULL,2,1,NULL,2
+Heavy synth armor,NULL,NULL,4,NULL,3,NULL,NULL
+Incognito leisurewear,NULL,NULL,NULL,2,2,2,2
+Minuteman uniform,2,2,NULL,NULL,2,2,NULL
+Piper's outfit,NULL,2,2,NULL,NULL,2,2
+Scribe Rothchild's robe,NULL,2,1,2,2,NULL,NULL
+Sheriff's duster,NULL,2,5,NULL,NULL,NULL,NULL
+Tenpenny's suit,NULL,2,NULL,2,2,NULL,1
+Three Dog's outfit,NULL,2,NULL,5,NULL,NULL,NULL
+Tunnel Snakes' outfit,NULL,2,1,2,NULL,2,NULL
+Rackie Jobinson's Jersey,4,4,NULL,4,NULL,4,NULL
+Detective outfit,NULL,4,4,NULL,4,NULL,4
+Original Santa suit,NULL,4,3,4,NULL,NULL,NULL
+Death's jacket,NULL,4,4,NULL,NULL,4,4
+Famine's vestment,4,NULL,4,NULL,4,NULL,4
+Pestilence's plating,NULL,NULL,4,4,4,4,NULL
+War's armor,4,4,4,4,NULL,NULL,NULL
+Alien space suit,NULL,2,NULL,NULL,4,2,NULL
+T-45a power armor,2,3,NULL,NULL,NULL,NULL,NULL
+T-45d power armor,2,4,NULL,NULL,NULL,NULL,NULL
+T-45f power armor,2,5,NULL,NULL,NULL,NULL,NULL
+T-51a power armor,3,1,NULL,NULL,NULL,NULL,NULL
+T-51d power armor,3,2,NULL,NULL,NULL,NULL,NULL
+T-51f power armor,4,3,NULL,NULL,NULL,NULL,NULL
+T-60a power armor,2,NULL,3,NULL,NULL,NULL,NULL
+T-60d power armor,2,NULL,4,NULL,NULL,NULL,NULL
+T-60f power armor,1,1,5,NULL,NULL,NULL,NULL
+X-01 Mk I power armor,3,1,1,NULL,NULL,NULL,NULL
+X-01 Mk IV power armor,4,1,1,NULL,NULL,NULL,NULL
+X-01 Mk VI power armor,5,1,1,NULL,NULL,NULL,NULL
+Cross' power armor,5,2,2,NULL,NULL,NULL,NULL
+Lyon's Pride armor,4,3,NULL,NULL,NULL,NULL,1
+Jericho's leather armor,2,NULL,6,NULL,NULL,NULL,NULL
+Elder Lyon's robe,NULL,2,1,6,2,NULL,NULL
+Harkness' security uniform,NULL,5,NULL,NULL,NULL,3,2
+Moira's RobCo jumpsuit,NULL,3,1,NULL,2,NULL,NULL
+Mr. Burke's businesswear,NULL,NULL,NULL,4,NULL,NULL,4
+Amata's jumpsuit,NULL,NULL,NULL,2,2,NULL,2
+Dad's lab uniform,NULL,NULL,NULL,NULL,5,NULL,2
+Doctor Li's outfit,NULL,NULL,NULL,NULL,3,NULL,2

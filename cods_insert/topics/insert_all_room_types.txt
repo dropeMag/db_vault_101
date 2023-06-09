@@ -25,5 +25,4 @@ VALUES
 	("Nuclear reactor", "electrician"),
 	("Garden", "chef"),
 	("Water purification", "plumber"),
-	("Nuka-Cola bottler", "nuka cola producer"),
-	("Westland", "explorer");
+	("Nuka-Cola bottler", "nuka cola producer");
