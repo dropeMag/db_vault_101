@@ -1,0 +1,159 @@
+id_outfit,name,quantity,id_special,id_storage
+1,"﻿armored vault suit",0,1,1
+2,"sturdy vault suit",6,2,2
+3,"heavy vault suit",0,3,3
+4,"battle armor",0,4,4
+5,"sturdy battle armor",0,5,5
+6,"heavy battle armor",2,6,6
+7,"combat armor",3,7,7
+8,"sturdy combat armor",4,8,8
+9,"heavy combat armor",7,9,9
+10,"formal wear",1,10,10
+11,"fancy formal wear",2,11,11
+12,"lucky formal wear",6,12,12
+13,"handyman jumpsuit",0,13,13
+14,"advanced jumpsuit",3,14,14
+15,"expert jumpsuit",4,15,15
+16,"lab coat",1,16,16
+17,"advanced lab coat",4,17,17
+18,"expert lab coat",6,18,18
+19,"leather armor",5,19,19
+20,"sturdy leather armor",2,20,20
+21,"heavy leather armor",3,21,21
+22,"merc gear",3,22,22
+23,"sturdy merc gear",0,23,23
+24,"heavy merc gear",5,24,24
+25,"military fatigues",0,25,25
+26,"officer fatigues",0,26,26
+27,"commander fatigues",1,27,27
+28,nightwear,2,28,28
+29,"naughty nightwear",1,29,29
+30,"lucky nightwear",8,30,30
+31,"junior officer uniform",0,31,31
+32,"officer uniform",1,32,32
+33,"commander uniform",1,33,33
+34,"radiation suit",0,34,34
+35,"advanced radiation suit",0,35,35
+36,"expert radiation suit",7,36,36
+37,"raider armor",0,37,37
+38,"sturdy raider armor",3,38,38
+39,"heavy raider armor",0,39,39
+40,"initiate robe",7,40,40
+41,"scribe robe",0,41,41
+42,"wasteland gear",1,42,42
+43,"sturdy wasteland gear",1,43,43
+44,"heavy wasteland gear",2,44,44
+45,"wasteland medic",1,45,45
+46,"wasteland doctor",1,46,46
+47,"wasteland surgeon",1,47,47
+48,"treasure hunter gear",0,48,48
+49,"bounty hunter gear",1,49,49
+50,"mutant hunter gear",6,50,50
+51,"flight suit",0,51,51
+52,"advanced flight suit",5,52,52
+53,"expert flight suit",2,53,53
+54,"bos uniform",2,54,54
+55,"advanced bos uniform",6,55,55
+56,"expert bos uniform",1,56,56
+57,"sturdy metal armor",5,57,57
+58,"heavy metal armor",6,58,58
+59,"advanced institute jumper",2,59,59
+60,"expert institute jumper",0,60,60
+61,"mechanic jumpsuit",0,61,61
+62,"robco factory uniform",0,62,62
+63,"polka dot sundress",1,63,63
+64,"pre-war suburbanite",2,64,64
+65,"rural schoolmarm",8,65,65
+66,"spring casualwear",0,66,66
+67,"vault socialite",1,67,67
+68,"accountant outfit",1,68,68
+69,"agent provocateur",0,69,69
+70,"bespoke attire",3,70,70
+71,"business suit",0,71,71
+72,"country girl",0,72,72
+73,"waitress uniform",3,73,73
+74,"ncr ranger outfit",1,74,74
+75,"robco red suit",1,75,75
+76,"robot armor",4,76,76
+77,"bowling shirt",4,77,77
+78,"clergy outfit",4,78,78
+79,"swing dress",3,79,79
+80,"comedian outfit",3,80,80
+81,"doo-wop singer",4,81,81
+82,"drag racer",1,82,82
+83,"post-war casanova",0,83,83
+84,"soda fountain dress",3,84,84
+85,"elf outfit",0,85,85
+86,"engineer outfit",0,86,86
+87,"ghost costume",5,87,87
+88,"greaser outfit",0,88,88
+89,"horror fan outfit",4,89,89
+90,"knight armor",4,90,90
+91,"librarian outfit",1,91,91
+92,"mayor outfit",9,92,92
+93,"medieval ruler outfit",4,93,93
+94,"motorcycle jacket",1,94,94
+95,"movie fan outfit",0,95,95
+96,"ninja outfit",0,96,96
+97,"nobility outfit",0,97,97
+98,"pilgrim outfit",1,98,98
+99,"professor outfit",0,99,99
+100,"republic robes",3,100,100
+101,"santa suit",7,101,101
+102,"sci-fi fan outfit",0,102,102
+103,"skeleton costume",0,103,103
+104,"soldier uniform",0,104,104
+105,"sports fan outfit",3,105,105
+106,"surgeon outfit",1,106,106
+107,"survivor armor",1,107,107
+108,"wrestler outfit",4,108,108
+109,"baseball uniform",5,109,109
+110,"lifeguard outfit",2,110,110
+111,swimsuit,0,111,111
+112,"abraham's relaxedwear",0,112,112
+113,"tattered longcoat",0,113,113
+114,"autumn's uniform",3,114,114
+115,"bittercup's outfit",2,115,115
+116,"confessor cromwell's rags",6,116,116
+117,"elder robe",9,117,117
+118,"eulogy jones' suit",2,118,118
+119,"heavy synth armor",2,119,119
+120,"incognito leisurewear",3,120,120
+121,"minuteman uniform",3,121,121
+122,"piper's outfit",5,122,122
+123,"scribe rothchild's robe",6,123,123
+124,"sheriff's duster",0,124,124
+125,"tenpenny's suit",1,125,125
+126,"three dog's outfit",3,126,126
+127,"tunnel snakes' outfit",3,127,127
+128,"rackie jobinson's jersey",4,128,128
+129,"detective outfit",0,129,129
+130,"original santa suit",3,130,130
+131,"death's jacket",2,131,131
+132,"famine's vestment",2,132,132
+133,"pestilence's plating",7,133,133
+134,"war's armor",0,134,134
+135,"alien space suit",6,135,135
+136,"t-45a power armor",0,136,136
+137,"t-45d power armor",7,137,137
+138,"t-45f power armor",9,138,138
+139,"t-51a power armor",8,139,139
+140,"t-51d power armor",3,140,140
+141,"t-51f power armor",1,141,141
+142,"t-60a power armor",5,142,142
+143,"t-60d power armor",1,143,143
+144,"t-60f power armor",0,144,144
+145,"x-01 mk i power armor",3,145,145
+146,"x-01 mk iv power armor",7,146,146
+147,"x-01 mk vi power armor",0,147,147
+148,"cross' power armor",5,148,148
+149,"lyon's pride armor",4,149,149
+150,"jericho's leather armor",1,150,150
+151,"elder lyon's robe",0,151,151
+152,"harkness' security uniform",3,152,152
+153,"moira's robco jumpsuit",5,153,153
+154,"mr. burke's businesswear",0,154,154
+155,"amata's jumpsuit",6,155,155
+156,"dad's lab uniform",0,156,156
+157,"doctor li's outfit",3,157,157
+158,"robco rd suit",1,890,453

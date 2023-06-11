@@ -1,0 +1,215 @@
+id_weapon,name,damage,quantity,id_storage
+1,"﻿institute pistol",9-11,2,158
+2,"incendiary institute pistol",10-13,0,159
+3,"improved institute pistol",11-15,0,160
+4,"scoped institute pistol",12-17,6,161
+5,"scattered institute pistol",13-19,5,162
+6,apotheosis,14-21,6,163
+7,"institute rifle",14-16,1,164
+8,"excited institute rifle",15-18,0,165
+9,"long institute rifle",16-20,7,166
+10,"night-vision institute rifle",17-22,7,167
+11,"targeting institute rifle",18-24,7,168
+12,"virgil's rifle",19-26,1,169
+13,"junk jet",13-15,2,170
+14,"recoil compensated junk jet",14-17,0,171
+15,"tactical junk jet",15-19,1,172
+16,"electrified junk jet",16-21,2,173
+17,"flaming junk jet",17-23,0,174
+18,"technician's revenge",18-25,0,175
+19,"pipe pistol",1-3,2,176
+20,"hair trigger pipe pistol",2-5,3,177
+21,"heavy pipe pistol",3-7,7,178
+22,"scoped pipe pistol",4-9,4,179
+23,"auto pipe pistol",5-11,0,180
+24,"little brother",6-13,5,181
+25,"pipe rifle",5-7,0,182
+26,"calibrated pipe rifle",6-9,0,183
+27,"long pipe rifle",7-11,3,184
+28,"night-vision pipe rifle",8-13,3,185
+29,"bayoneted pipe rifle",9-15,4,186
+30,"big sister",10-17,1,187
+31,"plasma thrower",17-19,1,188
+32,"agitated plasma thrower",18-21,0,189
+33,"tactical plasma thrower",19-23,8,190
+34,"boosted plasma thrower",20-25,4,191
+35,"overcharged plasma thrower",21-27,4,192
+36,"dragon's maw",22-29,3,193
+37,"rusty combat shotgun",13,2,194
+38,"combat shotgun",13-14,0,195
+39,"enhanced combat shotgun",13-15,0,196
+40,"hardened combat shotgun",13-16,0,197
+41,"double-barrel combat shotgun",13-17,3,198
+42,"charon's shotgun",13-18,0,199
+43,"mountain mama",14-19,3,200
+44,"rusty sawed-off shotgun",6,3,201
+45,"sawed-off shotgun",6-7,1,202
+46,"enhanced sawed-off shotgun",6-8,3,203
+47,"hardened sawed-off shotgun",6-9,0,204
+48,"double-barrel sawed-off shotgun",6-10,8,205
+49,kneecapper,6-11,0,206
+50,"rusty shotgun",9,0,207
+51,shotgun,9-10,6,208
+52,"enhanced shotgun",9-11,6,209
+53,"hardened shotgun",9-12,1,210
+54,"double-barrel shotgun",9-13,0,211
+55,"farmer's daughter",9-14,0,212
+56,"laser musket",10-13,6,213
+57,"rusty alien disintegrator",16,0,214
+58,"alien disintegrator",17,1,215
+59,"enhanced alien disintegrator",18,0,216
+60,"hardened alien disintegrator",19,0,217
+61,"rusty laser rifle",12,6,218
+62,"laser rifle",12-13,0,219
+63,"tuned laser rifle",12-14,5,220
+64,"focused laser rifle",12-15,3,221
+65,"amplified laser rifle",12-16,0,222
+66,"wazer wifle",12-17,0,223
+67,"rusty plasma rifle",17,8,224
+68,"plasma rifle",17-18,0,225
+69,"tuned plasma rifle",17-19,2,226
+70,"focused plasma rifle",17-20,0,227
+71,"amplified plasma rifle",17-22,4,228
+72,"mean green monster",17-23,1,229
+73,"rusty pulse rifle",17-18,0,230
+74,"pulse rifle",18-19,3,231
+75,"enhanced pulse rifle",19-20,0,232
+76,"hardened pulse rifle",20-21,0,233
+77,"rusty assault rifle",8,1,234
+78,"assault rifle",8-9,6,235
+79,"enhanced assault rifle",8-10,2,236
+80,"hardened assault rifle",8-11,2,237
+81,"armor piercing assault rifle",8-12,3,238
+82,infiltrator,8-13,0,239
+83,"rusty bb gun",0-1,3,240
+84,"bb gun",0-2,0,241
+85,"enhanced bb gun",0-3,6,242
+86,"hardened bb gun",0-4,0,243
+87,"armor piercing bb gun",0-5,5,244
+88,"red rocket",0-6,3,245
+89,"rusty gauss rifle",16,0,246
+90,"gauss rifle",16-17,1,247
+91,"enhanced gauss rifle",16-18,0,248
+92,"hardened gauss rifle",16-19,0,249
+93,"accelerated gauss rifle",16-20,3,250
+94,"magnetron 4000",16-21,4,251
+95,henrietta,13-16,0,252
+96,"rusty hunting rifle",5,0,253
+97,"hunting rifle",5-6,7,254
+98,"enhanced hunting rifle",5-7,1,255
+99,"hardened hunting rifle",5-8,1,256
+100,"armor piercing hunting rifle",5-9,4,257
+101,"ol' painless",5-10,3,258
+102,"rusty lever-action rifle",4,0,259
+103,"lever-action rifle",4-5,4,260
+104,"enhanced lever-action rifle",4-6,1,261
+105,"hardened lever-action rifle",4-7,0,262
+106,"armor piercing lever-action rifle",4-8,0,263
+107,"lincoln's repeater",4-9,0,264
+108,"rusty railway rifle",14,1,265
+109,"railway rifle",14-15,0,266
+110,"enhanced railway rifle",14-16,3,267
+111,"hardened railway rifle",14-17,5,268
+112,"accelerated railway rifle",14-18,1,269
+113,railmaster,14-19,8,270
+114,"rusty sniper rifle",10,0,271
+115,"sniper rifle",10-11,1,272
+116,"enhanced sniper rifle",10-12,2,273
+117,"hardened sniper rifle",10-13,4,274
+118,"armor piercing sniper rifle",10-14,4,275
+119,"victory rifle",10-15,0,276
+120,"rusty alien blaster",18,4,277
+121,"alien blaster",18-19,0,278
+122,"tuned alien blaster",18-20,2,279
+123,"focused alien blaster",18-21,0,280
+124,"amplified alien blaster",18-22,5,281
+125,destabilizer,18-23,0,282
+126,"rusty laser pistol",7,1,283
+127,"laser pistol",7-8,0,284
+128,"tuned laser pistol",7-9,6,285
+129,"focused laser pistol",7-10,1,286
+130,"amplified laser pistol",7-11,4,287
+131,"smuggler's end",7-12,0,288
+132,"rusty plasma pistol",11,0,289
+133,"plasma pistol",11-12,0,290
+134,"tuned plasma pistol",11-13,3,291
+135,"focused plasma pistol",11-14,6,292
+136,"amplified plasma pistol",11-15,0,293
+137,"mpxl novasurge",11-16,3,294
+138,"rusty assaultron head",7-11,6,295
+139,"assaultron head",8-12,3,296
+140,"enhanced assaultron head",9-13,0,297
+141,"hardened assaultron head",10-14,4,298
+142,"rusty .32 pistol",1,3,299
+143,".32 pistol",1-2,4,300
+144,"enhanced .32 pistol",1-3,2,301
+145,"hardened .32 pistol",1-4,1,302
+146,"armor piercing .32 pistol",1-5,0,303
+147,"wild bill's sidearm",1-6,3,304
+148,"rusty 10mm pistol",2,0,305
+149,"10mm pistol",2-3,8,306
+150,"enhanced 10mm pistol",2-4,1,307
+151,"hardened 10mm pistol",2-5,0,308
+152,"armor piercing 10mm pistol",2-6,0,309
+153,"lone wanderer",2-7,1,310
+154,"rusty scoped .44",3,3,311
+155,"scoped .44",3-4,0,312
+156,"enhanced scoped .44",3-5,3,313
+157,"hardened scoped .44",3-6,0,314
+158,"armor piercing scoped .44",3-7,8,315
+159,blackhawk,3-8,7,316
+160,"rusty gauss pistol",12,0,317
+161,"focused gauss pistol",13,2,318
+162,"enhanced gauss pistol",14,0,319
+163,"hardened gauss pistol",15,8,320
+164,"baseball bat",5-15,0,321
+165,"butcher knife",8-18,0,322
+166,"kitchen knife",3-11,3,323
+167,pickaxe,11-21,2,324
+168,"pool cue",0-8,0,325
+169,"fire hydrant bat",19-31,0,326
+170,"relentless raider sword",16-28,13,327
+171,"rusty ripper",10-15,3,328
+172,ripper,11-16,0,329
+173,"enhanced ripper",12-17,1,330
+174,"hardened ripper",13-18,0,331
+175,"rusty power fist",12-17,4,332
+176,"power fist",13-18,2,333
+177,"enhanced power fist",14-19,5,334
+178,"hardened power fist",15-20,5,335
+179,"ed's custom power fist",16-22,5,336
+180,"grognak's axe",18-26,3,337
+181,"amplified gatling laser",21-25,0,338
+182,"armor piercing minigun",19-23,4,339
+183,burnmaster,15-20,6,340
+184,"enhanced fat man",22-24,2,341
+185,"enhanced flamer",15-17,1,342
+186,"enhanced minigun",19-21,2,343
+187,"enhanced missile launcher",20-22,0,344
+188,"enhanced plasma caster",18-22,7,345
+189,"fat man",22-23,3,346
+190,flamer,15-16,4,347
+191,"focused gatling laser",21-24,0,348
+192,"gatling laser",21-22,0,349
+193,"guided fat man",22-26,0,350
+194,"guided missile launcher",20-24,0,351
+195,"hardened fat man",22-25,11,352
+196,"hardened flamer",15-18,5,353
+197,"hardened minigun",19-22,0,354
+198,"hardened missile launcher",20-23,2,355
+199,"hardened plasma caster",19-23,3,356
+200,"lead belcher",19-24,3,357
+201,mirv,22-27,2,358
+202,minigun,19-20,0,359
+203,"miss launcher",20-25,1,360
+204,"missile launcher",20-21,1,361
+205,"plasma caster",17-21,0,362
+206,"pressurized flamer",15-19,2,363
+207,"rusty fat man",22,6,364
+208,"rusty gatling laser",21,0,365
+209,"rusty flamer",15,4,366
+210,"rusty minigun",19,4,367
+211,"rusty missile launcher",20,0,368
+212,"rusty plasma caster",16-20,4,369
+213,"tuned gatling laser",21-23,0,370
+214,vengeance,21-26,0,371

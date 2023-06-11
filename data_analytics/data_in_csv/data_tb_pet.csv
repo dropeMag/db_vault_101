@@ -1,0 +1,61 @@
+id_pet,name,description,quantity,id_storage
+1,﻿zula,"Damage resistance",0,372
+2,sterling,"Wasteland caps",3,373
+3,shadow,Health,2,374
+4,ashes,"Healing speed",5,375
+5,cloudy,"Crafting cost",1,376
+6,diamond,"Crafting cost",1,377
+7,merlin,"Crafting time",0,378
+8,luna,"Wasteland junk",0,379
+9,pouncer,"Wasteland junk",0,380
+10,static,"Wasteland junk",1,381
+11,calypso,Damage,0,382
+12,bangor,"Training time",1,383
+13,genius,"Twins chance",5,384
+14,shakespeare,"Twins chance",0,385
+15,stubbs,"Twins chance",3,386
+16,speckle,"Wasteland weapons & outfits",0,387
+17,cinder,"Wasteland junk",0,388
+18,"mr. pebbles",Happiness,3,389
+19,pugsley,"Uninterrupted Training",1,390
+20,ginger,XP,0,391
+21,goblet,"Rad healing speed",0,392
+22,saffron,"Crafting time",2,393
+23,bastet,"Wasteland return speed",0,394
+24,kato,"Stranger chance",3,395
+25,duchess,"Child SPECIALs",2,396
+26,pumpkin,"Child SPECIALs",0,397
+27,kabosu,"Stranger chance",0,398
+28,kuma,"Stranger chance",1,399
+29,bandit,"Child SPECIALs",6,400
+30,muttface,"Training time",0,401
+31,duke,"Wasteland junk",1,402
+32,moose,"Wasteland junk",0,403
+33,valentine,"Wasteland junk",3,404
+34,scavver,XP,0,405
+35,gaston,"Crafting time & cost",0,406
+36,"four score","Wasteland caps",0,407
+37,pal,"Crafting cost",0,408
+38,bigsby,"Crafting cost",1,409
+39,lucky,"Twins chance",4,410
+40,pongo,"Twins chance",0,411
+41,apolda,"Healing speed",2,412
+42,goliath,"Crafting cost",3,413
+43,"mr. peepers","Rad healing speed",0,414
+44,"cocoa bean","Wasteland return speed",4,415
+45,dogmeat,"Objective completion",0,416
+46,cindy,"Wasteland weapons & outfits",2,417
+47,"little helper","Crafting time",0,418
+48,trench,"Wasteland return speed",0,419
+49,hulk,Damage,0,420
+50,ranger,Damage,0,421
+51,titan,Damage,3,422
+52,"lord puffington",Happiness,2,423
+53,"maizie rai",Health,0,424
+54,barry,"Wasteland junk",1,425
+55,"alien drone",Damage,0,426
+56,wanderer,"Damage resistance",0,427
+57,butch,Damage,0,428
+58,polly,Damage,1,429
+59,pip,"Objective completion",0,430
+60,vinnie,"Objective completion",1,431

@@ -1,0 +1,26 @@
+id_room_type,name,job
+1,"Vault door",security
+2,"Living room",unemployed
+3,"Power generator",electrician
+4,Diner,chef
+5,"Water treatment",plumber
+6,"Storage room",stockist
+7,Medbay,scientist
+8,"Science lab",scientist
+9,"Overseer's office",explorer
+10,"Radio studio",broadcaster
+11,"Weapon workshop","gun maker"
+12,"Weight room",unemployed
+13,"Athletics room",unemployed
+14,Armory,unemployed
+15,Classroom,unemployed
+16,"Outfit workshop","clothing manufacturer"
+17,"Fitness room",unemployed
+18,Lounge,unemployed
+19,"Theme workshop","theme maker"
+20,"Game room",unemployed
+21,Barbershop,-
+22,"Nuclear reactor",electrician
+23,Garden,chef
+24,"Water purification",plumber
+25,"Nuka-Cola bottler","nuka cola producer"
